@@ -4,12 +4,12 @@ import javax.swing.JPanel;
 import javax.swing.BoxLayout;
 import java.awt.Color;
 
-public class CongNhanJpanel extends JPanel {
+public class XulyJpanel extends JPanel {
 
 	/**
 	 * Create the panel.
 	 */
-	public CongNhanJpanel() {
+	public XulyJpanel() {
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		
 		JPanel panel = new JPanel();

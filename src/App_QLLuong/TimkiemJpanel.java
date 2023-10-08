@@ -13,7 +13,7 @@ public class TimkiemJpanel extends JPanel {
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		
 		JPanel panel = new JPanel();
-		panel.setBackground(new Color(220, 20, 60));
+		panel.setBackground(new Color(85, 107, 47));
 		add(panel);
 
 	}

@@ -12,11 +12,11 @@ import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import App_QLLuong.CongNhanJpanel;
-import App_QLLuong.NhanvienJpanel;
-import App_QLLuong.SanphamJpanel;
-import App_QLLuong.TaikhoanJpanel;
+import App_QLLuong.XulyJpanel;
+import App_QLLuong.DanhmucJpanel;
 import App_QLLuong.TimkiemJpanel;
+import App_QLLuong.TaikhoanJpanel;
+import App_QLLuong.ThongkeJpanel;
 import App_QLLuong.TrangChuJPanel;
 import DTO.DanhmucApp;
 
@@ -31,8 +31,8 @@ public class Chuyenmanhinhcontroller {
 	}
 	public void setView(JPanel jpnItem, JLabel JblItem) {
 		kindSelected="Trangchu";
-		jpnItem.setBackground(new Color(96,100,191));
-		JblItem.setBackground(new Color(96,100,191));
+		jpnItem.setBackground(new Color(76,175,80));
+		JblItem.setBackground(new Color(76,175,80));
 	JPanel node = new TrangChuJPanel();
 	
 		jpnRoot.removeAll();
@@ -77,23 +77,23 @@ public class Chuyenmanhinhcontroller {
 				break;
 			}
 			case "Nhanvien":{
-				node = new NhanvienJpanel();
+				node = new DanhmucJpanel();
 
 				break;
 				
 			}
 			case "Congnhan":{
-				node = new CongNhanJpanel();
+				node = new XulyJpanel();
 				
 				break;
 			}
 			case "Sanpham":{
-				node = new SanphamJpanel();
+				node = new TimkiemJpanel();
 				
 				break;
 			}
 			case "Timkiem":{
-				node= new TimkiemJpanel();
+				node= new ThongkeJpanel();
 				
 				break;
 			}
@@ -125,8 +125,8 @@ public class Chuyenmanhinhcontroller {
 			// TODO Auto-generated method stub
 			
 			if(!kindSelected.equalsIgnoreCase(Kind)) {
-				JlbItem.setBackground( new Color(76,175,80));
-				JpnItem.setBackground( new Color(76,175,80));
+				JlbItem.setBackground( new Color(0,0,255));
+				JpnItem.setBackground( new Color(0,0,255));
 		}
 			
 			
@@ -137,8 +137,8 @@ public class Chuyenmanhinhcontroller {
 			kindSelected=Kind;
 //			JlbItem.setBackground( new Color(76,175,80));
 //			JpnItem.setBackground( new Color(76,175,80));
-			JlbItem.setBackground( new Color(96,100,191));
-			JpnItem.setBackground( new Color(96,100,191));
+			JlbItem.setBackground( new Color(76,175,80));
+			JpnItem.setBackground( new Color(76,175,80));
 			JlbItem.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		}
 
@@ -155,9 +155,10 @@ public class Chuyenmanhinhcontroller {
 		@Override
 		public void mouseEntered(MouseEvent e) {
 			// TODO Auto-generated method stub
-			
-			JlbItem.setBackground( new Color(96,100,191));
-			JpnItem.setBackground( new Color(96,100,191));
+			JlbItem.setBackground( new Color(76,175,80));
+			JpnItem.setBackground( new Color(76,175,80));
+//			JlbItem.setBackground( new Color(96,100,191));
+//			JpnItem.setBackground( new Color(96,100,191));
 			JlbItem.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			
 		
@@ -169,12 +170,13 @@ public class Chuyenmanhinhcontroller {
 	public void setChangeBackground(String kind) {
 		for( DanhmucApp item : ListItem) {
 			if(item.getKind().equalsIgnoreCase(kind)) {
-				item.getJlb().setBackground( new Color(96,100,191));
-				item.getJpn().setBackground(new Color(96,100,191));
-			}
-			else {
+				
 				item.getJlb().setBackground( new Color(76,175,80));
 				item.getJpn().setBackground(new Color(76,175,80));
+			}
+			else {
+				item.getJlb().setBackground( new Color(0,0,255));
+				item.getJpn().setBackground(new Color(0,0,255));
 			}
 		}
 	}

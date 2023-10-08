@@ -2,23 +2,19 @@ package App_QLLuong;
 
 import javax.swing.JPanel;
 import javax.swing.BoxLayout;
-import java.awt.CardLayout;
-import javax.swing.JLabel;
 import java.awt.Color;
 
-public class NhanvienJpanel extends JPanel {
+public class ThongkeJpanel extends JPanel {
 
 	/**
 	 * Create the panel.
 	 */
-	public NhanvienJpanel() {
+	public ThongkeJpanel() {
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		
 		JPanel panel = new JPanel();
-		panel.setBackground(Color.PINK);
-		panel.setForeground(Color.MAGENTA);
+		panel.setBackground(new Color(220, 20, 60));
 		add(panel);
-		panel.setLayout(new CardLayout(0, 0));
 
 	}
 
