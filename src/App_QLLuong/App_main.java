@@ -101,7 +101,7 @@ public class App_main extends JFrame {
 		
 		JPanel Nhansu = new JPanel();
 		Nhansu.setForeground(new Color(192, 192, 192));
-		Nhansu.setBounds(10, 68, 172, 38);
+		Nhansu.setBounds(10, 68, 182, 38);
 		JplMenu.add(Nhansu);
 		Nhansu.setBackground(new Color(0, 0, 255));
 		Nhansu.setLayout(null);
@@ -111,11 +111,11 @@ public class App_main extends JFrame {
 		Jblns.setForeground(Color.WHITE);
 		Jblns.setFont(new Font("Times New Roman", Font.BOLD, 14));
 		Jblns.setBackground(new Color(76, 175, 80));
-		Jblns.setBounds(0, 0, 172, 35);
+		Jblns.setBounds(10, 0, 172, 35);
 		Nhansu.add(Jblns);
 		
 		JPanel Home = new JPanel();
-		Home.setBounds(10, 11, 172, 38);
+		Home.setBounds(10, 11, 182, 38);
 		JplMenu.add(Home);
 		Home.setBackground(new Color(0, 0, 255));
 		Home.setLayout(null);
@@ -145,21 +145,21 @@ public class App_main extends JFrame {
 		Luong.setLayout(null);
 		Luong.setForeground(Color.LIGHT_GRAY);
 		Luong.setBackground(new Color(0, 0, 255));
-		Luong.setBounds(10, 129, 172, 38);
+		Luong.setBounds(10, 129, 182, 38);
 		JplMenu.add(Luong);
 		
 		JPanel Sanpham = new JPanel();
 		Sanpham.setLayout(null);
 		Sanpham.setForeground(Color.LIGHT_GRAY);
 		Sanpham.setBackground(new Color(0, 0, 255));
-		Sanpham.setBounds(13, 189, 169, 38);
+		Sanpham.setBounds(10, 189, 182, 38);
 		JplMenu.add(Sanpham);
 		
 		JPanel Thongke = new JPanel();
 		Thongke.setLayout(null);
 		Thongke.setForeground(Color.LIGHT_GRAY);
 		Thongke.setBackground(new Color(0, 0, 255));
-		Thongke.setBounds(10, 251, 172, 38);
+		Thongke.setBounds(10, 251, 182, 38);
 		JplMenu.add(Thongke);
 		
 		JLabel jbltk = new JLabel("Thống kê");
@@ -175,7 +175,7 @@ public class App_main extends JFrame {
 		Chamcong.setLayout(null);
 		Chamcong.setForeground(Color.LIGHT_GRAY);
 		Chamcong.setBackground(new Color(0, 0, 255));
-		Chamcong.setBounds(10, 312, 169, 38);
+		Chamcong.setBounds(10, 312, 182, 38);
 		JplMenu.add(Chamcong);
 		
 		
@@ -185,7 +185,7 @@ public class App_main extends JFrame {
 		lblNewLabel_1.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\logo\\logo.png"));
 		
 		JLabel jblluong = new JLabel("Lương");
-		jblluong.setBounds(0, 0, 169, 43);
+		jblluong.setBounds(10, 0, 172, 43);
 		Luong.add(jblluong);
 		jblluong.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\menu_left\\baseline_drive_file_rename_outline_white_24dp.png"));
 		jblluong.setHorizontalAlignment(SwingConstants.CENTER);
@@ -194,8 +194,8 @@ public class App_main extends JFrame {
 		jblluong.setBackground(new Color(76,175,80));
 		
 		
-		JLabel jblsp = new JLabel("Sanpham");
-		jblsp.setBounds(-10, 0, 169, 43);
+		JLabel jblsp = new JLabel("Sản phẩm");
+		jblsp.setBounds(26, 0, 146, 32);
 		Sanpham.add(jblsp);
 		jblsp.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\menu_left\\baseline_person_search_white_24dp.png"));
 		jblsp.setHorizontalAlignment(SwingConstants.CENTER);
@@ -207,11 +207,11 @@ public class App_main extends JFrame {
 		Phancong.setLayout(null);
 		Phancong.setForeground(Color.LIGHT_GRAY);
 		Phancong.setBackground(Color.BLUE);
-		Phancong.setBounds(10, 374, 169, 38);
+		Phancong.setBounds(10, 374, 182, 38);
 		JplMenu.add(Phancong);
 		
 		JLabel lblphancong = new JLabel("Phân công");
-		lblphancong.setBounds(10, 0, 159, 43);
+		lblphancong.setBounds(13, 0, 159, 43);
 		Phancong.add(lblphancong);
 		lblphancong.setHorizontalAlignment(SwingConstants.CENTER);
 		lblphancong.setForeground(Color.WHITE);
@@ -266,7 +266,6 @@ public class App_main extends JFrame {
 			controller.setView(Home,Jblhome);
 			
 			JButton btnNewButton = new JButton("Đăng xuất");
-			btnNewButton.setBorderPainted(false);
 			btnNewButton.setBorder(null);
 			btnNewButton.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\menu_left\\baseline_logout_white_24dp.png"));
 			btnNewButton.setSelectedIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\logo\\background.jpg"));
@@ -285,7 +284,7 @@ public class App_main extends JFrame {
 			});
 			btnNewButton.setFont(new Font("Arial", Font.BOLD, 14));
 			btnNewButton.setBackground(new Color(0, 0, 255));
-			btnNewButton.setBounds(10, 445, 172, 38);
+			btnNewButton.setBounds(10, 445, 182, 38);
 			JplMenu.add(btnNewButton);
 		
 		controller.setEvent(list);
