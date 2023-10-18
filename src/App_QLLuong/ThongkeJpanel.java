@@ -3,6 +3,7 @@ package App_QLLuong;
 import javax.swing.JPanel;
 import javax.swing.BoxLayout;
 import java.awt.Color;
+import javax.swing.JLabel;
 
 public class ThongkeJpanel extends JPanel {
 
@@ -15,6 +16,9 @@ public class ThongkeJpanel extends JPanel {
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(220, 20, 60));
 		add(panel);
+		
+		JLabel lblThngK = new JLabel("Thống kê");
+		panel.add(lblThngK);
 
 	}
 

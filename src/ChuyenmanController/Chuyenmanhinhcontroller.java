@@ -12,10 +12,11 @@ import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import App_QLLuong.XulyJpanel;
-import App_QLLuong.DanhmucJpanel;
-import App_QLLuong.TimkiemJpanel;
-import App_QLLuong.TaikhoanJpanel;
+import App_QLLuong.LuongJpanel;
+import App_QLLuong.NhansuJpanel;
+import App_QLLuong.PhancongJPnel;
+import App_QLLuong.SanphamJpanel;
+import App_QLLuong.ChamcongJpanel;
 import App_QLLuong.ThongkeJpanel;
 import App_QLLuong.TrangChuJPanel;
 import DTO.DanhmucApp;
@@ -76,32 +77,38 @@ public class Chuyenmanhinhcontroller {
 				
 				break;
 			}
-			case "Nhanvien":{
-				node = new DanhmucJpanel();
+			case "Nhansu":{
+				node = new NhansuJpanel();
 
 				break;
 				
 			}
-			case "Congnhan":{
-				node = new XulyJpanel();
+			case "Luong":{
+				node = new LuongJpanel();
 				
 				break;
 			}
 			case "Sanpham":{
-				node = new TimkiemJpanel();
+				node = new SanphamJpanel();
 				
 				break;
 			}
-			case "Timkiem":{
+			case "Thongke":{
 				node= new ThongkeJpanel();
 				
 				break;
 			}
-			case "Taikhoan":{
-				node = new TaikhoanJpanel();
+			case "Chamcong":{
+				node = new ChamcongJpanel();
 				
 				break;
 			}
+			case "Phancong":{
+				node = new PhancongJPnel();
+				
+				break;
+			}
+			
 			default :
 			{	
 				 break;

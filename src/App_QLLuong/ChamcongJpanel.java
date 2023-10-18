@@ -13,9 +13,9 @@ import java.awt.event.ActionListener;
 import java.awt.Color;
 import javax.swing.JButton;
 
-public class TaikhoanJpanel extends JPanel  {
+public class ChamcongJpanel extends JPanel  {
 	
-	public TaikhoanJpanel() {
+	public ChamcongJpanel() {
 		setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Phấn đẹp trai <3\r\n\r\n");

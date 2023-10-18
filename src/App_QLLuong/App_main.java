@@ -7,6 +7,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -34,6 +36,8 @@ import Dangnhap.Dangnhap;
 import java.awt.Canvas;
 import javax.swing.JButton;
 import javax.swing.JMenu;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class App_main extends JFrame {
 
@@ -69,7 +73,7 @@ public class App_main extends JFrame {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
-		setBounds(70, 40,1150, 650);
+		setBounds(70, 40,1150, 684);
 		setResizable(false);  // Không cho phép thay đổi kích thước
 		setTitle("QUẢN LÝ LƯƠNG SẢN PHẨM");
 	
@@ -81,52 +85,34 @@ public class App_main extends JFrame {
 		contentPane.setLayout(null);
 		
 		JPanel jpnroot = new JPanel();
-		jpnroot.setBounds(0, 0, 212, 611);
+		jpnroot.setBounds(0, 0, 203, 651);
 		jpnroot.setBackground(new Color(0, 0, 128));
 		contentPane.add(jpnroot);
 		jpnroot.setLayout(null);
-		
-		JPanel panel_tittle = new JPanel();
-		panel_tittle.setBounds(0, 0, 212, 62);
-		panel_tittle.setBackground(new Color(0, 0, 205));
-		panel_tittle.setForeground(Color.RED);
-		jpnroot.add(panel_tittle);
-		panel_tittle.setLayout(null);
-		
-		JLabel Jlblogo = new JLabel("Quản lý Lương");
-		Jlblogo.setBounds(0, 0, 211, 67);
-		panel_tittle.add(Jlblogo);
-		Jlblogo.setForeground(new Color(255, 255, 255));
-		Jlblogo.setEnabled(false);
-		Jlblogo.setBackground(new Color(0, 0, 255));
-		Jlblogo.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\baseline_manage_accounts_black_24dp.png"));
-		Jlblogo.setHorizontalAlignment(SwingConstants.CENTER);
-		Jlblogo.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 20));
 		
 		
 	
 		
 		JPanel JplMenu = new JPanel();
 		JplMenu.setBackground(new Color(0, 0, 128));
-		JplMenu.setBounds(10, 70, 192, 530);
+		JplMenu.setBounds(0, 136, 192, 530);
 		jpnroot.add(JplMenu);
 		JplMenu.setLayout(null);
 		
-		JPanel Danhmuc = new JPanel();
-		Danhmuc.setForeground(new Color(192, 192, 192));
-		Danhmuc.setBounds(10, 77, 172, 38);
-		JplMenu.add(Danhmuc);
-		Danhmuc.setBackground(new Color(0, 0, 255));
-		Danhmuc.setLayout(null);
+		JPanel Nhansu = new JPanel();
+		Nhansu.setForeground(new Color(192, 192, 192));
+		Nhansu.setBounds(10, 68, 172, 38);
+		JplMenu.add(Nhansu);
+		Nhansu.setBackground(new Color(0, 0, 255));
+		Nhansu.setLayout(null);
 		
-		JLabel Jblnv = new JLabel("Danh mục");
-		Jblnv.setBackground(new Color(76,175,80));
-		Jblnv.setBounds(0, 0, 172, 35);
-		Danhmuc.add(Jblnv);
-		Jblnv.setForeground(new Color(255, 255, 255));
-		Jblnv.setHorizontalAlignment(SwingConstants.CENTER);
-		Jblnv.setFont(new Font("Times New Roman", Font.BOLD, 14));
-		Jblnv.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\menu_left\\baseline_list_alt_white_24dp.png"));
+		JLabel Jblns = new JLabel("Nhân sự");
+		Jblns.setHorizontalAlignment(SwingConstants.CENTER);
+		Jblns.setForeground(Color.WHITE);
+		Jblns.setFont(new Font("Times New Roman", Font.BOLD, 14));
+		Jblns.setBackground(new Color(76, 175, 80));
+		Jblns.setBounds(0, 0, 172, 35);
+		Nhansu.add(Jblns);
 		
 		JPanel Home = new JPanel();
 		Home.setBounds(10, 11, 172, 38);
@@ -148,50 +134,32 @@ public class App_main extends JFrame {
 //		
 //		Jlblogo.setBackground(new ImageIcon(Toolkit.getDefaultToolkit().createImage( App_main.class.getResource("nen.jpg"))));
 		JPanel Jplview = new JPanel();
-		Jplview.setBounds(222, 11, 912, 600);
+		Jplview.setBounds(222, 11, 912, 623);
 		contentPane.add(Jplview);
 		
 		//
 	
 //
 		
-		JPanel Xuly = new JPanel();
-		Xuly.setLayout(null);
-		Xuly.setForeground(Color.LIGHT_GRAY);
-		Xuly.setBackground(new Color(0, 0, 255));
-		Xuly.setBounds(10, 142, 172, 38);
-		JplMenu.add(Xuly);
+		JPanel Luong = new JPanel();
+		Luong.setLayout(null);
+		Luong.setForeground(Color.LIGHT_GRAY);
+		Luong.setBackground(new Color(0, 0, 255));
+		Luong.setBounds(10, 129, 172, 38);
+		JplMenu.add(Luong);
 		
-		JLabel jblcn = new JLabel("Xử lý");
-		jblcn.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\menu_left\\baseline_drive_file_rename_outline_white_24dp.png"));
-		jblcn.setHorizontalAlignment(SwingConstants.CENTER);
-		jblcn.setForeground(new Color(255, 255, 255));
-		jblcn.setFont(new Font("Times New Roman", Font.BOLD, 14));
-		jblcn.setBackground(new Color(76,175,80));
-		jblcn.setBounds(0, 0, 169, 43);
-		Xuly.add(jblcn);
-		
-		JPanel Timkiem = new JPanel();
-		Timkiem.setLayout(null);
-		Timkiem.setForeground(Color.LIGHT_GRAY);
-		Timkiem.setBackground(new Color(0, 0, 255));
-		Timkiem.setBounds(10, 207, 169, 38);
-		JplMenu.add(Timkiem);
-		
-		JLabel jblsp = new JLabel("Tìm kiếm");
-		jblsp.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\menu_left\\baseline_person_search_white_24dp.png"));
-		jblsp.setHorizontalAlignment(SwingConstants.CENTER);
-		jblsp.setForeground(new Color(255, 255, 255));
-		jblsp.setFont(new Font("Times New Roman", Font.BOLD, 14));
-		jblsp.setBackground(new Color(76,175,80));
-		jblsp.setBounds(0, 0, 169, 43);
-		Timkiem.add(jblsp);
+		JPanel Sanpham = new JPanel();
+		Sanpham.setLayout(null);
+		Sanpham.setForeground(Color.LIGHT_GRAY);
+		Sanpham.setBackground(new Color(0, 0, 255));
+		Sanpham.setBounds(13, 189, 169, 38);
+		JplMenu.add(Sanpham);
 		
 		JPanel Thongke = new JPanel();
 		Thongke.setLayout(null);
 		Thongke.setForeground(Color.LIGHT_GRAY);
 		Thongke.setBackground(new Color(0, 0, 255));
-		Thongke.setBounds(13, 272, 166, 38);
+		Thongke.setBounds(10, 251, 172, 38);
 		JplMenu.add(Thongke);
 		
 		JLabel jbltk = new JLabel("Thống kê");
@@ -200,95 +168,126 @@ public class App_main extends JFrame {
 		jbltk.setForeground(new Color(255, 255, 255));
 		jbltk.setFont(new Font("Times New Roman", Font.BOLD, 14));
 		jbltk.setBackground(new Color(0, 0, 255));
-		jbltk.setBounds(0, 0, 156, 43);
+		jbltk.setBounds(10, 0, 156, 43);
 		Thongke.add(jbltk);
 		
-		JPanel Taikhoan = new JPanel();
-		Taikhoan.setLayout(null);
-		Taikhoan.setForeground(Color.LIGHT_GRAY);
-		Taikhoan.setBackground(new Color(0, 0, 255));
-		Taikhoan.setBounds(10, 337, 169, 38);
-		JplMenu.add(Taikhoan);
+		JPanel Chamcong = new JPanel();
+		Chamcong.setLayout(null);
+		Chamcong.setForeground(Color.LIGHT_GRAY);
+		Chamcong.setBackground(new Color(0, 0, 255));
+		Chamcong.setBounds(10, 312, 169, 38);
+		JplMenu.add(Chamcong);
 		
-		JLabel jblAcc = new JLabel("Tài khoản\r\n");
-		jblAcc.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\menu_left\\baseline_account_circle_white_24dp.png"));
-		jblAcc.setHorizontalAlignment(SwingConstants.CENTER);
-		jblAcc.setForeground(new Color(255, 255, 255));
-		jblAcc.setFont(new Font("Times New Roman", Font.BOLD, 14));
-		jblAcc.setBackground(new Color(76,175,80));
-		jblAcc.setBounds(0, 0, 159, 43);
-		Taikhoan.add(jblAcc);
-		
-		JLabel lblNewLabel = new JLabel("Team 16_Toàn đầu gấu\r\n");
-		lblNewLabel.setEnabled(false);
-		lblNewLabel.setForeground(Color.GRAY);
-		lblNewLabel.setFont(new Font("Serif", Font.BOLD, 9));
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\baseline_pets_black_24dp.png"));
-		lblNewLabel.setBounds(0, 484, 192, 46);
-		JplMenu.add(lblNewLabel);
-		//chuyen panel
-	//
-		//
-		List<DanhmucApp> list= new ArrayList<>();
-		list.add(new DanhmucApp("Trangchu",Home,Jblhome));
-		list.add(new DanhmucApp("Nhanvien",Danhmuc,Jblnv));
-		list.add(new DanhmucApp("Congnhan",Xuly,jblcn));
-		list.add(new DanhmucApp("Sanpham",Timkiem,jblsp));
-		list.add(new DanhmucApp("Timkiem",Thongke,jbltk));
-		list.add(new DanhmucApp("Taikhoan",Taikhoan,jblAcc));
-		
-		Chuyenmanhinhcontroller controller= new Chuyenmanhinhcontroller(Jplview);
-		Jplview.setLayout(null);
 		
 		JLabel lblNewLabel_1 = new JLabel("");
 		lblNewLabel_1.setBounds(-221, -6, 211, 60);
 		Jplview.add(lblNewLabel_1);
 		lblNewLabel_1.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\logo\\logo.png"));
-		controller.setView(Home,Jblhome);
 		
-		JPanel panel = new JPanel();
-		panel.setBackground(new Color(0, 0, 255));
-		panel.setBounds(10, 441, 172, 38);
-		JplMenu.add(panel);
-		panel.setLayout(null);
+		JLabel jblluong = new JLabel("Lương");
+		jblluong.setBounds(0, 0, 169, 43);
+		Luong.add(jblluong);
+		jblluong.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\menu_left\\baseline_drive_file_rename_outline_white_24dp.png"));
+		jblluong.setHorizontalAlignment(SwingConstants.CENTER);
+		jblluong.setForeground(new Color(255, 255, 255));
+		jblluong.setFont(new Font("Times New Roman", Font.BOLD, 14));
+		jblluong.setBackground(new Color(76,175,80));
 		
-		JLabel lblNewLabel_2 = new JLabel("Đăng xuất\r\n");
-		lblNewLabel_2.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\menu_left\\baseline_logout_white_24dp.png"));
-		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_2.setBounds(0, 0, 172, 38);
-		lblNewLabel_2.setFont(new Font("Times New Roman", Font.BOLD, 14));
-		lblNewLabel_2.setForeground(new Color(255, 255, 255));
-		panel.add(lblNewLabel_2);
+		
+		JLabel jblsp = new JLabel("Sanpham");
+		jblsp.setBounds(-10, 0, 169, 43);
+		Sanpham.add(jblsp);
+		jblsp.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\menu_left\\baseline_person_search_white_24dp.png"));
+		jblsp.setHorizontalAlignment(SwingConstants.CENTER);
+		jblsp.setForeground(new Color(255, 255, 255));
+		jblsp.setFont(new Font("Times New Roman", Font.BOLD, 14));
+		jblsp.setBackground(new Color(76,175,80));
+				
+		JPanel Phancong = new JPanel();
+		Phancong.setLayout(null);
+		Phancong.setForeground(Color.LIGHT_GRAY);
+		Phancong.setBackground(Color.BLUE);
+		Phancong.setBounds(10, 374, 169, 38);
+		JplMenu.add(Phancong);
+		
+		JLabel lblphancong = new JLabel("Phân công");
+		lblphancong.setBounds(10, 0, 159, 43);
+		Phancong.add(lblphancong);
+		lblphancong.setHorizontalAlignment(SwingConstants.CENTER);
+		lblphancong.setForeground(Color.WHITE);
+		lblphancong.setFont(new Font("Times New Roman", Font.BOLD, 14));
+		lblphancong.setBackground(new Color(76, 175, 80));
+		
+		JLabel jblchamcong = new JLabel("Chấm công");
+		jblchamcong.setBounds(10, 0, 159, 43);
+		Chamcong.add(jblchamcong);
+		jblchamcong.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\menu_left\\baseline_account_circle_white_24dp.png"));
+		jblchamcong.setHorizontalAlignment(SwingConstants.CENTER);
+		jblchamcong.setForeground(new Color(255, 255, 255));
+		jblchamcong.setFont(new Font("Times New Roman", Font.BOLD, 14));
+		jblchamcong.setBackground(new Color(76,175,80));
+	
+		
+		JPanel logo = new JPanel();
+		logo.setBounds(10, 11, 182, 114);
+		jpnroot.add(logo);
+		logo.setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\logo\\Screenshot 2023-10-18 231826.png"));
+		lblNewLabel.setBounds(0, 0, 182, 114);
+		logo.add(lblNewLabel);
+		Jplview.setLayout(null);
+		//chuyen panel
+		//
+			//
+			List<DanhmucApp> list= new ArrayList<>();
+			list.add(new DanhmucApp("Trangchu",Home,Jblhome));
+			list.add(new DanhmucApp("Thongke",Thongke,jbltk));
+			list.add(new DanhmucApp("Chamcong",Chamcong,jblchamcong));
+			list.add(new DanhmucApp("Sanpham",Sanpham,jblsp));
+			list.add(new DanhmucApp("Luong",Luong,jblluong));
+			list.add(new DanhmucApp("Nhansu",Nhansu,Jblns));
+			list.add(new DanhmucApp("Phancong",Phancong,lblphancong));
+
+			
+			Chuyenmanhinhcontroller controller= new Chuyenmanhinhcontroller(Jplview);
+			
+			JLabel lblNewLabel_2 = new JLabel("Đăng xuất\r\n");
+			lblNewLabel_2.setBounds(-67, 499, 172, 38);
+			Jplview.add(lblNewLabel_2);
+		
+				
+			
+			lblNewLabel_2.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\menu_left\\baseline_logout_white_24dp.png"));
+			lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
+			lblNewLabel_2.setFont(new Font("Times New Roman", Font.BOLD, 14));
+			lblNewLabel_2.setForeground(new Color(255, 255, 255));
+			controller.setView(Home,Jblhome);
+			
+			JButton btnNewButton = new JButton("Đăng xuất");
+			btnNewButton.setBorderPainted(false);
+			btnNewButton.setBorder(null);
+			btnNewButton.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\menu_left\\baseline_logout_white_24dp.png"));
+			btnNewButton.setSelectedIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\logo\\background.jpg"));
+			btnNewButton.setForeground(new Color(255, 255, 255));
+			btnNewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			btnNewButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					Object o= e.getSource();
+					if(JOptionPane.showConfirmDialog(null,"Bạn có muốn đăng xuất không ?" ," Xác nhận", JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION) {
+						JOptionPane.showMessageDialog(btnNewButton, e);
+						System.exit(0);
+					}
+					else
+						JOptionPane.showMessageDialog(null, "Bạn đã hủy thoát !");
+				}
+			});
+			btnNewButton.setFont(new Font("Arial", Font.BOLD, 14));
+			btnNewButton.setBackground(new Color(0, 0, 255));
+			btnNewButton.setBounds(10, 445, 172, 38);
+			JplMenu.add(btnNewButton);
+		
 		controller.setEvent(list);
 	}
-
-//	@Override
-//	public void actionPerformed(ActionEvent e) {
-//		// TODO Auto-generated method stub
-//		Object o=e.getSource();
-//		if(o.equals(btnthoat)) {
-////			new Dangnhap().setVisible(true);
-////			dispose();
-////			int dialogResult = JOptionPane.showOptionDialog(null, "Bạn có muốn tiếp tục?", "Xác nhận", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-////			if (dialogResult == JOptionPane.YES_OPTION) {
-////			    // User clicked Yes button
-////				new Dangnhap().setVisible(true);
-////					dispose();
-////			} else {
-////			  JOptionPane.show
-////			  }
-//			int dialogResult = JOptionPane.showConfirmDialog(null, "Bạn có muốn đăng nhập lại không?", "Xác nhận", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null);
-//			if (dialogResult == JOptionPane.YES_OPTION) {
-//			    // User clicked Yes button
-//				new Dangnhap().setVisible(true);
-//				dispose();
-//			} else {
-//				JOptionPane.showMessageDialog(this, "Hủy thoát thành công!");
-////				System.exit(0);
-//			    // User clicked No button
-//				
-//			}
-//		}
-	
 }
