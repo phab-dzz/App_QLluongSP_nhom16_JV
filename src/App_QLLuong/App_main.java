@@ -107,11 +107,12 @@ public class App_main extends JFrame {
 		Nhansu.setLayout(null);
 		
 		JLabel Jblns = new JLabel("Nhân sự");
+		Jblns.setIcon(new ImageIcon(App_main.class.getResource("/Icons/menu_left/nhansu.png")));
 		Jblns.setHorizontalAlignment(SwingConstants.CENTER);
 		Jblns.setForeground(Color.WHITE);
 		Jblns.setFont(new Font("Times New Roman", Font.BOLD, 14));
 		Jblns.setBackground(new Color(76, 175, 80));
-		Jblns.setBounds(10, 0, 172, 35);
+		Jblns.setBounds(0, 0, 169, 43);
 		Nhansu.add(Jblns);
 		
 		JPanel Home = new JPanel();
@@ -124,7 +125,7 @@ public class App_main extends JFrame {
 		Jblhome.setBackground(new Color(0, 0, 255));
 		Jblhome.setForeground(new Color(255, 255, 255));
 		Jblhome.setHorizontalAlignment(SwingConstants.CENTER);
-		Jblhome.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\menu_left\\baseline_home_white_24dp.png"));
+		Jblhome.setIcon(new ImageIcon(App_main.class.getResource("/Icons/menu_left/baseline_home_white_24dp.png")));
 		Jblhome.setFont(new Font("Times New Roman", Font.BOLD, 14));
 		Jblhome.setBounds(0, 0, 169, 43);
 		Home.add(Jblhome);
@@ -163,12 +164,16 @@ public class App_main extends JFrame {
 		JplMenu.add(Thongke);
 		
 		JLabel jbltk = new JLabel("Thống kê");
-		jbltk.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\menu_left\\baseline_analytics_white_24dp.png"));
+//		jbltk.setIcon(new ImageIcon(App_main.class.getResource("/Icons/menu_left/tk.png")));
+		ImageIcon ImageTK = new ImageIcon(App_main.class.getResource("/Icons/menu_left/tk.png"));
+		Image scaleTK = ImageTK.getImage().getScaledInstance(23, 23, Image.SCALE_SMOOTH);
+		ImageTK = new ImageIcon(scaleTK);
+		jbltk.setIcon(ImageTK);
 		jbltk.setHorizontalAlignment(SwingConstants.CENTER);
 		jbltk.setForeground(new Color(255, 255, 255));
 		jbltk.setFont(new Font("Times New Roman", Font.BOLD, 14));
 		jbltk.setBackground(new Color(0, 0, 255));
-		jbltk.setBounds(10, 0, 156, 43);
+		jbltk.setBounds(0, 0, 169, 43);
 		Thongke.add(jbltk);
 		
 		JPanel Chamcong = new JPanel();
@@ -182,12 +187,16 @@ public class App_main extends JFrame {
 		JLabel lblNewLabel_1 = new JLabel("");
 		lblNewLabel_1.setBounds(-221, -6, 211, 60);
 		Jplview.add(lblNewLabel_1);
-		lblNewLabel_1.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\logo\\logo.png"));
+		lblNewLabel_1.setIcon(new ImageIcon("src\\Icons\\logo\\logo.png"));
 		
 		JLabel jblluong = new JLabel("Lương");
-		jblluong.setBounds(10, 0, 172, 43);
+		jblluong.setBounds(0, 0, 169, 43);
 		Luong.add(jblluong);
-		jblluong.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\menu_left\\baseline_drive_file_rename_outline_white_24dp.png"));
+
+		ImageIcon ImageLuong = new ImageIcon(App_main.class.getResource("/Icons/menu_left/luong.png"));
+		Image scaleLuong = ImageLuong.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+		ImageLuong = new ImageIcon(scaleLuong);
+		jblluong.setIcon(ImageLuong);
 		jblluong.setHorizontalAlignment(SwingConstants.CENTER);
 		jblluong.setForeground(new Color(255, 255, 255));
 		jblluong.setFont(new Font("Times New Roman", Font.BOLD, 14));
@@ -195,9 +204,13 @@ public class App_main extends JFrame {
 		
 		
 		JLabel jblsp = new JLabel("Sản phẩm");
-		jblsp.setBounds(26, 0, 146, 32);
+		jblsp.setBounds(0, 0, 169, 43);
 		Sanpham.add(jblsp);
-		jblsp.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\menu_left\\baseline_person_search_white_24dp.png"));
+	
+		ImageIcon ImageSP = new ImageIcon(App_main.class.getResource("/Icons/menu_left/sp.png"));
+		Image scaleSP = ImageSP.getImage().getScaledInstance(33, 27, Image.SCALE_SMOOTH);
+		ImageSP = new ImageIcon(scaleSP);
+		jblsp.setIcon(ImageSP);
 		jblsp.setHorizontalAlignment(SwingConstants.CENTER);
 		jblsp.setForeground(new Color(255, 255, 255));
 		jblsp.setFont(new Font("Times New Roman", Font.BOLD, 14));
@@ -211,7 +224,12 @@ public class App_main extends JFrame {
 		JplMenu.add(Phancong);
 		
 		JLabel lblphancong = new JLabel("Phân công");
-		lblphancong.setBounds(13, 0, 159, 43);
+
+		ImageIcon Imagepc = new ImageIcon(App_main.class.getResource("/Icons/menu_left/pc.png"));
+		Image scalepc = Imagepc.getImage().getScaledInstance(27, 22, Image.SCALE_SMOOTH);
+		Imagepc = new ImageIcon(scalepc);
+		lblphancong.setIcon(Imagepc);
+		lblphancong.setBounds(0, 0, 169, 43);
 		Phancong.add(lblphancong);
 		lblphancong.setHorizontalAlignment(SwingConstants.CENTER);
 		lblphancong.setForeground(Color.WHITE);
@@ -219,9 +237,12 @@ public class App_main extends JFrame {
 		lblphancong.setBackground(new Color(76, 175, 80));
 		
 		JLabel jblchamcong = new JLabel("Chấm công");
-		jblchamcong.setBounds(10, 0, 159, 43);
+		jblchamcong.setBounds(0, 0, 169, 43);
 		Chamcong.add(jblchamcong);
-		jblchamcong.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\menu_left\\baseline_account_circle_white_24dp.png"));
+		ImageIcon Imagecc = new ImageIcon(App_main.class.getResource("/Icons/menu_left/cc.png"));
+		Image scalecc = Imagecc.getImage().getScaledInstance(27, 22, Image.SCALE_SMOOTH);
+		Imagecc = new ImageIcon(scalecc);
+		jblchamcong.setIcon(Imagecc);
 		jblchamcong.setHorizontalAlignment(SwingConstants.CENTER);
 		jblchamcong.setForeground(new Color(255, 255, 255));
 		jblchamcong.setFont(new Font("Times New Roman", Font.BOLD, 14));
@@ -234,7 +255,7 @@ public class App_main extends JFrame {
 		logo.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\logo\\Screenshot 2023-10-18 231826.png"));
+		lblNewLabel.setIcon(new ImageIcon("src\\Icons\\logo\\Screenshot 2023-10-18 231826.png"));
 		lblNewLabel.setBounds(0, 0, 182, 114);
 		logo.add(lblNewLabel);
 		Jplview.setLayout(null);
@@ -259,7 +280,7 @@ public class App_main extends JFrame {
 		
 				
 			
-			lblNewLabel_2.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\menu_left\\baseline_logout_white_24dp.png"));
+			lblNewLabel_2.setIcon(new ImageIcon("src\\Icons\\menu_left\\baseline_logout_white_24dp.png"));
 			lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
 			lblNewLabel_2.setFont(new Font("Times New Roman", Font.BOLD, 14));
 			lblNewLabel_2.setForeground(new Color(255, 255, 255));
@@ -267,8 +288,8 @@ public class App_main extends JFrame {
 			
 			JButton btnNewButton = new JButton("Đăng xuất");
 			btnNewButton.setBorder(null);
-			btnNewButton.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\menu_left\\baseline_logout_white_24dp.png"));
-			btnNewButton.setSelectedIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\logo\\background.jpg"));
+			btnNewButton.setIcon(new ImageIcon(App_main.class.getResource("/Icons/menu_left/baseline_logout_white_24dp.png")));
+			btnNewButton.setSelectedIcon(new ImageIcon("src\\Icons\\logo\\background.jpg"));
 			btnNewButton.setForeground(new Color(255, 255, 255));
 			btnNewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			btnNewButton.addActionListener(new ActionListener() {

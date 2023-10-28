@@ -16,17 +16,19 @@ public class TrangChuJPanel extends JPanel {
 		setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(0, 0, 499, 340);
-		panel.setBackground(new Color(255, 165, 0));
+		panel.setBounds(0, 0, 910, 670);
+		
 		add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\logo\\logo.png"));
-		lblNewLabel.setBounds(0, 0, 498, 340);
+		JLabel lblNewLabel = new JLabel("New label");
+		lblNewLabel.setIcon(new ImageIcon(TrangChuJPanel.class.getResource("/Icons/logo/trangchu.png")));
+		lblNewLabel.setBounds(0, 0, 910, 670);
 		panel.add(lblNewLabel);
+		
+
+	
 	
 		
 	}
-
 }
