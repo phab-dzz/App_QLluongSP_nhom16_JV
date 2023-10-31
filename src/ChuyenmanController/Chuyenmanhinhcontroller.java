@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 
 import App_QLLuong.LuongJpanel;
 import App_QLLuong.NhansuJpanel;
-import App_QLLuong.PhancongJPnel;
+import App_QLLuong.PhancongJPanel;
 import App_QLLuong.SanphamJpanel;
 import App_QLLuong.ChamcongJpanel;
 import App_QLLuong.ThongkeJpanel;
@@ -104,7 +104,7 @@ public class Chuyenmanhinhcontroller {
 				break;
 			}
 			case "Phancong":{
-				node = new PhancongJPnel();
+				node = new PhancongJPanel();
 				
 				break;
 			}

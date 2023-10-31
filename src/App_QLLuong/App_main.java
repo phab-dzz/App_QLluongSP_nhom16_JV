@@ -30,14 +30,17 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.EtchedBorder;
 
 import ChuyenmanController.Chuyenmanhinhcontroller;
+import CustomGUi.RoundedTransparentBorder;
 import DTO.DanhmucApp;
 import Dangnhap.Dangnhap;
+import MyCustom.MyDialog;
 
 import java.awt.Canvas;
 import javax.swing.JButton;
 import javax.swing.JMenu;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.KeyEvent;
 
 public class App_main extends JFrame {
 
@@ -66,7 +69,7 @@ public class App_main extends JFrame {
 		
 		setForeground(new Color(0, 0, 0));
 		setFont(new Font("Times New Roman", Font.BOLD, 13));
-		URL url= App_main.class.getResource("outline_savings_black_24dp.png");
+		URL url= App_main.class.getResource("icon_main.png");
 		Image img = Toolkit.getDefaultToolkit().createImage(url);
 		
 		this.setIconImage(img);
@@ -74,6 +77,9 @@ public class App_main extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		setBounds(70, 40,1150, 684);
+//		setExtendedState(JFrame.MAXIMIZED_BOTH);
+//        setUndecorated(true);
+//		setSize(getMaximumSize());
 		setResizable(false);  // Không cho phép thay đổi kích thước
 		setTitle("QUẢN LÝ LƯƠNG SẢN PHẨM");
 	
@@ -106,13 +112,17 @@ public class App_main extends JFrame {
 		Nhansu.setBackground(new Color(0, 0, 255));
 		Nhansu.setLayout(null);
 		
-		JLabel Jblns = new JLabel("Nhân sự");
+		JLabel Jblns = new JLabel("QL nhân sự\r\n");
+		Jblns.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\menu_left\\ns_left.png"));
 		Jblns.setHorizontalAlignment(SwingConstants.CENTER);
 		Jblns.setForeground(Color.WHITE);
 		Jblns.setFont(new Font("Times New Roman", Font.BOLD, 14));
 		Jblns.setBackground(new Color(76, 175, 80));
-		Jblns.setBounds(10, 0, 172, 35);
+		Jblns.setBounds(0, 0, 172, 35);
+		String hexColor_Blue1 = null;
+		
 		Nhansu.add(Jblns);
+//		Nhansu.setBorder(new RoundedTransparentBorder(35,Color.BLUE,Color.GREEN, 1.0f));
 		
 		JPanel Home = new JPanel();
 		Home.setBounds(10, 11, 182, 38);
@@ -134,7 +144,7 @@ public class App_main extends JFrame {
 //		
 //		Jlblogo.setBackground(new ImageIcon(Toolkit.getDefaultToolkit().createImage( App_main.class.getResource("nen.jpg"))));
 		JPanel Jplview = new JPanel();
-		Jplview.setBounds(222, 11, 912, 623);
+		Jplview.setBounds(212, 11, 912, 623);
 		contentPane.add(Jplview);
 		
 		//
@@ -163,12 +173,12 @@ public class App_main extends JFrame {
 		JplMenu.add(Thongke);
 		
 		JLabel jbltk = new JLabel("Thống kê");
-		jbltk.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\menu_left\\baseline_analytics_white_24dp.png"));
+		jbltk.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\menu_left\\thongke_left.png"));
 		jbltk.setHorizontalAlignment(SwingConstants.CENTER);
 		jbltk.setForeground(new Color(255, 255, 255));
 		jbltk.setFont(new Font("Times New Roman", Font.BOLD, 14));
 		jbltk.setBackground(new Color(0, 0, 255));
-		jbltk.setBounds(10, 0, 156, 43);
+		jbltk.setBounds(0, 0, 156, 38);
 		Thongke.add(jbltk);
 		
 		JPanel Chamcong = new JPanel();
@@ -184,20 +194,20 @@ public class App_main extends JFrame {
 		Jplview.add(lblNewLabel_1);
 		lblNewLabel_1.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\logo\\logo.png"));
 		
-		JLabel jblluong = new JLabel("Lương");
-		jblluong.setBounds(10, 0, 172, 43);
+		JLabel jblluong = new JLabel("QL lương\r\n");
+		jblluong.setBounds(0, 0, 162, 38);
 		Luong.add(jblluong);
-		jblluong.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\menu_left\\baseline_drive_file_rename_outline_white_24dp.png"));
+		jblluong.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\menu_left\\luong02.png"));
 		jblluong.setHorizontalAlignment(SwingConstants.CENTER);
 		jblluong.setForeground(new Color(255, 255, 255));
 		jblluong.setFont(new Font("Times New Roman", Font.BOLD, 14));
 		jblluong.setBackground(new Color(76,175,80));
 		
 		
-		JLabel jblsp = new JLabel("Sản phẩm");
-		jblsp.setBounds(26, 0, 146, 32);
+		JLabel jblsp = new JLabel("QL sản phẩm");
+		jblsp.setBounds(10, 0, 162, 38);
 		Sanpham.add(jblsp);
-		jblsp.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\menu_left\\baseline_person_search_white_24dp.png"));
+		jblsp.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\menu_left\\sp01.png"));
 		jblsp.setHorizontalAlignment(SwingConstants.CENTER);
 		jblsp.setForeground(new Color(255, 255, 255));
 		jblsp.setFont(new Font("Times New Roman", Font.BOLD, 14));
@@ -211,7 +221,8 @@ public class App_main extends JFrame {
 		JplMenu.add(Phancong);
 		
 		JLabel lblphancong = new JLabel("Phân công");
-		lblphancong.setBounds(13, 0, 159, 43);
+		lblphancong.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\menu_left\\phancong_left.png"));
+		lblphancong.setBounds(0, 0, 172, 38);
 		Phancong.add(lblphancong);
 		lblphancong.setHorizontalAlignment(SwingConstants.CENTER);
 		lblphancong.setForeground(Color.WHITE);
@@ -219,9 +230,9 @@ public class App_main extends JFrame {
 		lblphancong.setBackground(new Color(76, 175, 80));
 		
 		JLabel jblchamcong = new JLabel("Chấm công");
-		jblchamcong.setBounds(10, 0, 159, 43);
+		jblchamcong.setBounds(10, 0, 151, 38);
 		Chamcong.add(jblchamcong);
-		jblchamcong.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\menu_left\\baseline_account_circle_white_24dp.png"));
+		jblchamcong.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\menu_left\\chamcong_lefy.png"));
 		jblchamcong.setHorizontalAlignment(SwingConstants.CENTER);
 		jblchamcong.setForeground(new Color(255, 255, 255));
 		jblchamcong.setFont(new Font("Times New Roman", Font.BOLD, 14));
@@ -254,6 +265,7 @@ public class App_main extends JFrame {
 			Chuyenmanhinhcontroller controller= new Chuyenmanhinhcontroller(Jplview);
 			
 			JLabel lblNewLabel_2 = new JLabel("Đăng xuất\r\n");
+			 lblNewLabel_2.setBorder(null);
 			lblNewLabel_2.setBounds(-67, 499, 172, 38);
 			Jplview.add(lblNewLabel_2);
 		
@@ -266,7 +278,11 @@ public class App_main extends JFrame {
 			controller.setView(Home,Jblhome);
 			
 			JButton btnNewButton = new JButton("Đăng xuất");
+			btnNewButton.setMnemonic(KeyEvent.VK_FIND);
+			btnNewButton.setDefaultCapable(false);
 			btnNewButton.setBorder(null);
+			
+			btnNewButton.setBorderPainted(false);
 			btnNewButton.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\menu_left\\baseline_logout_white_24dp.png"));
 			btnNewButton.setSelectedIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\logo\\background.jpg"));
 			btnNewButton.setForeground(new Color(255, 255, 255));
@@ -275,11 +291,14 @@ public class App_main extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					Object o= e.getSource();
 					if(JOptionPane.showConfirmDialog(null,"Bạn có muốn đăng xuất không ?" ," Xác nhận", JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION) {
-						JOptionPane.showMessageDialog(btnNewButton, e);
+						JOptionPane.showMessageDialog(null, "Thoát thành công!!!");
+						MyDialog mdl= new MyDialog("Thoát thành công", MyDialog.SUCCESS_DIALOG);
+						
 						System.exit(0);
 					}
 					else
 						JOptionPane.showMessageDialog(null, "Bạn đã hủy thoát !");
+					
 				}
 			});
 			btnNewButton.setFont(new Font("Arial", Font.BOLD, 14));
