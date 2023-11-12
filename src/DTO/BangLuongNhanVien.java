@@ -1,12 +1,16 @@
 package DTO;
 
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class BangLuongNhanVien {
 	private String maBangLuong;
 	private double luongThang, phuCap, tienThuong, baoHiemXH, thucLanh, luongCoBan;
+	private LocalDate ngaytinh ;
+	private NhanVien nv;
+	
 	public BangLuongNhanVien(String maBangLuong, double luongThang, double phuCap, double tienThuong, double baoHiemXH,
-			double thucLanh, double luongCoBan) {
+			double thucLanh, double luongCoBan, LocalDate ngaytinh, NhanVien nv) {
 		super();
 		this.maBangLuong = maBangLuong;
 		this.luongThang = luongThang;
@@ -15,11 +19,27 @@ public class BangLuongNhanVien {
 		this.baoHiemXH = baoHiemXH;
 		this.thucLanh = thucLanh;
 		this.luongCoBan = luongCoBan;
+		this.ngaytinh = ngaytinh;
+		this.nv = nv;
 	}
-	public BangLuongNhanVien() {
-		super();
-		// TODO Auto-generated constructor stub
+	
+	public NhanVien getNv() {
+		return nv;
 	}
+
+	public void setNv(NhanVien nv) {
+		this.nv = nv;
+	}
+
+	public LocalDate getNgaytinh() {
+		return ngaytinh;
+	}
+	public void setNgaytinh(LocalDate ngaytinh) {
+		this.ngaytinh = ngaytinh;
+	}
+	
+// TODO Auto-generated constructor stub
+	
 	public String getMaBangLuong() {
 		return maBangLuong;
 	}
@@ -105,11 +125,6 @@ public class BangLuongNhanVien {
 		BangLuongNhanVien other = (BangLuongNhanVien) obj;
 		return Objects.equals(maBangLuong, other.maBangLuong);
 	}
-	@Override
-	public String toString() {
-		return "BangLuongNhanVien [maBangLuong=" + maBangLuong + ", luongThang=" + luongThang + ", phuCap=" + phuCap
-				+ ", tienThuong=" + tienThuong + ", baoHiemXH=" + baoHiemXH + ", thucLanh=" + thucLanh + ", luongCoBan="
-				+ luongCoBan + "]";
-	}
+	
 	
 }

@@ -20,6 +20,13 @@ public class CongDoanSanPham {
 		this.donGia = donGia;
 		this.trangThai = trangThai;
 	}
+	
+	public CongDoanSanPham(String maCongDoan, String tenCongDoan) {
+		super();
+		this.maCongDoan = maCongDoan;
+		this.tenCongDoan = tenCongDoan;
+	}
+
 	public CongDoanSanPham() {
 		super();
 		// TODO Auto-generated constructor stub

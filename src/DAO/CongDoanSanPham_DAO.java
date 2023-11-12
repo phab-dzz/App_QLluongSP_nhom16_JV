@@ -22,6 +22,7 @@ public class CongDoanSanPham_DAO {
 			Statement statement = con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 			while (rs.next()) {
+				danhSachCD.add(new CongDoanSanPham(rs.getString("maCongDoan"),rs.getString("tenCongDoan")));
 				
 			}
 		} catch (SQLException e) {

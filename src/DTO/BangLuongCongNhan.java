@@ -1,12 +1,17 @@
 package DTO;
 
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class BangLuongCongNhan {
 	private String maBangLuong;
 	private double luongThang, phuCap, tienThuong, baoHiemXH, thucLanh;
+	private LocalDate ngayTinh;
+	private CongNhan congNhan;
+	
+	
 	public BangLuongCongNhan(String maBangLuong, double luongThang, double phuCap, double tienThuong, double baoHiemXH,
-			double thucLanh) {
+			double thucLanh, LocalDate ngayTinh, CongNhan congNhan) {
 		super();
 		this.maBangLuong = maBangLuong;
 		this.luongThang = luongThang;
@@ -14,8 +19,31 @@ public class BangLuongCongNhan {
 		this.tienThuong = tienThuong;
 		this.baoHiemXH = baoHiemXH;
 		this.thucLanh = thucLanh;
+		this.ngayTinh = ngayTinh;
+		this.congNhan = congNhan;
 	}
 	
+
+	public CongNhan getCongNhan() {
+		return congNhan;
+	}
+
+
+	public void setCongNhan(CongNhan congNhan) {
+		this.congNhan = congNhan;
+	}
+
+
+	public LocalDate getNgayTinh() {
+		return ngayTinh;
+	}
+
+	public void setNgayTinh(LocalDate ngayTinh) {
+		this.ngayTinh = ngayTinh;
+	}
+
+	
+
 	public BangLuongCongNhan() {
 		super();
 		// TODO Auto-generated constructor stub

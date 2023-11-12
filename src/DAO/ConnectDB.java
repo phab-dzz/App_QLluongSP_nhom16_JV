@@ -8,12 +8,12 @@ import java.sql.SQLException;
 public class ConnectDB {
 	public static Connection con=null;
 	private static ConnectDB instance= new ConnectDB();
-	public  void connect() throws SQLException {
-		String url="jdbc:sqlserver://localhost:1433;databasename=QLPB";
-		con= DriverManager.getConnection(url,"sa","password");
-		
-		
+	public Connection connect() throws SQLException {
+	    String url = "jdbc:sqlserver://TRINHNAMTRUNG:1433;databaseName=QLLUONG";
+	    con = DriverManager.getConnection(url, "sa", "sapassword");
+	    return con;
 	}
+
 	public void disconnect() throws SQLException {
 		if(con!=null) {
 			con.close();
@@ -30,8 +30,8 @@ public class ConnectDB {
 //		ConnectDB connect = new ConnectDB();
 //		ConnectDB.getInstance();
 		Connection c= null;
-		String url="jdbc:sqlserver://localhost:1433;databasename=QLLUONG";
-		c= DriverManager.getConnection(url,"sa","password");
+		String url="jdbc:sqlserver://TRINHNAMTRUNG:1433;databaseName=QLLUONG";
+		c= DriverManager.getConnection(url,"sa","sapassword");
 		System.out.println(c);
 //		
 //		if(c== null)

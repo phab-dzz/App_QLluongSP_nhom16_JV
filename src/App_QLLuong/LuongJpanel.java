@@ -3,21 +3,46 @@ package App_QLLuong;
 import java.awt.Font;
 import java.awt.Image;
 
+
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableModel;
 
-
+import BUS.BangLuongCongNhan_BUS;
+import BUS.BangLuongNhanVien_BUS;
+import DAO.BangLuongNhanVien_DAO;
+import DAO.ConnectDB;
+import DAO.NhanVien_DAO;
+import DTO.BangLuongCongNhan;
+import DTO.BangLuongNhanVien;
+import DTO.NhanVien;
+import MyCustom.MyDialog;
+import utilities.exportExcel;
 
 import javax.swing.ListSelectionModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.io.FileOutputStream;
+import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Properties;
+import java.util.Random;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import java.awt.SystemColor;
@@ -28,20 +53,29 @@ import javax.swing.JFrame;
 import javax.swing.ImageIcon;
 import javax.swing.JTextPane;
 import javax.swing.border.BevelBorder;
+import javax.swing.BorderFactory;
+import javax.swing.DefaultComboBoxModel;
 
 
-public class LuongJpanel extends JPanel  {
+public class LuongJpanel extends JPanel implements ActionListener, MouseListener,ItemListener  {
 	private static final long serialVersionUID = 1L;
 	private JTextField txtTKCN;
-	private JTextField txtTienth;
-	private JTable tableCN;
-	private JTable table;
+	private JTable tblluongCN;
+	private JTable tblluongNV;
+	private JComboBox cbbPhongBanNV,cbbMaXuong,cbbThang,cbbNam,cbbThang1,cbbNam1;
+	private DefaultTableModel modelluongNV,modelluongCN;
+	private JButton btnTimNV,btnreset,btnreset_2,btnIn,btnChitiet,btnChitietCN;
 	private JTextField txtTKNV;
-	private JTextField txtTienThuong;
-	private JTextField txtTienPhat;
-	private JTextField txtTienph;
+	private 	JButton btnTimCN;
+	private int indexNV=0,indexCN=0;
+	private BangLuongCongNhan_BUS LuongCN_BUS= new BangLuongCongNhan_BUS();
+	private BangLuongNhanVien_BUS luongNV_BUS= new BangLuongNhanVien_BUS();
+	private BangLuongNhanVien_DAO luongNVDAO= new BangLuongNhanVien_DAO();
 	
-	public LuongJpanel() {
+	private NhanVien_DAO NV_DAO= new NhanVien_DAO();
+	private DecimalFormat dcf= new DecimalFormat("###,###,###,###");
+	
+	public LuongJpanel(){
 		
 		//setSize(1100,1100);
 		//setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -50,67 +84,83 @@ public class LuongJpanel extends JPanel  {
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setUI(new CustomGUi.CustomTabbedPaneUI());
-		tabbedPane.setBounds(10, 11, 883, 603);
+		tabbedPane.setBounds(0, 0, 915, 623);
 		add(tabbedPane);
-		      
+		    
 		JPanel pnNhanVien = new JPanel();
 		pnNhanVien.setForeground(new Color(255, 255, 255));
 		tabbedPane.addTab("Nhân viên", null, pnNhanVien, null);
 		tabbedPane.setEnabledAt(0, true);
 		pnNhanVien.setLayout(null);
-		
-		JLabel lblPhongBan = new JLabel("Phòng ban");
+		 try {
+				ConnectDB.getInstance().connect();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		JLabel lblPhongBan = new JLabel("Phòng ban :");
 		lblPhongBan.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblPhongBan.setBounds(35, 26, 90, 17);
+		lblPhongBan.setBounds(26, 67, 90, 17);
 		pnNhanVien.add(lblPhongBan);
 		
 		JLabel lblNam = new JLabel("Năm :");
 		lblNam.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblNam.setBounds(35, 56, 63, 17);
+		lblNam.setBounds(474, 23, 63, 17);
 		pnNhanVien.add(lblNam);
 		
-		JComboBox cbbNam = new JComboBox();
+	 cbbNam = new JComboBox();
+		cbbNam.setModel(new DefaultComboBoxModel(new String[] {"2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"}));
 		cbbNam.setBackground(new Color(255, 255, 255));
 		cbbNam.setBorder(null);
 		cbbNam.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		cbbNam.setBounds(135, 53, 129, 22);
+		cbbNam.setBounds(562, 20, 101, 22);
 		pnNhanVien.add(cbbNam);
 		
 		JLabel lblTKNV = new JLabel("Tìm kiếm nhân viên : ");
 		lblTKNV.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblTKNV.setBounds(369, 26, 145, 17);
+		lblTKNV.setBounds(20, 23, 145, 17);
 		pnNhanVien.add(lblTKNV);
 		
 		JLabel lblGioLamViecNV = new JLabel("Tháng :");
 		lblGioLamViecNV.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblGioLamViecNV.setBounds(369, 56, 77, 17);
+		lblGioLamViecNV.setBounds(474, 56, 77, 17);
 		pnNhanVien.add(lblGioLamViecNV);
 		
-		JComboBox cbbThang = new JComboBox();
+		 cbbThang = new JComboBox();
+		cbbThang.setModel(new DefaultComboBoxModel(new String[] {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"}));
 		cbbThang.setAutoscrolls(true);
 		cbbThang.setBackground(new Color(255, 255, 255));
 		cbbThang.setBorder(null);
 		cbbThang.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		cbbThang.setBounds(524, 53, 132, 22);
+		cbbThang.setBounds(562, 53, 101, 22);
 		pnNhanVien.add(cbbThang);
 		
-		JButton btnCapNhat = new JButton("Cập Nhật");
-		btnCapNhat.setBackground(new Color(30, 144, 255));
-		btnCapNhat.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(0, 0, 0), null, null, new Color(0, 0, 0)));
-		btnCapNhat.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\icons_sp\\editing.png"));
+		 btnChitiet = new JButton("Chi tiết\r\n");
+		btnChitiet.setBackground(new Color(30, 144, 255));
+		btnChitiet.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(0, 0, 0), null, null, new Color(0, 0, 0)));
+		btnChitiet.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\icons_sp\\editing.png"));
 		
-		btnCapNhat.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnCapNhat.setBounds(524, 129, 117, 31);
-		pnNhanVien.add(btnCapNhat);
+		btnChitiet.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		btnChitiet.setBounds(623, 107, 90, 31);
+		pnNhanVien.add(btnChitiet);
+		ArrayList<String> listPB= new ArrayList<String>();
+		for(NhanVien nv: NV_DAO.getAllNhanVien()) {
+//			if(!(nv.getPhongBan().equalsIgnoreCase(nv.get))
+			listPB.add(nv.getPhongBan());
+			
+		}
+		HashSet<String> uniqueSet = new HashSet<>(listPB);
+		ArrayList<String> uniquelist= new ArrayList<>(uniqueSet);
 		
-		JComboBox cbbPhongBanNV = new JComboBox();
+		DefaultComboBoxModel<String> mldnv= new DefaultComboBoxModel<>(uniquelist.toArray(new String[0]));
+		 cbbPhongBanNV = new JComboBox(mldnv);
 		cbbPhongBanNV.setBackground(new Color(255, 255, 255));
 		cbbPhongBanNV.setBorder(null);
 		cbbPhongBanNV.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		cbbPhongBanNV.setBounds(137, 23, 181, 22);
+		cbbPhongBanNV.setBounds(156, 64, 145, 22);
 		pnNhanVien.add(cbbPhongBanNV);
 		
-		JButton btnIn = new JButton("IN");
+		 btnIn = new JButton("Xuất excel");
 		btnIn.setBackground(new Color(30, 144, 255));
 		btnIn.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(0, 0, 0), null, null, new Color(0, 0, 0)));
 		btnIn.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\icons_jplThongke\\baseline_print_black_24dp.png"));
@@ -118,12 +168,12 @@ public class LuongJpanel extends JPanel  {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnIn.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnIn.setBounds(689, 129, 90, 31);
+		btnIn.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		btnIn.setBounds(756, 107, 90, 31);
 		pnNhanVien.add(btnIn);
 		
 		JScrollPane scrollPaneNV = new JScrollPane();
-		scrollPaneNV.setBounds(10, 213, 858, 357);
+		scrollPaneNV.setBounds(10, 178, 890, 406);
 		pnNhanVien.add(scrollPaneNV);
 		
 		JPanel pnCongNhan = new JPanel();
@@ -133,125 +183,113 @@ public class LuongJpanel extends JPanel  {
 		tabbedPane.setEnabledAt(1, true);
 		pnCongNhan.setLayout(null);
 		
-		JLabel lblTKCN = new JLabel("Tìm kiếm công nhân");
-		lblTKCN.setBounds(367, 23, 150, 17);
+		JLabel lblTKCN = new JLabel("Tìm kiếm công nhân :");
+		lblTKCN.setBounds(28, 20, 150, 17);
 		lblTKCN.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		pnCongNhan.add(lblTKCN);
 		
 		txtTKCN = new JTextField();
-		txtTKCN.setBounds(519, 21, 167, 20);
+		txtTKCN.setBounds(169, 18, 167, 20);
 		txtTKCN.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		pnCongNhan.add(txtTKCN);
 		txtTKCN.setColumns(10);
 		
 		JLabel lblNam1 = new JLabel("Năm :");
-		lblNam1.setBounds(36, 53, 63, 17);
+		lblNam1.setBounds(486, 20, 63, 17);
 		lblNam1.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		pnCongNhan.add(lblNam1);
 		
-		JComboBox cbbNam1 = new JComboBox();
+		 cbbNam1 = new JComboBox();
+		cbbNam1.setModel(new DefaultComboBoxModel(new String[] {"2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"}));
 		cbbNam1.setBorder(null);
 		cbbNam1.setBackground(new Color(255, 255, 255));
-		cbbNam1.setBounds(151, 50, 85, 22);
+		cbbNam1.setBounds(578, 17, 85, 22);
 		cbbNam1.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		pnCongNhan.add(cbbNam1);
 		
-		JLabel lblMaXuong = new JLabel("Mã xưởng");
-		lblMaXuong.setBounds(36, 23, 63, 17);
+		JLabel lblMaXuong = new JLabel("Mã xưởng :");
+		lblMaXuong.setBounds(28, 64, 75, 17);
 		lblMaXuong.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		pnCongNhan.add(lblMaXuong);
 		
-		JComboBox cbbMaXuong = new JComboBox();
+		ArrayList<String> listXuong= new ArrayList<String>();
+		for(BangLuongCongNhan lcn: LuongCN_BUS.getDanhSachNhanVien()) {
+//			if(!(nv.getPhongBan().equalsIgnoreCase(nv.get))
+			listXuong.add(lcn.getCongNhan().getXuong());
+			
+		}
+		HashSet<String> uniqueSet2 = new HashSet<>(listXuong);
+		ArrayList<String> uniquelist2= new ArrayList<>(uniqueSet2);
+		DefaultComboBoxModel<String> cbbxuongmld= new DefaultComboBoxModel<>(uniquelist2.toArray(new String[0]));
+		cbbMaXuong = new JComboBox(cbbxuongmld);
 		cbbMaXuong.setAutoscrolls(true);
 		cbbMaXuong.setBorder(null);
 		cbbMaXuong.setBackground(new Color(255, 255, 255));
-		cbbMaXuong.setBounds(151, 20, 165, 22);
+		cbbMaXuong.setBounds(169, 61, 165, 22);
 		cbbMaXuong.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		pnCongNhan.add(cbbMaXuong);
 		
 		JLabel lblThang1 = new JLabel("Tháng :");
-		lblThang1.setBounds(367, 53, 69, 17);
+		lblThang1.setBounds(486, 64, 69, 17);
 		lblThang1.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		pnCongNhan.add(lblThang1);
 		
-		JComboBox cbbThang1 = new JComboBox();
+	 cbbThang1 = new JComboBox();
+		cbbThang1.setModel(new DefaultComboBoxModel(new String[] {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"}));
 		cbbThang1.setBackground(new Color(255, 255, 255));
 		cbbThang1.setBorder(null);
-		cbbThang1.setBounds(519, 50, 132, 22);
+		cbbThang1.setBounds(578, 61, 85, 22);
 		cbbThang1.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		pnCongNhan.add(cbbThang1);
 		
-		JLabel lbltTienph = new JLabel("Tiền phạt :");
-		lbltTienph.setBounds(370, 94, 102, 17);
-		lbltTienph.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		pnCongNhan.add(lbltTienph);
-		
-		txtTienth = new JTextField();
-		txtTienth.setBounds(151, 92, 165, 20);
-		txtTienth.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		txtTienth.setColumns(10);
-		pnCongNhan.add(txtTienth);
-		
 		
 		JScrollPane scrollPaneCN = new JScrollPane();
-		scrollPaneCN.setBounds(10, 220, 858, 350);
+		scrollPaneCN.setBounds(10, 186, 858, 384);
 		pnCongNhan.add(scrollPaneCN);
 		
-		tableCN = new JTable();
-		tableCN.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		tableCN.setModel(new DefaultTableModel(
-			new Object[][] {
-				{new Long(1L), "CN0001", "Nguyen Van B","20" , "4.000.000", "300.000","4.00.000"},
-			},
-			new String[] {
-				"STT", "MA CN", "Ho Ten", "So Ngay Lam", "Luong Ca", "Luong Tang ca", "ThucLanh"
-			}
-		) {
-			Class[] columnTypes = new Class[] {
-				Long.class, String.class, String.class, String.class, String.class, String.class, String.class
-			};
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
+		String[] colsCN= {"STT","Mã Công Nhân","Họ và tên","Số sản phẩm","số ngày nghỉ","Thực lãnh"};
+		
+		modelluongCN= new DefaultTableModel(colsCN,0);
+		
+		tblluongCN = new JTable(modelluongCN);
+		tblluongCN.setFont(new Font("Tahoma", Font.PLAIN, 12));
+
+
+		tblluongCN.getColumnModel().getColumn(2).setPreferredWidth(115);
+		tblluongCN.getColumnModel().getColumn(4).setPreferredWidth(99);
+		tblluongCN.getColumnModel().getColumn(5).setPreferredWidth(102);
+		scrollPaneCN.setViewportView(tblluongCN);
+		
+	 btnChitietCN = new JButton("Chi tiết");
+		btnChitietCN.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		tableCN.getColumnModel().getColumn(2).setPreferredWidth(115);
-		tableCN.getColumnModel().getColumn(4).setPreferredWidth(99);
-		tableCN.getColumnModel().getColumn(5).setPreferredWidth(102);
-		scrollPaneCN.setViewportView(tableCN);
+		btnChitietCN.setBackground(new Color(30, 144, 255));
+		btnChitietCN.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(0, 0, 0), null, null, new Color(0, 0, 0)));
+		btnChitietCN.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\icons_sp\\editing.png"));
+		btnChitietCN.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		btnChitietCN.setBounds(674, 101, 85, 31);
+		pnCongNhan.add(btnChitietCN);
 		
-		JLabel lbltTienTh_1 = new JLabel("Tiền thưởng :");
-		lbltTienTh_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbltTienTh_1.setBounds(36, 98, 102, 17);
-		pnCongNhan.add(lbltTienTh_1);
-		
-		txtTienph = new JTextField();
-		txtTienph.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		txtTienph.setColumns(10);
-		txtTienph.setBounds(519, 92, 132, 20);
-		pnCongNhan.add(txtTienph);
-		
-		JButton btnCapNhat1 = new JButton("Cập Nhật");
-		btnCapNhat1.setBackground(new Color(30, 144, 255));
-		btnCapNhat1.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(0, 0, 0), null, null, new Color(0, 0, 0)));
-		btnCapNhat1.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\icons_sp\\editing.png"));
-		btnCapNhat1.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnCapNhat1.setBounds(519, 125, 117, 31);
-		pnCongNhan.add(btnCapNhat1);
-		
-		JButton btnIn1 = new JButton("In");
+		JButton btnIn1 = new JButton("Xuất excel");
+		btnIn1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnIn1.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(0, 0, 0), null, null, new Color(0, 0, 0)));
 		btnIn1.setBackground(new Color(30, 144, 255));
 		btnIn1.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\icons_jplThongke\\baseline_print_black_24dp.png"));
-		btnIn1.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		btnIn1.setBounds(682, 126, 85, 31);
+		btnIn1.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		btnIn1.setBounds(783, 100, 85, 32);
 		pnCongNhan.add(btnIn1);
 		
 		JLabel lblDSLcn = new JLabel("Danh sách tiền lương công nhân");
 		lblDSLcn.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		lblDSLcn.setBounds(291, 166, 336, 43);
+		lblDSLcn.setBounds(280, 143, 336, 43);
 		pnCongNhan.add(lblDSLcn);
 		
-		JButton btnTimCN = new JButton("");
+	 btnTimCN = new JButton("");
 		btnTimCN.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(0, 0, 0), null, null, new Color(0, 0, 0)));
 		btnTimCN.setBackground(new Color(30, 144, 255));
 		btnTimCN.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\chamcong\\tim.png"));
@@ -260,72 +298,381 @@ public class LuongJpanel extends JPanel  {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnTimCN.setBounds(689, 20, 38, 20);
+		btnTimCN.setBounds(346, 15, 42, 22);
 		pnCongNhan.add(btnTimCN);
 		
-		table = new JTable();
-		table.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{new Long(1L), "NV0001", "Nguyen Van A","20", "2", "8000000", "4300000"},
-			},
-			new String[] {
-				"STT", "MA NV", "HoTen", "So Ngay Lam", "So Gio Tang Ca", "Luong Co Ban", "ThucLanh"
-			}
-		) {
-			Class[] columnTypes = new Class[] {
-				Long.class, String.class, String.class, String.class, String.class, String.class, String.class
-			};
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
-			}
-		});
+		btnreset_2 = new JButton("Làm mới");
+		btnreset_2.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\icons_sp\\refresh.png"));
+		btnreset_2.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		btnreset_2.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(0, 0, 0), null, null, new Color(0, 0, 0)));
+		btnreset_2.setBackground(new Color(30, 144, 255));
+		btnreset_2.setBounds(558, 101, 85, 31);
+		pnCongNhan.add(btnreset_2);
+		
+		String[] colsNV= {"STT","Mã nhân viên","Họ và tên","Tiền thưởng","Thực lãnh"};
+		modelluongNV= new DefaultTableModel(colsNV,0);
+		
+		tblluongNV = new JTable(modelluongNV);
+		tblluongNV.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		TableColumn columnID = tblluongNV.getColumnModel().getColumn(0);
+        columnID.setPreferredWidth(10);
+//		tblluongNV.setModel(new DefaultTableModel(
+//			new Object[][] {
+//				{new Long(1L), "NV0001", "Nguyen Van A","20", "2", "8000000", "4300000"},
+//			},
+//			new String[] {
+//				"STT", "MA NV", "HoTen", "So Ngay Lam", "So Gio Tang Ca", "Luong Co Ban", "ThucLanh"
+//			}
+//		) {
+//			Class[] columnTypes = new Class[] {
+//				Long.class, String.class, String.class, String.class, String.class, String.class, String.class
+//			};
+//			public Class getColumnClass(int columnIndex) {
+//				return columnTypes[columnIndex];
+//			}
+//		});
 		//table.getColumnModel().getColumn(4).setPreferredWidth(89);
 		//table.getColumnModel().getColumn(5).setPreferredWidth(99);
-		scrollPaneNV.setViewportView(table);
+		scrollPaneNV.setViewportView(tblluongNV);
 		
 		txtTKNV = new JTextField();
-		txtTKNV.setBounds(524, 25, 181, 22);
+		txtTKNV.setBounds(156, 22, 145, 22);
 		pnNhanVien.add(txtTKNV);
 		txtTKNV.setColumns(10);
 		
-		JLabel lblTienThuong = new JLabel("Tiền thưởng :");
-		lblTienThuong.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblTienThuong.setBounds(33, 90, 90, 17);
-		pnNhanVien.add(lblTienThuong);
-		
-		txtTienThuong = new JTextField();
-		txtTienThuong.setColumns(10);
-		txtTienThuong.setBounds(135, 89, 181, 22);
-		pnNhanVien.add(txtTienThuong);
-		
-		JLabel lblTienPhat = new JLabel("Tiền phạt :");
-		lblTienPhat.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblTienPhat.setBounds(369, 90, 90, 17);
-		pnNhanVien.add(lblTienPhat);
-		
-		txtTienPhat = new JTextField();
-		txtTienPhat.setColumns(10);
-		txtTienPhat.setBounds(524, 86, 181, 22);
-		pnNhanVien.add(txtTienPhat);
-		
 		JLabel lblNewLabel = new JLabel("Danh sách tiền lương nhân viên");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblNewLabel.setBounds(294, 170, 299, 40);
+		lblNewLabel.setBounds(287, 138, 299, 40);
 		pnNhanVien.add(lblNewLabel);
 		
-		JButton btnTimNV = new JButton("");
+		 btnTimNV = new JButton("");
 		btnTimNV.setBackground(new Color(30, 144, 255));
 		btnTimNV.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(0, 0, 0), null, null, new Color(0, 0, 0)));
 		btnTimNV.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\chamcong\\tim.png"));
 		btnTimNV.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnTimNV.setBounds(706, 23, 40, 23);
+		btnTimNV.setBounds(315, 23, 44, 23);
 		pnNhanVien.add(btnTimNV);
+		
+		 btnreset = new JButton("Làm mới");
+		btnreset.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\icons_sp\\refresh.png"));
+		btnreset.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		btnreset.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(0, 0, 0), null, null, new Color(0, 0, 0)));
+		btnreset.setBackground(new Color(30, 144, 255));
+		btnreset.setBounds(516, 107, 77, 31);
+		pnNhanVien.add(btnreset);
+		loadtotblLuongNV();
+		loadtoLuongCN();
+		// gán màu
+		 DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+	        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+		 centerRenderer.setBackground(new Color(30,144,255));
+		 centerRenderer.setForeground(Color.black);
+		 centerRenderer.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		 
+	       for(int i=0;i<tblluongCN.getModel().getColumnCount();i++) {
+	    	   tblluongCN.getColumnModel().getColumn(i).setHeaderRenderer(centerRenderer);
+	       }
+	       
+	       for(int i=0;i<tblluongNV.getModel().getColumnCount();i++) {
+	    	   tblluongNV.getColumnModel().getColumn(i).setHeaderRenderer(centerRenderer);
+	       }
+
+		
+		// gán sự kiện
+//		btn
+		cbbPhongBanNV.addItemListener(this);
+		cbbMaXuong.addItemListener(this);
+		cbbNam.addItemListener(this);
+		cbbThang.addItemListener(this);
+		cbbNam1.addItemListener(this);
+		cbbThang1.addItemListener(this);
+		tblluongCN.addMouseListener(this);
+		tblluongNV.addMouseListener(this);
+		btnTimNV.addActionListener(this);
+		btnTimCN.addActionListener(this);
+		btnreset.addActionListener(this);
+		btnIn.addActionListener(this);
+		btnChitiet.addActionListener(this);
+		btnChitietCN.addActionListener(this);
+		btnreset_2.addActionListener(this);
+	
 		
 		
 
 	}
-	//public static void main(String[] args) {
-	//	new LuongJpanel().setVisible(true);
-	//}
+	//load data lên bang
+	public void loadtotblLuongNV() {
+		ArrayList<BangLuongNhanVien> dsBangluongNV= luongNVDAO.getALLbangluongNV();
+				int stt=0;
+		for(BangLuongNhanVien lcn : dsBangluongNV) {
+			stt++;
+		String hoten=lcn.getNv().getTen();
+			Object[] row= {stt,lcn.getNv().getMaNhanVien(),hoten,lcn.getTienThuong(),dcf.format(lcn.getThucLanh())};
+			modelluongNV.addRow(row);
+			}
+		}
+	
+	public void loadtoLuongCN() {
+		ArrayList<BangLuongCongNhan> dsBangLuongCN= LuongCN_BUS.getDanhSachNhanVien();
+		int stt=0;
+		for(BangLuongCongNhan l: dsBangLuongCN) {
+			stt++;
+			String hoten =l.getCongNhan().getTen();
+			Object[] row= { stt, l.getCongNhan().getMaCongNhan(),hoten," " ," ",l.getThucLanh()};
+			modelluongCN.addRow(row);
+			}
+		}
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		Object o=e.getSource();
+		if(o.equals(tblluongNV)) {
+			
+			int row=tblluongNV.getSelectedRow();
+			if(row!=-1) {
+				indexNV=row;
+//				BangLuongNhanVien l= luongNV_BUS.getDsBangLuongNhanVien().get(row);
+//				new DlgLuongNV(l).setVisible(true);
+			
+			}
+		}
+		else if(o.equals(tblluongCN)) {
+			
+			int row1=tblluongCN.getSelectedRow();
+			if(row1!=-1) {
+				indexCN=row1;
+			}
+		}
+	}
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		Object o= e.getSource();
+		if(o.equals(btnTimNV)) {
+			modelluongNV.setRowCount(0);
+			timkiemNVtheo_ma();
+		}
+		else if(o.equals(btnreset)) {
+			modelluongNV.setRowCount(0);
+			luongNV_BUS.docDanhSach();
+			loadtotblLuongNV();
+		}
+		else if(o.equals(btnreset_2)) {
+			modelluongCN.setRowCount(0);
+			LuongCN_BUS.docDanhSach();
+			loadtoLuongCN();
+		}
+		else if(o.equals(btnTimCN)) {
+			modelluongCN.setRowCount(0);
+			timkiemCNtheoma();
+		}
+//		else if(o.equals(btnIn)) {
+//			int number= new Random().nextInt(1000,9999);
+//			try {
+//			exportToExcel(tblluongNV,"F:\\App_QLluongSP_nhom16_JV\\src\\data"+ number +".xlsx");
+//			} catch (Exception e1) {
+//				// TODO Auto-generated catch block
+//				e1.printStackTrace();
+//			}
+//		}
+		else if(o.equals(btnChitiet)) {
+			if(indexNV!=-1) {
+			ArrayList<BangLuongNhanVien> dslNV= luongNV_BUS.getDsBangLuongNhanVien();
+			BangLuongNhanVien l =dslNV.get(indexNV);
+			new DlgInPDFNV(l).setVisible(true);
+			}
+		}
+		else if(o.equals(btnChitietCN)) {
+			if(indexCN!=-1) {
+				JOptionPane.showMessageDialog(null, "so tt "+indexCN);
+			ArrayList<BangLuongCongNhan> dslNV= LuongCN_BUS.getDanhSachNhanVien();
+			BangLuongCongNhan l =dslNV.get(indexCN);
+			new DlgInPDFCN(l).setVisible(true);
+			}
+		}
+		
+		
+		
+	}
+	// một số phương thức sự kiện
+	public void timkiemNVtheo_ma() {
+		String ma= txtTKNV.getText();
+
+		ArrayList<BangLuongNhanVien> dsBangTK=luongNV_BUS.timBangLuongNV(ma);
+		boolean flag=false;
+		int stt=0;
+		for(BangLuongNhanVien l : dsBangTK) {
+
+			String hoten=l.getNv().getTen();
+			Object[] row= {stt,l.getNv().getMaNhanVien(),hoten,l.getTienThuong(),dcf.format(l.getThucLanh())};
+			modelluongNV.addRow(row);
+			flag=true;
+		}
+		if(modelluongNV.getRowCount()==0) {
+			new MyDialog("Nhân viên không có trong danh sách bảng lương.",MyDialog.ERROR_DIALOG);
+			
+		}
+		
+
+	}
+	public void timkiemCNtheoma() {
+		String ma=txtTKCN.getText();
+		ArrayList<BangLuongCongNhan> dsBangCNTK=LuongCN_BUS.timBangLuongCN(ma);
+		int stt=0;
+		for(BangLuongCongNhan l: dsBangCNTK) {
+			
+				stt++;
+				String hoten =l.getCongNhan().getTen();
+				Object[] row= { stt, l.getCongNhan().getMaCongNhan(),hoten," " ," ",l.getThucLanh()};
+				modelluongCN.addRow(row);
+			
+		}
+		if(modelluongCN.getRowCount()==0) {
+			new MyDialog("Công nhân không có trong danh sách bảng lương.",MyDialog.ERROR_DIALOG);
+			
+		}
+		
+	}
+	
+		
+	public void cbbPBNV_ten() {
+		String tenPB=cbbPhongBanNV.getSelectedItem().toString();
+		modelluongNV.setRowCount(0);
+		int stt=0;
+		for(BangLuongNhanVien l: luongNV_BUS.getDsBangLuongNhanVien()) {
+			if(l.getNv().getPhongBan().equalsIgnoreCase(tenPB)) {
+				stt++;
+				String hoten=l.getNv().getTen();
+				Object[] row= {stt,l.getNv().getMaNhanVien(),hoten,l.getTienThuong(),dcf.format(l.getThucLanh())};
+				modelluongNV.addRow(row);
+			}
+		}
+	}
+	
+	public void cbbmaXuong() {
+		String tenPB=cbbMaXuong.getSelectedItem().toString();
+		modelluongCN.setRowCount(0);
+		int stt=0;
+		for(BangLuongCongNhan l: LuongCN_BUS.getDanhSachNhanVien()) {
+			if(l.getCongNhan().getXuong().equalsIgnoreCase(tenPB)) {
+				stt++;
+				String hoten =l.getCongNhan().getTen();
+				Object[] row= { stt, l.getCongNhan().getMaCongNhan(),hoten," " ," ",l.getThucLanh()};
+				modelluongCN.addRow(row);
+			}
+		}
+	}
+	public void cbbThangNV() {
+		String thang=cbbThang.getSelectedItem().toString();
+		modelluongNV.setRowCount(0);
+		int stt=0;
+		for(BangLuongNhanVien l: luongNV_BUS.getNVthang(thang)) {
+			
+				stt++;
+				String hoten=l.getNv().getTen();
+				Object[] row= {stt,l.getNv().getMaNhanVien(),hoten,l.getTienThuong(),dcf.format(l.getThucLanh())};
+				modelluongNV.addRow(row);
+			
+		}
+	}
+	public void cbbNamNV() {
+		String nam=cbbNam.getSelectedItem().toString();
+		modelluongNV.setRowCount(0);
+		int stt=0;
+		for(BangLuongNhanVien l: luongNV_BUS.getNVnam(nam)) {
+			
+				stt++;
+				String hoten=l.getNv().getTen();
+				Object[] row= {stt,l.getNv().getMaNhanVien(),hoten,l.getTienThuong(),dcf.format(l.getThucLanh())};
+				modelluongNV.addRow(row);
+			
+		}
+		
+	}
+	public void cbbThangCN() {
+		String thang=cbbThang1.getSelectedItem().toString();
+		modelluongCN.setRowCount(0);
+		int stt=0;
+		for(BangLuongCongNhan l: LuongCN_BUS.getCNthang(thang))
+		{
+			stt++;
+			String hoten =l.getCongNhan().getTen();
+			Object[] row= { stt, l.getCongNhan().getMaCongNhan(),hoten," " ," ",l.getThucLanh()};
+			modelluongCN.addRow(row);
+			
+		}
+	}
+	public void cbbNamCN() {
+		String nam=cbbNam1.getSelectedItem().toString();
+		modelluongCN.setRowCount(0);
+		int stt=0;
+		for(BangLuongCongNhan l: LuongCN_BUS.getCNnam(nam)) {
+			
+			stt++;
+			String hoten =l.getCongNhan().getTen();
+			Object[] row= { stt, l.getCongNhan().getMaCongNhan(),hoten," " ," ",l.getThucLanh()};
+			modelluongCN.addRow(row);		
+		}
+		
+	}
+	
+	public void loadngaythang() {
+		String thang=cbbThang.getSelectedItem().toString();
+		String nam=cbbNam.getSelectedItem().toString();
+		int stt =0;
+		for(BangLuongNhanVien l: luongNV_BUS.getNV_namThang(nam, thang)) {
+			
+			stt++;
+			String hoten=l.getNv().getTen();
+			Object[] row= {stt,l.getNv().getMaNhanVien(),hoten,l.getTienThuong(),dcf.format(l.getThucLanh())};
+			modelluongNV.addRow(row);
+		
+	}
+	}
+		
+	@Override
+	public void itemStateChanged(ItemEvent e) {
+		// TODO Auto-generated method stub
+		Object o=e.getSource();
+		if(o.equals(cbbPhongBanNV)) {
+			cbbPBNV_ten();
+		}
+		else if(o.equals(cbbMaXuong))
+			cbbmaXuong();
+//		else if(o.equals(cbbNam) && o.equals(cbbThang)) {
+//			loadngaythang();
+//		}
+		else if(o.equals(cbbThang))
+			cbbThangNV();
+		else if(o.equals(cbbNam))
+			cbbNamNV();
+		else if(o.equals(cbbThang1))
+			cbbThangCN();
+		else if(o.equals(cbbNam1))
+			cbbNamCN();
+		
+	}
+	
+
 }
+

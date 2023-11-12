@@ -37,7 +37,9 @@ import javax.swing.JCheckBox;
 import javax.swing.border.BevelBorder;
 import javax.swing.ImageIcon;
 
-public class Dangnhap extends JFrame implements ActionListener {
+import BUS.TaiKhoan_BUS;
+
+public class Dangnhap extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -61,7 +63,7 @@ public class Dangnhap extends JFrame implements ActionListener {
 			}
 		});
 	}
-
+	public static int type;
 	/**
 	 * Create the frame.
 	 */
@@ -185,7 +187,6 @@ public class Dangnhap extends JFrame implements ActionListener {
 					passwordField.setEchoChar((char) 0);
 				} else
 					passwordField.setEchoChar('*');
-
 			}
 		});
 
@@ -195,30 +196,37 @@ public class Dangnhap extends JFrame implements ActionListener {
 		btnLogin.setBounds(115, 349, 140, 34);
 		panel_2.add(btnLogin);
 
-		btnLogin.addActionListener(this);
+		btnLogin.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				Object o = e.getSource();
+				if (o.equals(btnLogin)) {
+					char[] matKhau = passwordField.getPassword();
+					String strMatKhau = new String(matKhau);
+					String strTaiKhoan = textFieldUsername.getText();
+					TaiKhoan_BUS taiKhoanBUS = new TaiKhoan_BUS();
+					if (taiKhoanBUS.KiemTraTaiKhoan(strMatKhau, strMatKhau)) {
+						JOptionPane.showMessageDialog(null, "Đăng nhập thành công!!!");
+						type = taiKhoanBUS.kiemTraPhanQuyen(strTaiKhoan);
+						new App_main().setVisible(true);
+						
+						dispose();
+					} else {
+						JOptionPane.showMessageDialog(null, "Đăng nhập sai, xin vui lòng thử lại!");
+						textFieldUsername.setText("");
+						passwordField.setText("");
+						textFieldUsername.requestFocus();
+					}
+
+				}
+
+			}
+		});
 		btnLogin.setMnemonic(KeyEvent.VK_ENTER);
 
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		Object o = e.getSource();
-		if (o.equals(btnLogin)) {
-			char[] password = passwordField.getPassword();
-			String passwordString = new String(password);
-			if (textFieldUsername.getText().equals("NV123") && passwordString.equals("123")) {
-				JOptionPane.showMessageDialog(this, "Đăng nhập thành công!!!");
-				new App_main().setVisible(true);
-				dispose();
-			} else {
-				JOptionPane.showMessageDialog(this, "Mã nhân viên hay mật khẩu sai,yêu cầu nhập lại!!");
-				textFieldUsername.setText("");
-				passwordField.setText("");
-				textFieldUsername.requestFocus();
-			}
-
-		}
-
-	}
+	
 }

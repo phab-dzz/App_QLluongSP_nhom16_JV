@@ -1,11 +1,13 @@
 package DTO;
 
-public class TaiKhoan {
-	private String tenTaiKhoan, matKhau;
+import java.util.Objects;
 
-	public TaiKhoan(String tenTaiKhoan, String matKhau) {
+public class TaiKhoan {
+	private String maTK, matKhau;
+
+	public TaiKhoan(String maTK, String matKhau) {
 		super();
-		this.tenTaiKhoan = tenTaiKhoan;
+		this.maTK = maTK;
 		this.matKhau = matKhau;
 	}
 
@@ -14,34 +16,44 @@ public class TaiKhoan {
 		// TODO Auto-generated constructor stub
 	}
 
-	public String getTenTaiKhoan() {
-		return tenTaiKhoan;
+	public String getMaTK() {
+		return maTK;
 	}
 
-	public void setTenTaiKhoan(String tenTaiKhoan) throws Exception {
-		if(tenTaiKhoan == null || tenTaiKhoan.trim().isEmpty()) {
-			throw new Exception("Tên tài khoản không được để trống");
-		}else {
-			this.tenTaiKhoan = tenTaiKhoan;
-		}
+	public void setMaTK(String maTK) {
+		this.maTK = maTK;
 	}
 
 	public String getMatKhau() {
 		return matKhau;
 	}
 
-	public void setMatKhau(String matKhau) throws Exception {
-		if(matKhau == null || matKhau.trim().isEmpty()) {
-			throw new Exception("Mật khẩu không được để trống");
-		}else {
-			this.matKhau = matKhau;
-		}
-		
+	public void setMatKhau(String matKhau) {
+		this.matKhau = matKhau;
 	}
-	
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(maTK);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		TaiKhoan other = (TaiKhoan) obj;
+		return Objects.equals(maTK, other.maTK);
+	}
+
 	@Override
 	public String toString() {
-		return "TaiKhoan [tenTaiKhoan=" + tenTaiKhoan + ", matKhau=" + matKhau + "]";
+		return "TaiKhoan [maTK=" + maTK + ", matKhau=" + matKhau + "]";
 	}
+
+	
 	
 }

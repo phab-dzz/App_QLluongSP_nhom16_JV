@@ -17,9 +17,17 @@ import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import java.awt.Canvas;
+
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-import CustomGUi.ScrollBarCustom;
+import BUS.CongNhan_BUS;
+import BUS.ThongKe_BUS;
+import DAO.ConnectDB;
+import DTO.BangLuongCongNhan;
+import DTO.CongNhan;
+import DTO.Thongke;
+import customgui.ScrollBarCustom;
 
 import javax.swing.ListSelectionModel;
 import java.awt.CardLayout;
@@ -39,28 +47,48 @@ import java.awt.Cursor;
 import java.awt.ComponentOrientation;
 import javax.swing.DebugGraphics;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 
-public class ThongkeJpanel extends JPanel {
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTable table;
+public class ThongkeJpanel extends JPanel implements ItemListener,ActionListener {
+	private JTextField txtsp;
+	private JTextField txtCN;
+	private JTextField txtNV;
+	private JTextField txtLuong;
+	private JTextField txtCD;
+	private JTable tblTK;
+	private JButton btnIn, btnreset, btnCT;
+	private JComboBox<String>  cbbnam, cbbthang;
+	private DefaultTableModel modeltk;
 	private ScrollBarCustom scrollBarCustom1;
     private ScrollBarCustom sp;
-
+    private ThongKe_BUS tkBUS= new ThongKe_BUS();
+    private DecimalFormat dcf = new DecimalFormat("###,###");
+    private DecimalFormat dctt= new DecimalFormat("###,###,###");
+    private CongNhan_BUS CN_BUS = new CongNhan_BUS();
 	/**
 	 * Create the panel.
+	 * @throws SQLException 
 	 */
-	public ThongkeJpanel() {
+	public ThongkeJpanel()  {
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		
 		JPanel panel = new JPanel();
+		setSize(912, 623);
 		panel.setBackground(new Color(220, 20, 60));
 		add(panel);
 		panel.setLayout(new BorderLayout(0, 0));
+		//
+		try {
+			ConnectDB.getInstance().connect();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
 		JPanel panel_title = new JPanel();
 		panel_title.setBackground(new Color(100, 149, 237));
@@ -96,17 +124,17 @@ public class ThongkeJpanel extends JPanel {
 		lblNewLabel_2.setBounds(10, 0, 79, 44);
 		panel_4.add(lblNewLabel_2);
 		
-		textField = new JTextField();
-		textField.setBackground(Color.RED);
-		textField.setForeground(Color.WHITE);
-		textField.setFont(new Font("Times New Roman", Font.BOLD, 13));
-		textField.setHorizontalAlignment(SwingConstants.CENTER);
-		textField.setText("250");
-		textField.setBorder(null);
-		textField.setEditable(false);
-		textField.setBounds(20, 49, 58, 39);
-		panel_4.add(textField);
-		textField.setColumns(10);
+		txtsp = new JTextField();
+		txtsp.setBackground(Color.RED);
+		txtsp.setForeground(Color.WHITE);
+		txtsp.setFont(new Font("Times New Roman", Font.BOLD, 13));
+		txtsp.setHorizontalAlignment(SwingConstants.CENTER);
+		txtsp.setText("250");
+		txtsp.setBorder(null);
+		txtsp.setEditable(false);
+		txtsp.setBounds(20, 49, 58, 39);
+		panel_4.add(txtsp);
+		txtsp.setColumns(10);
 		
 		JPanel panel_5 = new JPanel();
 		panel_5.setBackground(Color.WHITE);
@@ -139,17 +167,17 @@ public class ThongkeJpanel extends JPanel {
 		lblNewLabel_3.setBounds(0, 11, 94, 35);
 		panel_2.add(lblNewLabel_3);
 		
-		textField_1 = new JTextField();
-		textField_1.setText("250");
-		textField_1.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_1.setForeground(Color.WHITE);
-		textField_1.setBorder(null);
-		textField_1.setFont(new Font("Times New Roman", Font.BOLD, 13));
-		textField_1.setEditable(false);
-		textField_1.setColumns(10);
-		textField_1.setBackground(new Color(0, 255, 127));
-		textField_1.setBounds(20, 49, 58, 39);
-		panel_2.add(textField_1);
+		txtCN = new JTextField();
+		txtCN.setText("250");
+		txtCN.setHorizontalAlignment(SwingConstants.CENTER);
+		txtCN.setForeground(Color.WHITE);
+		txtCN.setBorder(null);
+		txtCN.setFont(new Font("Times New Roman", Font.BOLD, 13));
+		txtCN.setEditable(false);
+		txtCN.setColumns(10);
+		txtCN.setBackground(new Color(0, 255, 127));
+		txtCN.setBounds(20, 49, 58, 39);
+		panel_2.add(txtCN);
 		
 		JPanel panel_3 = new JPanel();
 		panel_3.setBorder(new BevelBorder(BevelBorder.RAISED, Color.LIGHT_GRAY, null, null, null));
@@ -181,17 +209,17 @@ public class ThongkeJpanel extends JPanel {
 		lblNewLabel_3_1.setBounds(10, 11, 89, 35);
 		panel_1.add(lblNewLabel_3_1);
 		
-		textField_2 = new JTextField();
-		textField_2.setText("250");
-		textField_2.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_2.setForeground(Color.WHITE);
-		textField_2.setFont(new Font("Times New Roman", Font.BOLD, 13));
-		textField_2.setEditable(false);
-		textField_2.setColumns(10);
-		textField_2.setBorder(null);
-		textField_2.setBackground(new Color(255, 215, 0));
-		textField_2.setBounds(14, 49, 58, 39);
-		panel_1.add(textField_2);
+		txtNV = new JTextField();
+		txtNV.setText("250");
+		txtNV.setHorizontalAlignment(SwingConstants.CENTER);
+		txtNV.setForeground(Color.WHITE);
+		txtNV.setFont(new Font("Times New Roman", Font.BOLD, 13));
+		txtNV.setEditable(false);
+		txtNV.setColumns(10);
+		txtNV.setBorder(null);
+		txtNV.setBackground(new Color(255, 215, 0));
+		txtNV.setBounds(14, 49, 58, 39);
+		panel_1.add(txtNV);
 		
 		JPanel panel_6 = new JPanel();
 		panel_6.setBackground(new Color(30, 144, 255));
@@ -223,17 +251,17 @@ public class ThongkeJpanel extends JPanel {
 		lblNewLabel_2_1.setForeground(Color.WHITE);
 		lblNewLabel_2_1.setFont(new Font("Times New Roman", Font.BOLD, 14));
 		
-		textField_3 = new JTextField();
-		textField_3.setBounds(0, 60, 93, 17);
-		panel_8.add(textField_3);
-		textField_3.setText("15.000.000");
-		textField_3.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_3.setForeground(Color.WHITE);
-		textField_3.setFont(new Font("Times New Roman", Font.BOLD, 13));
-		textField_3.setEditable(false);
-		textField_3.setColumns(10);
-		textField_3.setBorder(null);
-		textField_3.setBackground(new Color(128, 128, 128));
+		txtLuong = new JTextField();
+		txtLuong.setBounds(0, 52, 93, 25);
+		panel_8.add(txtLuong);
+		txtLuong.setText("15.000.000");
+		txtLuong.setHorizontalAlignment(SwingConstants.CENTER);
+		txtLuong.setForeground(Color.WHITE);
+		txtLuong.setFont(new Font("Times New Roman", Font.BOLD, 13));
+		txtLuong.setEditable(false);
+		txtLuong.setColumns(10);
+		txtLuong.setBorder(null);
+		txtLuong.setBackground(new Color(128, 128, 128));
 		
 		JPanel panel_9 = new JPanel();
 		panel_9.setBackground(new Color(139, 0, 0));
@@ -265,17 +293,17 @@ public class ThongkeJpanel extends JPanel {
 		lblNewLabel_2_1_1.setForeground(Color.WHITE);
 		lblNewLabel_2_1_1.setFont(new Font("Times New Roman", Font.BOLD, 14));
 		
-		textField_4 = new JTextField();
-		textField_4.setText("250");
-		textField_4.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_4.setForeground(Color.WHITE);
-		textField_4.setFont(new Font("Times New Roman", Font.BOLD, 13));
-		textField_4.setEditable(false);
-		textField_4.setColumns(10);
-		textField_4.setBorder(null);
-		textField_4.setBackground(new Color(119, 136, 153));
-		textField_4.setBounds(0, 60, 93, 17);
-		panel_7.add(textField_4);
+		txtCD = new JTextField();
+		txtCD.setText("250");
+		txtCD.setHorizontalAlignment(SwingConstants.CENTER);
+		txtCD.setForeground(Color.WHITE);
+		txtCD.setFont(new Font("Times New Roman", Font.BOLD, 13));
+		txtCD.setEditable(false);
+		txtCD.setColumns(10);
+		txtCD.setBorder(null);
+		txtCD.setBackground(new Color(119, 136, 153));
+		txtCD.setBounds(0, 60, 93, 17);
+		panel_7.add(txtCD);
 		
 		JPanel panel_10 = new JPanel();
 		panel_10.setBackground(new Color(255, 235, 205));
@@ -299,47 +327,46 @@ public class ThongkeJpanel extends JPanel {
         sp.setOrientation(JScrollBar.HORIZONTAL);
         scrollPane.setHorizontalScrollBar(sp);
 		jplbang.add(scrollPane);
-		
-		table = new JTable();
-		table.setEnabled(false);
-		table.setSelectionBackground(new Color(0, 0, 255));
-		table.setColumnSelectionAllowed(true);
-		table.setCellSelectionEnabled(true);
-		table.setGridColor(new Color(0, 0, 0));
-		table.setInheritsPopupMenu(true);
-		table.setSurrendersFocusOnKeystroke(true);
-		table.setSize(new Dimension(0, 50));
-		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		table.setSelectionForeground(new Color(255, 255, 255));
-		table.setRowMargin(10);
-		table.setRowHeight(30);
-		table.setPreferredScrollableViewportSize(new Dimension(450, 600));
-		table.setFont(new Font("Times New Roman", Font.BOLD, 12));
-		table.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{"CN0025"," Đinh Nhật Khang","Vắt sổ", "0313546521","1500000"},
-				{"NV0215","Nguyễn Thiên Hòa", "Kế toán","0354786958", "4500000"},
-				{"NV0215","Nguyễn Thiên Hòa", "Kế toán","0354786958", "4500000"},
-				{"NV0215","Nguyễn Thiên Hòa", "Kế toán","0354786958", "4500000"},
-				{"NV0215","Nguyễn Thiên Hòa", "Kế toán","0354786958", "4500000"},
-				{"NV0215","Nguyễn Thiên Hòa", "Kế toán","0354786958", "4500000"},
-				{"NV0215","Nguyễn Thiên Hòa", "Kế toán","0354786958", "4500000"},
-				{"NV0215","Nguyễn Thiên Hòa", "Kế toán","0354786958", "4500000"},
-				{"NV0215","Nguyễn Thiên Hòa", "Kế toán","0354786958", "4500000"},
-				
-			},
-			new String[] {
-				"Mã nhân sự", "Họ và tên", "Chức danh/chuyên môn", "Số điện thoại", "tổng lương"}
-		));
-		table.getColumnModel().getColumn(0).setPreferredWidth(79);
-		table.getColumnModel().getColumn(0).setMinWidth(19);
-		table.getColumnModel().getColumn(0).setMaxWidth(2147483642);
-		scrollPane.setViewportView(table);
+		String[] cols= {"Mã nhân sự","Họ và tên","Phụ cấp","tiền thưởng","Tổng lương"};
+		modeltk= new DefaultTableModel(cols,0);
+		tblTK = 
+				new JTable(modeltk);
+		tblTK.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		tblTK.setEnabled(false);
+		tblTK.setSelectionBackground(new Color(0, 0, 255));
+		tblTK.setColumnSelectionAllowed(true);
+		tblTK.setCellSelectionEnabled(true);
+		tblTK.setGridColor(new Color(0, 0, 0));
+		tblTK.setInheritsPopupMenu(true);
+		tblTK.setSurrendersFocusOnKeystroke(true);
+		tblTK.setSize(new Dimension(0, 50));
+		tblTK.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		tblTK.setSelectionForeground(new Color(255, 255, 255));
+		tblTK.setRowMargin(10);
+		tblTK.setRowHeight(30);
+		tblTK.setPreferredScrollableViewportSize(new Dimension(450, 600));
+		tblTK.setFont(new Font("Times New Roman", Font.BOLD, 12));
+		tblTK.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		 DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+	        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+		 centerRenderer.setBackground(Color.blue);
+		 centerRenderer.setForeground(Color.black);
+		 centerRenderer.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		 
+	       for(int i=0;i<tblTK.getModel().getColumnCount();i++) {
+	    	   tblTK.getColumnModel().getColumn(i).setHeaderRenderer(centerRenderer);
+	       }
+	     
+	    
+
+		tblTK.getColumnModel().getColumn(0).setPreferredWidth(79);
+		tblTK.getColumnModel().getColumn(0).setMinWidth(19);
+		tblTK.getColumnModel().getColumn(0).setMaxWidth(2147483642);
+		scrollPane.setViewportView(tblTK);
 		
 		JPanel pblbangluong = new JPanel();
 		pblbangluong.setBackground(new Color(245, 245, 245));
-		pblbangluong.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "B\u1EA2NG TH\u1ED0NG K\u00CA NH\u00C2N S\u1EF0 TI\u00CAU BI\u1EC2U", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		pblbangluong.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "B\u1EA2NG TH\u1ED0NG K\u00CA C\u00D4NG NH\u00C2N TI\u00CAU BI\u1EC2U", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		pblbangluong.setBounds(10, 243, 884, 326);
 		panel_center.add(pblbangluong);
 		pblbangluong.setLayout(null);
@@ -349,60 +376,137 @@ public class ThongkeJpanel extends JPanel {
 		lblNewLabel_4_1.setBounds(90, 293, 69, 33);
 		pblbangluong.add(lblNewLabel_4_1);
 		
-		JComboBox Jcbthang = new JComboBox();
-		Jcbthang.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-		Jcbthang.setAutoscrolls(true);
-		Jcbthang.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		Jcbthang.setForeground(new Color(0, 0, 0));
-		Jcbthang.setBackground(new Color(255, 255, 255));
-		Jcbthang.setModel(new DefaultComboBoxModel(new String[] {"12", "11", "10", "09", "08", "07", "05", "0", "03", "02", "01"}));
-		Jcbthang.setFont(new Font("Times New Roman", Font.BOLD, 14));
-		Jcbthang.setBorder(null);
-		Jcbthang.setBounds(174, 293, 61, 28);
-		pblbangluong.add(Jcbthang);
+		 cbbthang = new JComboBox();
+		cbbthang.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+		cbbthang.setAutoscrolls(true);
+		cbbthang.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		cbbthang.setForeground(new Color(0, 0, 0));
+		cbbthang.setBackground(new Color(255, 255, 255));
+		cbbthang.setModel(new DefaultComboBoxModel(new String[] {"12", "11", "10", "09", "08", "07", "05", "04", "03", "02", "01"}));
+		cbbthang.setFont(new Font("Times New Roman", Font.BOLD, 14));
+		cbbthang.setBorder(null);
+		cbbthang.setBounds(174, 293, 61, 28);
+		pblbangluong.add(cbbthang);
 		
 		JLabel lblNewLabel_4 = new JLabel("Năm:");
 		lblNewLabel_4.setFont(new Font("Times New Roman", Font.BOLD, 18));
 		lblNewLabel_4.setBounds(296, 293, 69, 33);
 		pblbangluong.add(lblNewLabel_4);
 		
-		JButton btnchitiet = new JButton("Chi tiết");
-		btnchitiet.addActionListener(new ActionListener() {
+		 btnreset = new JButton("Làm mới");
+		btnreset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnchitiet.setBackground(new Color(0, 191, 255));
-		btnchitiet.setAutoscrolls(true);
-		btnchitiet.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnchitiet.setForeground(new Color(0, 0, 0));
-		btnchitiet.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\icons_jplThongke\\details.png"));
-		btnchitiet.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(0, 0, 0), null, null, new Color(0, 0, 0)));
-		btnchitiet.setBounds(517, 293, 114, 30);
-		pblbangluong.add(btnchitiet);
+		btnreset.setBackground(new Color(0, 191, 255));
+		btnreset.setAutoscrolls(true);
+		btnreset.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnreset.setForeground(new Color(0, 0, 0));
+		btnreset.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\icons_jplThongke\\details.png"));
+		btnreset.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(0, 0, 0), null, null, new Color(0, 0, 0)));
+		btnreset.setBounds(602, 293, 114, 30);
+		pblbangluong.add(btnreset);
 		
-		JButton btnin = new JButton("In PDF");
-		btnin.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnin.setDefaultCapable(false);
-		btnin.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnin.setBackground(new Color(0, 191, 255));
-		btnin.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\icons_jplThongke\\baseline_print_black_24dp.png"));
-		btnin.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(0, 0, 0), null, null, new Color(0, 0, 0)));
-		btnin.setBounds(679, 291, 114, 30);
-		pblbangluong.add(btnin);
+		 btnCT = new JButton("Chi tiết");
+	
+		btnCT.setDefaultCapable(false);
+		btnCT.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnCT.setBackground(new Color(0, 191, 255));
+		btnCT.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\icons_jplThongke\\baseline_print_black_24dp.png"));
+		btnCT.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(0, 0, 0), null, null, new Color(0, 0, 0)));
+		btnCT.setBounds(747, 293, 114, 30);
+		pblbangluong.add(btnCT);
 		
-		JComboBox Jcbnam = new JComboBox();
-		Jcbnam.setModel(new DefaultComboBoxModel(new String[] {"2023", "2022", "2021", "2019", "2018", "2017"}));
-		Jcbnam.setForeground(new Color(0, 0, 0));
-		Jcbnam.setFont(new Font("Times New Roman", Font.BOLD, 14));
-		Jcbnam.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-		Jcbnam.setBorder(null);
-		Jcbnam.setBackground(Color.WHITE);
-		Jcbnam.setAutoscrolls(true);
-		Jcbnam.setBounds(353, 293, 78, 28);
-		pblbangluong.add(Jcbnam);
-
+		cbbnam = new JComboBox();
+		cbbnam.setModel(new DefaultComboBoxModel(new String[] {"2023", "2022", "2021", "2019", "2018", "2017"}));
+		cbbnam.setForeground(new Color(0, 0, 0));
+		cbbnam.setFont(new Font("Times New Roman", Font.BOLD, 14));
+		cbbnam.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+		cbbnam.setBorder(null);
+		cbbnam.setBackground(Color.WHITE);
+		cbbnam.setAutoscrolls(true);
+		cbbnam.setBounds(353, 293, 78, 28);
+		pblbangluong.add(cbbnam);
+		HienThiThongKe();
+		loaddatatotable();
+		
+		// gán sự kiện
+		cbbnam.addItemListener(this);
+		cbbthang.addItemListener(this);
+		btnreset.addActionListener(this);
+	btnCT.addActionListener(this);
 	}
+	public void HienThiThongKe() {
+		Thongke tk= tkBUS.thongke();
+		txtCD.setText(dcf.format(tk.getSoLuongCongDoan()));
+		txtCN.setText(dcf.format(tk.getSoLuongCongNhan()));
+		txtNV.setText(dcf.format(tk.getSoLuongNhanVien()));
+		txtsp.setText(dcf.format(tk.getSoLuongSanPham()));
+		txtLuong.setText(dctt.format(tk.getTongLuong()));
+		
+	}
+	public void loaddatatotable() {
+		ArrayList<BangLuongCongNhan> dsCN=tkBUS.getALLblcnAVG();
+		for(BangLuongCongNhan cn:dsCN) {
+			String hoten=cn.getCongNhan().getTen();
+
+			Object[] row= {cn.getCongNhan().getMaCongNhan(),hoten, cn.getTienThuong(),cn.getPhuCap(),cn.getThucLanh()};
+			modeltk.addRow(row);
+			
+		}
+		}
+	public void cbbThangCN() {
+		String thang=cbbthang.getSelectedItem().toString();
+		modeltk.setRowCount(0);
+		int stt=0;
+		for(BangLuongCongNhan cn: tkBUS.getCNthang(thang))
+		{
+			String hoten=cn.getCongNhan().getTen();
+
+			Object[] row= {cn.getCongNhan().getMaCongNhan(),hoten, cn.getTienThuong(),cn.getPhuCap(),cn.getThucLanh()};
+			modeltk.addRow(row);
+			
+		}
+	}
+	public void cbbNamCN() {
+		String nam=cbbnam.getSelectedItem().toString();
+		modeltk.setRowCount(0);
+		int stt=0;
+		for(BangLuongCongNhan cn: tkBUS.getCNnam(nam)) {
+			
+			String hoten=cn.getCongNhan().getTen();
+
+			Object[] row= {cn.getCongNhan().getMaCongNhan(),hoten, cn.getTienThuong(),cn.getPhuCap(),cn.getThucLanh()};
+			modeltk.addRow(row);		
+		}
+		
+	}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		Object o=e.getSource();
+		if(o.equals(btnreset)) {
+			modeltk.setRowCount(0);
+			loaddatatotable();
+		}
+		if(o.equals(btnCT)) {
+			new DlgthongkeThang().setVisible(true);
+		}
+	}
+	@Override
+	public void itemStateChanged(ItemEvent e) {
+		// TODO Auto-generated method stub
+		Object o=e.getSource();
+		if(o.equals(cbbthang))
+		{
+			modeltk.setRowCount(0);
+			cbbThangCN();;
+		}
+		if(o.equals(cbbnam))
+		{
+			modeltk.setRowCount(0);
+			cbbNamCN();
+		}
+	}
+	
 }

@@ -30,6 +30,7 @@ import CustomGUi.ScrollBarCustom;
 import javax.swing.ImageIcon;
 import javax.swing.border.BevelBorder;
 
+import Dangnhap.Dangnhap;
 
 public class ChamcongJpanel extends JPanel  {
 	private static final long serialVersionUID = 1L;
@@ -429,6 +430,13 @@ public class ChamcongJpanel extends JPanel  {
 		scrollPane_1.setVerticalScrollBar(new ScrollBarCustom());
       
         scrollPane_1.setHorizontalScrollBar(sp);
-
+        
+        if(Dangnhap.type == 3 ) {
+        	tabbedPane.setSelectedIndex(1);
+        	tabbedPane.setEnabledAt(0, false);
+        }else if(Dangnhap.type == 2) {
+        	tabbedPane.setSelectedIndex(0);
+        	tabbedPane.setEnabledAt(1, false);
+        }
 	}
 }

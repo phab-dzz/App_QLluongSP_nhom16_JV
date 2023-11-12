@@ -18,6 +18,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import java.awt.GridBagLayout;
 import java.awt.Image;
+import java.awt.Label;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -260,9 +261,21 @@ public class App_main extends JFrame {
 			list.add(new DanhmucApp("Luong",Luong,jblluong));
 			list.add(new DanhmucApp("Nhansu",Nhansu,Jblns));
 			list.add(new DanhmucApp("Phancong",Phancong,lblphancong));
-
 			
+			ArrayList<JLabel> jLabelList = new ArrayList<>();
+			jLabelList.add(Jblhome);
+			jLabelList.add(jbltk);
+			jLabelList.add(jblchamcong);
+			jLabelList.add(jblsp);
+			jLabelList.add(jblluong);
+			jLabelList.add(Jblns);
+			jLabelList.add(lblphancong);
+			
+			pQNhanSu(jLabelList, Dangnhap.type);
 			Chuyenmanhinhcontroller controller= new Chuyenmanhinhcontroller(Jplview);
+			
+			System.out.println(Dangnhap.type);
+			
 			
 			JLabel lblNewLabel_2 = new JLabel("Đăng xuất\r\n");
 			 lblNewLabel_2.setBorder(null);
@@ -307,5 +320,69 @@ public class App_main extends JFrame {
 			JplMenu.add(btnNewButton);
 		
 		controller.setEvent(list);
+	}
+	public static void pQNhanSu(ArrayList<JLabel> list, int type) {
+		//		0/ Home;
+		//		1/ Thongke;
+		//		2/ Chamcong;
+		//		3/ Sanpham;
+		//		4/ Luong;
+		//		5/ Nhansu;
+		//		6/ Phancong;
+		
+		switch (type) {
+		case 1: {
+			// Kế toán
+			for (int i =1; i<list.size(); i++) {
+				if(i == 1 || i == 4) {
+					continue;
+				}else {
+					list.get(i).setEnabled(false);
+				}
+				
+			}
+			break;
+		}
+		case 2: {
+			// Trưởng phòng
+			for (int i =1; i<list.size(); i++) {
+				if(i == 2) {
+					continue;
+				}else {
+					list.get(i).setEnabled(false);
+				}
+				
+			}
+			break;
+		}
+		case 3: {
+			// Xưởng trưởng
+			for (int i =1; i<list.size(); i++) {
+				if(i == 2 || i == 6 || i == 3) {
+					continue;
+				}else {
+					list.get(i).setEnabled(false);
+				}
+				
+			}
+			break;
+		}
+		case 4: {
+			// Quản lý nhân sự
+			for (int i =1; i<list.size(); i++) {
+				if(i == 5) {
+					continue;
+				}else {
+					list.get(i).setEnabled(false);
+				}
+				
+			}
+			break;
+		}
+		default:
+			break;
+		}
+		
+		
 	}
 }
