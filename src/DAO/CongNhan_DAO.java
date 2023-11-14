@@ -41,9 +41,9 @@ public class CongNhan_DAO {
 		                boolean gioiTinhBit = resultSet.getBoolean("gioiTinh");
 		                cn.setGioiTinh(gioiTinhBit);
 		                
-		                // Lấy giới tính từ cột "trangThai" dưới dạng boolean
+		                // Lấy trạng thái từ cột "trangThai" dưới dạng boolean
 		                boolean trangThaiBit = resultSet.getBoolean("trangThai");
-		                cn.setGioiTinh(trangThaiBit);
+		                cn.setTrangThai(trangThaiBit);
 
 		                // Lấy ngày tham gia từ cột "ngayThamGia" dưới dạng LocalDate
 		                java.sql.Date ngayThamGiaSql = resultSet.getDate("ngayThamGia");
@@ -101,7 +101,7 @@ public class CongNhan_DAO {
 	                
 	                // Lấy giới tính từ cột "trangThai" dưới dạng boolean
 	                boolean trangThaiBit = resultSet.getBoolean("trangThai");
-	                cn.setGioiTinh(trangThaiBit);
+	                cn.setTrangThai(trangThaiBit);
 
 	                // Lấy ngày tham gia từ cột "ngayThamGia" dưới dạng LocalDate
 	                java.sql.Date ngayThamGiaSql = resultSet.getDate("ngayThamGia");
@@ -159,7 +159,7 @@ public class CongNhan_DAO {
                 
                 // Lấy giới tính từ cột "trangThai" dưới dạng boolean
                 boolean trangThaiBit = resultSet.getBoolean("trangThai");
-                cn.setGioiTinh(trangThaiBit);
+                cn.setTrangThai(trangThaiBit);
 
                 // Lấy ngày tham gia từ cột "ngayThamGia" dưới dạng LocalDate
                 java.sql.Date ngayThamGiaSql = resultSet.getDate("ngayThamGia");
@@ -245,7 +245,7 @@ public class CongNhan_DAO {
 	
 	// Phương thức Update Nhân Viên
 	public boolean updateCongNhan(CongNhan cn) {
-	    String sql = "UPDATE NhanVien SET trinhDoChuyenMon = ?, ngaySinh = ?, ten = ?, gioiTinh = ?, diaChi = ?, ngayThamGia = ?, trangThai = ?, sDT = ?, xuong = ?, chuyenMon = ?, luongPhuCap = ? WHERE maCongNhan = ?";
+	    String sql = "UPDATE CongNhan SET trinhDoChuyenMon = ?, ngaySinh = ?, ten = ?, gioiTinh = ?, diaChi = ?, ngayThamGia = ?, trangThai = ?, sDT = ?, xuong = ?, chuyenMon = ?, luongPhuCap = ? WHERE maCongNhan = ?";
 	    
 	    try (Connection connection = ConnectDB.getInstance().connect();
 		         PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -283,6 +283,24 @@ public class CongNhan_DAO {
 	        e.printStackTrace(); // Xử lý ngoại lệ bằng cách ghi log lỗi
 	        return false;
 	    }
+	}
+	public ArrayList<CongNhan> getALLCNtim_ma(String ma){
+		ArrayList<CongNhan> dsCN_ma= new ArrayList<>();
+		try {
+			PreparedStatement prmt = ConnectDB.con.prepareStatement("select *\r\n"
+					+ "from CongNhan\r\n"
+					+ " where maCongNhan= ?");
+			prmt.setString(1, ma);
+			ResultSet rs= prmt.executeQuery();
+	
+			while(rs.next()) {
+				dsCN_ma.add(new CongNhan(rs.getString("maCongNhan"), rs.getString("ten"),rs.getString("sDT"),rs.getString("chuyenMon"),rs.getDouble("luongPhuCap")));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return dsCN_ma;
 	}
 
 }

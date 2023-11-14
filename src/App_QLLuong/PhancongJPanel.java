@@ -37,7 +37,7 @@ import DTO.NhanVien;
 import DTO.PhanCongCongDoan;
 import DTO.SanPham;
 import MyCustom.MyDialog;
-import customgui.ScrollBarCustom;
+import CustomGUi.ScrollBarCustom;
 import utilities.DateChooserUtils;
 import utilities.ProcessDate;
 import utilities.Snippet;
@@ -447,7 +447,7 @@ public class PhancongJPanel extends JPanel implements MouseListener,ActionListen
 	public void adddatatotbleCN() {
 		modelCN.setRowCount(0);
 //		CN_BUS.docDanhSachCN();
-		ArrayList<CongNhan> dsCN= CN_BUS.getAllCongNhan();
+		ArrayList<CongNhan> dsCN= CN_BUS.getDanhSachCongNhan();
 //		ArrayList<NhanVien> dsnv = nhanVienBUS.getDanhSachNhanVien();
 			for(CongNhan cn : dsCN) {
 				String hotenCN= cn.getTen();
@@ -673,7 +673,7 @@ public class PhancongJPanel extends JPanel implements MouseListener,ActionListen
 	}
 	public CongNhan timkiemtheomaCN(String ma) {
 		
-		ArrayList<CongNhan> dsCN= CN_BUS.getAllCongNhan();
+		ArrayList<CongNhan> dsCN= CN_BUS.getDanhSachCongNhan();
 		for(CongNhan cn : dsCN) {
 			if(cn.getMaCongNhan().equals(ma)) {
 				return cn;
@@ -683,7 +683,7 @@ public class PhancongJPanel extends JPanel implements MouseListener,ActionListen
 	}
 	public void loadCNtheoma() {
 		String ma=txtTimCN.getText();
-		ArrayList<CongNhan> dsCN=CN_BUS.getALLCNtheoma(ma);
+		ArrayList<CongNhan> dsCN=CN_BUS.getallCNtheoma(ma);
 		for(CongNhan cn: dsCN) {
 			Object[] row= {
 					cn.getMaCongNhan(),cn.getTen()

@@ -27,7 +27,7 @@ import DAO.ConnectDB;
 import DTO.BangLuongCongNhan;
 import DTO.CongNhan;
 import DTO.Thongke;
-import customgui.ScrollBarCustom;
+import CustomGUi.ScrollBarCustom;
 
 import javax.swing.ListSelectionModel;
 import java.awt.CardLayout;
@@ -144,7 +144,7 @@ public class ThongkeJpanel extends JPanel implements ItemListener,ActionListener
 		JLabel lblNewLabel_1 = new JLabel("");
 		lblNewLabel_1.setIconTextGap(8);
 		lblNewLabel_1.setSize(new Dimension(99, 88));
-		lblNewLabel_1.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\icons_jplThongke\\sp03.png"));
+		lblNewLabel_1.setIcon(new ImageIcon("Icons\\icons_jplThongke\\sp03.png"));
 		lblNewLabel_1.setBackground(Color.WHITE);
 		lblNewLabel_1.setBounds(0, 0, 99, 84);
 		panel_5.add(lblNewLabel_1);

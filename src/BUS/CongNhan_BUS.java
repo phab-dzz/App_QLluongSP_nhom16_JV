@@ -35,6 +35,7 @@ public class CongNhan_BUS {
 	}
 	
 	public ArrayList<CongNhan> getDanhSachCongNhan() {
+		
 		return congNhanDAO.getDanhSachCongNhan();
 	}
 	public ArrayList<CongNhan> getDanhSachCongNhanXuong(String tenXuong) {
@@ -59,7 +60,7 @@ public class CongNhan_BUS {
 			LocalDate ngayThamGia) {
 
 		CustomDialog validationError = validator(sDT, diaChi, ten, ngayThamGia, ngaySinh);
-		if(validationError ==null) {
+		if(validationError ==null && checkTrangThai(trangThai) ==null && checkNgayThamGiaNVMoi(ngayThamGia) ==null) {
 			//    			double heSoLuongNV = Double.parseDouble(heSoLuong);
 			//    			double luongCoBanNV = Double.parseDouble(luongCoBan);
 			CongNhan cn = new CongNhan();
@@ -95,7 +96,6 @@ public class CongNhan_BUS {
 		CustomDialog validationError = validator(sDT, diaChi, ten, ngayThamGia, ngaySinh);
 		if(validationError ==null) {
 			
-			
 			CongNhan cn = new CongNhan();
 			cn.setMaCongNhan(maCongNhan);
 			cn.setTen(ten);
@@ -120,7 +120,19 @@ public class CongNhan_BUS {
 		else
 			return false;
 	}
-
+	private CustomDialog checkTrangThai(boolean trangThai) {
+		if(!trangThai) {
+			return new CustomDialog("Trạng thái chỉ áp dụng nhân viên ngừng làm việc", CustomDialog.ERROR_DIALOG);
+		}
+		return null;
+	}
+	private CustomDialog checkNgayThamGiaNVMoi(LocalDate ngayThamGia) {
+		if(ngayThamGia.isBefore(ngayThamGia)) {
+			return new CustomDialog("Ngày tham gia không trước ngày hiện tại", CustomDialog.ERROR_DIALOG);
+		}
+		return null;
+	}
+	
 	private CustomDialog validator(String sDT, String diaChi, String ten, LocalDate ngayThamGia, LocalDate ngaySinh) {
 		if (ten.isEmpty()) {
 			return new CustomDialog("Tên không được rỗng", CustomDialog.ERROR_DIALOG);
@@ -161,5 +173,10 @@ public class CongNhan_BUS {
 			e.printStackTrace();
 		}
 	}
+	public ArrayList<CongNhan> getallCNtheoma(String ma){
+		return congNhanDAO.getALLCNtim_ma(ma);
+	}
+
+
 }
 

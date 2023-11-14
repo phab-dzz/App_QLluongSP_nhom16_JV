@@ -156,13 +156,31 @@ public class NhanVien_BUS {
 			return new CustomDialog("Số điện thoại đủ 10 chữ số, bắt đầu bằng 0", CustomDialog.ERROR_DIALOG);
 		}
 
+		if(String.valueOf(luongCoBan).isBlank()) {
+			return new CustomDialog("Lương cơ bản không được rỗng", CustomDialog.ERROR_DIALOG);
+		}else if(luongCoBan <=0) {
+			return new CustomDialog("Lương cơ bản không <=0", CustomDialog.ERROR_DIALOG);
+		}else if(!kiemTraLuongCoBan(String.format("%.0f",luongCoBan))) {
+			return new CustomDialog("Lương cơ bản phải thuộc kiểu số", CustomDialog.ERROR_DIALOG);
+			
+		}
+		
 		if (diaChi.isEmpty()) {
 			return new CustomDialog("Địa chỉ không được rỗng", CustomDialog.ERROR_DIALOG);
-		} else if (luongCoBan <= 0) {
-			return new CustomDialog("Lương cơ bản >0", CustomDialog.ERROR_DIALOG);
 		}
 
 		return null;
+	}
+	public boolean kiemTraLuongCoBan(String luongCoBan) {
+		char charSTK;
+		for(int i=0; i<luongCoBan.length(); i++) {
+			charSTK = luongCoBan.charAt(i);
+			if(!Character.isDigit(charSTK)) {
+				return false;
+			}	
+		}
+		return true;
+		
 	}
 	public void closeConnection() {
 		try {

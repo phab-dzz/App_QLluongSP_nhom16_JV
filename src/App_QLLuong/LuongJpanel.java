@@ -144,7 +144,7 @@ public class LuongJpanel extends JPanel implements ActionListener, MouseListener
 		btnChitiet.setBounds(623, 107, 90, 31);
 		pnNhanVien.add(btnChitiet);
 		ArrayList<String> listPB= new ArrayList<String>();
-		for(NhanVien nv: NV_DAO.getAllNhanVien()) {
+		for(NhanVien nv: NV_DAO.getDanhSachNhanVien()) {
 //			if(!(nv.getPhongBan().equalsIgnoreCase(nv.get))
 			listPB.add(nv.getPhongBan());
 			

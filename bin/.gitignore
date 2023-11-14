@@ -1,5 +1,7 @@
-/libs/
 /App_QLLuong/
+/Icons/
+/data/
+/libs/
 /BUS/
 /ChuyenmanController/
 /CustomGUi/
@@ -7,5 +9,4 @@
 /DTO/
 /Dangnhap/
 /MyCustom/
-/data/
 /utilities/

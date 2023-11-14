@@ -16,10 +16,10 @@ public class CongDoanSanPham_DAO {
 	public ArrayList<CongDoanSanPham> getAllCongDoanSanPham() {
 		ArrayList<CongDoanSanPham> danhSachCD = new ArrayList<CongDoanSanPham>();
 		try {
-			ConnectDB.getInstance();
-			Connection con = ConnectDB.getConnection();
+//			ConnectDB.getInstance();
+//			Connection con = ConnectDB.getConnection();
 			String sql = "select * from CongDoanSanPham";
-			Statement statement = con.createStatement();
+			Statement statement = ConnectDB.con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 			while (rs.next()) {
 				danhSachCD.add(new CongDoanSanPham(rs.getString("maCongDoan"),rs.getString("tenCongDoan")));
