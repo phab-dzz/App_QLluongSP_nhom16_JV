@@ -9,6 +9,7 @@ import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Vector;
 import javax.swing.JDialog;
 import javax.swing.event.DocumentEvent;
@@ -29,8 +30,7 @@ import java.awt.Color;
 public class DlgInPDFNV extends JDialog {
 
     private static final long serialVersionUID = 379142338552281235L;
-//	private HoaDonBUS hoadonBUS = new HoaDonBUS();
-//    private CTHoaDonBUS ctHoaDonBUS = new CTHoaDonBUS();
+
 
     private javax.swing.JButton btnInHoaDon;
     private javax.swing.JLabel jLabel1;
@@ -51,60 +51,14 @@ public class DlgInPDFNV extends JDialog {
         this.setPreferredSize(new Dimension(600,600));
         Image icon = Toolkit.getDefaultToolkit().getImage("image/ManagerUI/icon-app.png");
         this.setIconImage(icon);
-//        customEvents();
+
         xuLyHienThiHoaDon(l);
     }
 
-    private ArrayList<Vector> dsGioHang;
-    private int tongTien;
-    private String nhanVien;
+//    private ArrayList<Vector> dsGioHang;
+//    private int tongTien;
+//    private String nhanVien;
 
-//    public XuatHoaDonGUI(ArrayList<Vector> dsGioHang, int tongTien, Object nhanVien) {
-//        this();
-//        this.tongTien = tongTien;
-//        this.dsGioHang = dsGioHang;
-//        this.nhanVien = (String) nhanVien;
-//        DecimalFormat dcf = new DecimalFormat("###,###");
-//        txtTongTien.setText(dcf.format(tongTien));
-//    }
-
-//    private void customEvents() {
-//        txtTenKhach.getDocument().addDocumentListener(new DocumentListener() {
-//            public void changedUpdate(DocumentEvent e) {
-//            	checkKhach();
-//            }
-//
-//            public void removeUpdate(DocumentEvent e) {
-//            	checkKhach();
-//            }
-//
-//            public void insertUpdate(DocumentEvent e) {
-//            	checkKhach();
-//            }
-//        });
-
-//        txtMaGiam.getDocument().addDocumentListener(new DocumentListener() {
-//            public void changedUpdate(DocumentEvent e) {
-//            	checkKhach();
-//            }
-//
-//            public void removeUpdate(DocumentEvent e) {
-//            	checkKhach();
-//            }
-//
-//            public void insertUpdate(DocumentEvent e) {
-//                checkKhach();
-//            }
-//        });
-//    }
-
-//    private void checkKhach() {
-//        if (!txtTenKhach.getText().equals("")) {
-//            btnThanhToan.setEnabled(true);
-//        } else {
-//            btnThanhToan.setEnabled(false);
-//        }
-//    }
 
     private void xuLyHienThiHoaDon(BangLuongNhanVien l) {
         txtHoaDon.setContentType("text/html");
@@ -133,6 +87,7 @@ public class DlgInPDFNV extends JDialog {
         hd +="<div style='text-align:center;'>Hotline : 036375906</div>";
         
         hd += "<h1 style='text-align:center;'>PHIẾU LƯƠNG CHI TIẾT</h1>";
+        hd +="<p style='text-align:right;'>Mã Phiếu:"+taoMaPL()+"</p>";
         hd += "Mã Nhân viên: " +l.getNv().getMaNhanVien()+ "<br/>";
         hd += "Nhân viên: " + l.getNv().getTen() +"<br/>";
         hd += "Ngày lập: " + dtf.format(now) + "<br/>";
@@ -148,7 +103,7 @@ public class DlgInPDFNV extends JDialog {
                 +"<th>Tiền thưởng</th>"
                 + "<th>Tiền lương</th>"
                 + "</tr>";
-//        for (Vector vec : dsGioHang) {
+
             hd += "<tr>";
             hd += "<td style='text-align:center;'>" +"15" + "</td>";
             hd += "<td style='text-align:left;'>" + "2"  + "</td>";
@@ -157,7 +112,7 @@ public class DlgInPDFNV extends JDialog {
             hd += "<td style='text-align:center;'>" + l.getTienThuong() + "</td>";
             hd += "<td style='text-align:center;'>" +dcf.format(l.getThucLanh()) + "</td>";
             hd += "</tr>";
-//        }
+
         hd += "<tr>";
         hd += "<td style='text-align:center;'>" + "</td>";
         hd += "<td style='text-align:left;'>" + "</td>";
@@ -165,31 +120,16 @@ public class DlgInPDFNV extends JDialog {
         hd += "<td style='text-align:center;font-weight:bold'>Tổng cộng</td>";
         hd += "<td style='text-align:center;'>" + dcf.format(l.getThucLanh()) + "</td>";
         hd += "</tr>";
-//     
-//        hd += "<tr>";
-//        hd += "<td style='text-align:center;'>" + "</td>";
-//        hd += "<td style='text-align:left;'>" + "</td>";
-//        hd += "<td style='text-align:center;'>" + "</td>";
-//        hd += "<td style='text-align:center;font-weight:bold'>Khuyến mãi</td>";
-//        hd += "<td style='text-align:center;'>" + "10" + "%" + "</td>";
-//        hd += "</tr>";
-//        hd += "<tr>";
-//        hd += "<td style='text-align:center;'>" + "</td>";
-//        hd += "<td style='text-align:left;'>" + "</td>";
-//        hd += "<td style='text-align:center;'>" + "</td>";
-//        hd += "<td style='text-align:center;font-weight:bold'>Thành tiền</td>";
-//        hd += "<td style='text-align:center;'>" + dcf.format(tongTien) + "</td>";
-//        hd += "</tr>";
+
         hd += "</table>";
         hd += "</div>";
         hd += "<div style='text-align:center;'>==========================================</div><br/>";
         hd += "<div style='text-align:center;'>Nếu có gì sai sót, Bạn hay liên hệ phòng kế toán.</div><br/>";
         txtHoaDon.setText(hd);
-//        txtTongTien.setText(dcf.format(tongTien));
+
     }
 
-//    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+
     private void initComponents(BangLuongNhanVien l) {
 
         jLabel5 = new javax.swing.JLabel();
@@ -341,28 +281,13 @@ public class DlgInPDFNV extends JDialog {
         }
         
     }
+    public String taoMaPL() {
+    	int so= new Random().nextInt(1000,9999);
+    	String ma="PLNV" +so;
+    	return ma;
+    }
 
 
-//    private void btnTimKhachActionPerformed(java.awt.event.ActionEvent evt) {
-//        timKhachUI.setVisible(true);
-//        if (timKhachUI.khachHangTimDuoc != null) {
-//            txtTenKhach.setText(timKhachUI.khachHangTimDuoc.getMaKH() + " - " + timKhachUI.khachHangTimDuoc.getTenKH());
-//        }
-//    }
-//
-//
-//    private void btnTimMaGiamActionPerformed(java.awt.event.ActionEvent evt) {
-//        timMaUI = new DlgTimMaGiam(tongTien);
-//        timMaUI.setVisible(true);
-//        if (timMaUI.maGiamTimDuoc != null) {
-//            txtMaGiam.setText(timMaUI.maGiamTimDuoc.getMaGiam() + " - " + timMaUI.maGiamTimDuoc.getTenGiamGia());
-//        }
-//    }
-//    public static void main(String[] args) {
-//	new DlgInPDF().setVisible(true);
-//	}
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    
-    // End of variables declaration//GEN-END:variables
-   
+
+
 }

@@ -5,10 +5,12 @@ import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.print.PrinterException;
+import java.net.URL;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Vector;
 import javax.swing.JDialog;
 import javax.swing.event.DocumentEvent;
@@ -44,6 +46,10 @@ public class DlgInPDFCN extends JDialog {
     public DlgInPDFCN(BangLuongCongNhan l) {
         checkBanHang = false;
         initComponents(l);
+//        URL url= DlgInPDFCN.class.getResource("/Icons/logo/bill.png");
+//		Image img = Toolkit.getDefaultToolkit().createImage(url);
+//		
+//		this.setIconImage(img);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setModal(true);
@@ -54,56 +60,9 @@ public class DlgInPDFCN extends JDialog {
         xuLyHienThiHoaDon(l);
     }
 
-    private ArrayList<Vector> dsGioHang;
-    private int tongTien;
-    private String nhanVien;
 
-//    public XuatHoaDonGUI(ArrayList<Vector> dsGioHang, int tongTien, Object nhanVien) {
-//        this();
-//        this.tongTien = tongTien;
-//        this.dsGioHang = dsGioHang;
-//        this.nhanVien = (String) nhanVien;
-//        DecimalFormat dcf = new DecimalFormat("###,###");
-//        txtTongTien.setText(dcf.format(tongTien));
-//    }
 
-//    private void customEvents() {
-//        txtTenKhach.getDocument().addDocumentListener(new DocumentListener() {
-//            public void changedUpdate(DocumentEvent e) {
-//            	checkKhach();
-//            }
-//
-//            public void removeUpdate(DocumentEvent e) {
-//            	checkKhach();
-//            }
-//
-//            public void insertUpdate(DocumentEvent e) {
-//            	checkKhach();
-//            }
-//        });
 
-//        txtMaGiam.getDocument().addDocumentListener(new DocumentListener() {
-//            public void changedUpdate(DocumentEvent e) {
-//            	checkKhach();
-//            }
-//
-//            public void removeUpdate(DocumentEvent e) {
-//            	checkKhach();
-//            }
-//
-//            public void insertUpdate(DocumentEvent e) {
-//                checkKhach();
-//            }
-//        });
-//    }
-
-//    private void checkKhach() {
-//        if (!txtTenKhach.getText().equals("")) {
-//            btnThanhToan.setEnabled(true);
-//        } else {
-//            btnThanhToan.setEnabled(false);
-//        }
-//    }
 
     private void xuLyHienThiHoaDon(BangLuongCongNhan l) {
         txtHoaDon.setContentType("text/html");
@@ -132,12 +91,16 @@ public class DlgInPDFCN extends JDialog {
         hd +="<div style='text-align:center;'>Hotline : 036375906</div>";
         
         hd += "<h1 style='text-align:center;'>PHIẾU LƯƠNG CHI TIẾT</h1>";
-        hd += "Mã Nhân viên: " +l.getCongNhan().getMaCongNhan()+ "<br/>";
-        hd += "Nhân viên: " + l.getCongNhan().getMaCongNhan() + "<br/>";
+        hd +="<p style='text-align:right;'>Mã Phiếu:"+taoMaPL()+"</p>";
+        hd += "Mã Nhân viên: " +l.getCongNhan().getMaCongNhan()+"<br/>" ;
+       
+        hd += "Nhân viên: " + l.getCongNhan().getTen() + "<br/>";
         hd += "Ngày lập: " + dtf.format(now) + "<br/>";
-//        hd += "Khách hàng: " + txtTenKhach.getText() + "<br/>";
+        
+       
         hd += "<div style='text-align:center;'>==========================================</div><br/>";
         hd += "<div style='text-align:center'>";
+       
         hd += "<table style='max-width:100%'>";
         hd += "<tr>"
                 + "<th>Tên công đoạn </th>"
@@ -164,31 +127,16 @@ public class DlgInPDFCN extends JDialog {
         hd += "<td style='text-align:center;font-weight:bold'>Tổng cộng</td>";
         hd += "<td style='text-align:center;'>" + dcf.format( l.getThucLanh()) + "</td>";
         hd += "</tr>";
-//     
-//        hd += "<tr>";
-//        hd += "<td style='text-align:center;'>" + "</td>";
-//        hd += "<td style='text-align:left;'>" + "</td>";
-//        hd += "<td style='text-align:center;'>" + "</td>";
-//        hd += "<td style='text-align:center;font-weight:bold'>Khuyến mãi</td>";
-//        hd += "<td style='text-align:center;'>" + "10" + "%" + "</td>";
-//        hd += "</tr>";
-//        hd += "<tr>";
-//        hd += "<td style='text-align:center;'>" + "</td>";
-//        hd += "<td style='text-align:left;'>" + "</td>";
-//        hd += "<td style='text-align:center;'>" + "</td>";
-//        hd += "<td style='text-align:center;font-weight:bold'>Thành tiền</td>";
-//        hd += "<td style='text-align:center;'>" + dcf.format(tongTien) + "</td>";
-//        hd += "</tr>";
+
         hd += "</table>";
         hd += "</div>";
         hd += "<div style='text-align:center;'>==========================================</div><br/>";
         hd += "<div style='text-align:center;'>Nếu có gì sai sót, Bạn hay liên hệ phòng kế toán.</div><br/>";
         txtHoaDon.setText(hd);
-//        txtTongTien.setText(dcf.format(tongTien));
+
     }
 
-//    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+
     private void initComponents(BangLuongCongNhan l) {
 
         jLabel5 = new javax.swing.JLabel();
@@ -318,7 +266,7 @@ public class DlgInPDFCN extends JDialog {
         getContentPane().setLayout(layout);
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+    }
 
     public static boolean checkBanHang = false;
     private JLabel lblNewLabel;
@@ -340,28 +288,12 @@ public class DlgInPDFCN extends JDialog {
         }
         
     }
+    public String taoMaPL() {
+    	int so= new Random().nextInt(1000,9999);
+    	String ma="PLCN" +so;
+    	return ma;
+    }
 
 
-//    private void btnTimKhachActionPerformed(java.awt.event.ActionEvent evt) {
-//        timKhachUI.setVisible(true);
-//        if (timKhachUI.khachHangTimDuoc != null) {
-//            txtTenKhach.setText(timKhachUI.khachHangTimDuoc.getMaKH() + " - " + timKhachUI.khachHangTimDuoc.getTenKH());
-//        }
-//    }
-//
-//
-//    private void btnTimMaGiamActionPerformed(java.awt.event.ActionEvent evt) {
-//        timMaUI = new DlgTimMaGiam(tongTien);
-//        timMaUI.setVisible(true);
-//        if (timMaUI.maGiamTimDuoc != null) {
-//            txtMaGiam.setText(timMaUI.maGiamTimDuoc.getMaGiam() + " - " + timMaUI.maGiamTimDuoc.getTenGiamGia());
-//        }
-//    }
-//    public static void main(String[] args) {
-//	new DlgInPDF().setVisible(true);
-//	}
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    
-    // End of variables declaration//GEN-END:variables
    
 }

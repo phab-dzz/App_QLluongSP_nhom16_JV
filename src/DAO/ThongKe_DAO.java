@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import DTO.BangChamCongCongNhan;
 import DTO.BangLuongCongNhan;
 import DTO.BangLuongNhanVien;
 import DTO.CongNhan;
@@ -138,13 +139,17 @@ public class ThongKe_DAO {
 		
 		try {
 			Statement stmt=con.createStatement();
-			ResultSet rs=stmt.executeQuery("select * from BangluongCongNhan l join CongNhan cn on l.MaCN=cn.maCongNhan where luongThang >(select AVG(luongThang) from BangluongCongNhan)");
+			ResultSet rs=stmt.executeQuery("select * from BangluongCongNhan l join CongNhan nv on l.MaCN=nv.maCongNhan join BangChamCongCongNhan cc on l.maCN =cc.maCN where luongThang >(select AVG(luongThang) from BangluongCongNhan)");
 			while(rs.next()) {
 				CongNhan cn= new CongNhan(rs.getString("maCN"),rs.getString("ten"),rs.getString("sDT"),rs.getString("xuong"),rs.getString("chuyenMon"));
+				LocalDate ngayChamCong= ProcessDate.date2LocalDate(rs.getDate("ngayChamCong"));
+				BangChamCongCongNhan cc= new BangChamCongCongNhan(rs.getString("maBangChamCongCN")
+						,rs.getString("maCN"),rs.getInt("soNgayLamViec"),rs.getInt("soNgayNghi")
+						,rs.getInt("SoLuongHangLamDuoc"),rs.getDouble("soGioTangCa"),ngayChamCong,rs.getInt("coPhep"));
 				LocalDate ngayTinh=ProcessDate.date2LocalDate(rs.getDate("thoiGian"));
 				dsCN.add(new BangLuongCongNhan(rs.getString("maBangLuong"),
 						rs.getDouble("luongThang"),rs.getDouble("phuCap"),rs.getDouble("tienThuong"),
-						rs.getDouble("baoHiemXH"),rs.getDouble("thucLanh"),ngayTinh,cn) );
+						rs.getDouble("baoHiemXH"),rs.getDouble("thucLanh"),ngayTinh,cn,cc) );
 }
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -158,16 +163,20 @@ public class ThongKe_DAO {
 		Connection con=ConnectDB.getConnection();
 		PreparedStatement prtm;
 		try {
-			prtm = con.prepareStatement("select * from BangluongCongNhan l join CongNhan nv on l.MaCN=nv.maCongNhan where month(thoiGian)= ? and thucLanh>(select avg(thucLanh) from BangluongCongNhan)  ");
+			prtm = con.prepareStatement("select * from BangluongCongNhan l join CongNhan nv on l.MaCN=nv.maCongNhan join BangChamCongCongNhan cc on l.maCN =cc.maCN where month(thoiGian)= ? and thucLanh>(select avg(thucLanh) from BangluongCongNhan)  ");
 		
 			prtm.setString(1,thang);
 			ResultSet rs= prtm.executeQuery();
 			while(rs.next()) {
 				CongNhan cn= new CongNhan(rs.getString("maCN"),rs.getString("ten"),rs.getString("sDT"),rs.getString("xuong"),rs.getString("chuyenMon"));
+				LocalDate ngayChamCong= ProcessDate.date2LocalDate(rs.getDate("ngayChamCong"));
+				BangChamCongCongNhan cc= new BangChamCongCongNhan(rs.getString("maBangChamCongCN")
+						,rs.getString("maCN"),rs.getInt("soNgayLamViec"),rs.getInt("soNgayNghi")
+						,rs.getInt("SoLuongHangLamDuoc"),rs.getDouble("soGioTangCa"),ngayChamCong,rs.getInt("coPhep"));
 				LocalDate ngayTinh=ProcessDate.date2LocalDate(rs.getDate("thoiGian"));
 				dsBLNVtheothang.add(new BangLuongCongNhan(rs.getString("maBangLuong"),
 						rs.getDouble("luongThang"),rs.getDouble("phuCap"),rs.getDouble("tienThuong"),
-						rs.getDouble("baoHiemXH"),rs.getDouble("thucLanh"),ngayTinh,cn) );
+						rs.getDouble("baoHiemXH"),rs.getDouble("thucLanh"),ngayTinh,cn,cc) );
 				
 			}
 		} catch (SQLException e) {
@@ -185,16 +194,20 @@ public class ThongKe_DAO {
 		Connection con=ConnectDB.getConnection();
 		PreparedStatement prtm;
 		try {
-			prtm = con.prepareStatement("select * from BangluongCongNhan l join CongNhan nv on l.MaCN=nv.maCongNhan where year(thoiGian)= ? and thucLanh>(select avg(thucLanh) from BangluongCongNhan)");
+			prtm = con.prepareStatement("select * from BangluongCongNhan l join CongNhan nv on l.MaCN=nv.maCongNhan join BangChamCongCongNhan cc on l.maCN =cc.maCN where year(thoiGian)= ? and thucLanh>(select avg(thucLanh) from BangluongCongNhan)");
 		
 			prtm.setString(1,nam);
 			ResultSet rs= prtm.executeQuery();
 			while(rs.next()) {
 				CongNhan cn= new CongNhan(rs.getString("maCN"),rs.getString("ten"),rs.getString("sDT"),rs.getString("xuong"),rs.getString("chuyenMon"));
+				LocalDate ngayChamCong= ProcessDate.date2LocalDate(rs.getDate("ngayChamCong"));
+				BangChamCongCongNhan cc= new BangChamCongCongNhan(rs.getString("maBangChamCongCN")
+						,rs.getString("maCN"),rs.getInt("soNgayLamViec"),rs.getInt("soNgayNghi")
+						,rs.getInt("SoLuongHangLamDuoc"),rs.getDouble("soGioTangCa"),ngayChamCong,rs.getInt("coPhep"));
 				LocalDate ngayTinh=ProcessDate.date2LocalDate(rs.getDate("thoiGian"));
 				dsBLNVtheonam.add(new BangLuongCongNhan(rs.getString("maBangLuong"),
 						rs.getDouble("luongThang"),rs.getDouble("phuCap"),rs.getDouble("tienThuong"),
-						rs.getDouble("baoHiemXH"),rs.getDouble("thucLanh"),ngayTinh,cn) );
+						rs.getDouble("baoHiemXH"),rs.getDouble("thucLanh"),ngayTinh,cn,cc) );
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

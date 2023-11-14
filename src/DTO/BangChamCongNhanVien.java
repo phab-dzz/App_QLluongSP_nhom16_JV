@@ -8,9 +8,10 @@ public class BangChamCongNhanVien {
 	private int soNgayLamViec, soNgayNghi;
 	private double soGioTangCa;
 	private LocalDate ngayChamCong; 
-	private boolean coPhep;
+	private int  coPhep;
+	
 	public BangChamCongNhanVien(String maChamCongNV, String maNhanVien, int soNgayLamViec, int soNgayNghi,
-			double soGioTangCa, LocalDate ngayChamCong, boolean coPhep) {
+			double soGioTangCa, LocalDate ngayChamCong, int coPhep) {
 		super();
 		this.maChamCongNV = maChamCongNV;
 		this.maNhanVien = maNhanVien;
@@ -79,10 +80,10 @@ public class BangChamCongNhanVien {
 		}
 		
 	}
-	public boolean isCoPhep() {
+	public int isCoPhep() {
 		return coPhep;
 	}
-	public void setCoPhep(boolean coPhep) {
+	public void setCoPhep(int coPhep) {
 		this.coPhep = coPhep;
 	}
 	@Override

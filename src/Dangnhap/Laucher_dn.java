@@ -53,7 +53,8 @@ public class Laucher_dn extends JFrame {
 	public Laucher_dn() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 500,380);
-		URL url= App_main.class.getResource("icon_main.png");
+		setLocationRelativeTo(null);
+		URL url= App_main.class.getResource("/Icons/logo/logologin.png");
 		Image img = Toolkit.getDefaultToolkit().createImage(url);
 		this.setIconImage(img);
 		// xoa thanh tiêu đề

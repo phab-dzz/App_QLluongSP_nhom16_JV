@@ -20,8 +20,8 @@ public class BangLuongCongNhan_BUS {
 			return this.dsBangLuongCN;
 		}
 		public ArrayList<BangLuongCongNhan> timBangLuongCN(String ma){
-			ArrayList<BangLuongCongNhan> dsCN=BangLuongCNDAO.getallbangLuongCNTK(ma);
-			return dsCN;
+		
+			return BangLuongCNDAO.getallbangLuongCNTK(ma);
 		}
 		public ArrayList<BangLuongCongNhan> getCNnam(String nam){
 			return BangLuongCNDAO.getalltheonam(nam);

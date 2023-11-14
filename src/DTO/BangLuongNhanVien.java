@@ -8,9 +8,11 @@ public class BangLuongNhanVien {
 	private double luongThang, phuCap, tienThuong, baoHiemXH, thucLanh, luongCoBan;
 	private LocalDate ngaytinh ;
 	private NhanVien nv;
+	private BangChamCongNhanVien ccnv;
 	
+
 	public BangLuongNhanVien(String maBangLuong, double luongThang, double phuCap, double tienThuong, double baoHiemXH,
-			double thucLanh, double luongCoBan, LocalDate ngaytinh, NhanVien nv) {
+			double thucLanh, double luongCoBan, LocalDate ngaytinh, NhanVien nv,BangChamCongNhanVien ccnv) {
 		super();
 		this.maBangLuong = maBangLuong;
 		this.luongThang = luongThang;
@@ -21,8 +23,25 @@ public class BangLuongNhanVien {
 		this.luongCoBan = luongCoBan;
 		this.ngaytinh = ngaytinh;
 		this.nv = nv;
+		this.ccnv = ccnv;
 	}
-	
+
+
+
+	public BangLuongNhanVien() {
+		super();
+	}
+
+
+
+	public BangChamCongNhanVien getCcnv() {
+		return ccnv;
+	}
+
+	public void setCcnv(BangChamCongNhanVien ccnv) {
+		this.ccnv = ccnv;
+	}
+
 	public NhanVien getNv() {
 		return nv;
 	}

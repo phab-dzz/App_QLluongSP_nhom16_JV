@@ -70,7 +70,7 @@ public class App_main extends JFrame {
 		
 		setForeground(new Color(0, 0, 0));
 		setFont(new Font("Times New Roman", Font.BOLD, 13));
-		URL url= App_main.class.getResource("icon_main.png");
+		URL url= App_main.class.getResource("/Icons/menu_left/icon_main.png");
 		Image img = Toolkit.getDefaultToolkit().createImage(url);
 		
 		this.setIconImage(img);

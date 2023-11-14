@@ -9,6 +9,7 @@ import DTO.BangLuongNhanVien;
 public class BangLuongNhanVien_BUS {
 	private BangLuongNhanVien_DAO BangLuongNVDAO= new BangLuongNhanVien_DAO();
 	private ArrayList<BangLuongNhanVien> dsBangLuongNV=null;
+	
 	public ArrayList<BangLuongNhanVien> getDsBangLuongNhanVien() {
 		dsBangLuongNV=BangLuongNVDAO.getALLbangluongNV();
 		return dsBangLuongNV;
@@ -22,8 +23,10 @@ public class BangLuongNhanVien_BUS {
 //		return dsBangLuongNV;
 //	}
 	public ArrayList<BangLuongNhanVien> timBangLuongNV(String ma){
-		ArrayList<BangLuongNhanVien> dsNV=BangLuongNVDAO.getallbangLuongNVTK(ma);
-		return dsNV;
+		
+			
+			return BangLuongNVDAO.getallbangLuongNVTK(ma);
+	
 	}
 	public ArrayList<BangLuongNhanVien> getNVnam(String nam){
 		return BangLuongNVDAO.getalltheonam(nam);
@@ -31,9 +34,9 @@ public class BangLuongNhanVien_BUS {
 	public ArrayList<BangLuongNhanVien> getNVthang(String thang){
 		return BangLuongNVDAO.getalltheothang(thang);
 	}
-	public ArrayList<BangLuongNhanVien> getNV_namThang(String nam, String thang){
-		return BangLuongNVDAO.getBLNV_tg(nam, thang);
-	}
+//	public ArrayList<BangLuongNhanVien> getNV_namThang(String nam, String thang){
+//		return BangLuongNVDAO.getBLNV_tg(nam, thang);
+//	}
 	
 	
 

@@ -8,10 +8,13 @@ public class BangLuongCongNhan {
 	private double luongThang, phuCap, tienThuong, baoHiemXH, thucLanh;
 	private LocalDate ngayTinh;
 	private CongNhan congNhan;
+	private BangChamCongCongNhan cccn;
 	
+
 	
+
 	public BangLuongCongNhan(String maBangLuong, double luongThang, double phuCap, double tienThuong, double baoHiemXH,
-			double thucLanh, LocalDate ngayTinh, CongNhan congNhan) {
+			double thucLanh, LocalDate ngayTinh, CongNhan congNhan, BangChamCongCongNhan cccn) {
 		super();
 		this.maBangLuong = maBangLuong;
 		this.luongThang = luongThang;
@@ -21,8 +24,17 @@ public class BangLuongCongNhan {
 		this.thucLanh = thucLanh;
 		this.ngayTinh = ngayTinh;
 		this.congNhan = congNhan;
+		this.cccn = cccn;
 	}
-	
+
+
+	public BangLuongCongNhan() {
+		super();
+	}
+
+
+
+
 
 	public CongNhan getCongNhan() {
 		return congNhan;
@@ -44,10 +56,7 @@ public class BangLuongCongNhan {
 
 	
 
-	public BangLuongCongNhan() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+
 
 	public String getMaBangLuong() {
 		return maBangLuong;
@@ -58,6 +67,16 @@ public class BangLuongCongNhan {
 	public double getLuongThang() {
 		return luongThang;
 	}
+	public BangChamCongCongNhan getCccn() {
+		return cccn;
+	}
+
+
+	public void setCccn(BangChamCongCongNhan cccn) {
+		this.cccn = cccn;
+	}
+
+
 	public void setLuongThang(double luongThang) throws Exception {
 		if(luongThang<=0) {
 			throw new Exception("Lương tháng >0 ");

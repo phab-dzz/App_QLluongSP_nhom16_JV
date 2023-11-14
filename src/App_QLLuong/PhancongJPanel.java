@@ -581,12 +581,15 @@ public class PhancongJPanel extends JPanel implements MouseListener,ActionListen
 			
 //		}
 		else if(ob.equals(btnthem)) {
+			String ma=txtmaCN.getText();
 			if((txtmaCN.getText().equals("")||txtmaCD.getText().equals("")||txtmaSP.getText().equals("")||txtsl.getText().equals("")||jdcngayBD.getDate()==null)) {
 				new MyDialog("Điền đầy đủ thông tin.", MyDialog.WARNING_DIALOG);
 			}
 			else if(DateChooserUtils.isDateBeforeToday(jdcngayBD)==false) {
 				new MyDialog("Phải trước ngày hiện tại", MyDialog.WARNING_DIALOG);
 			}
+			else if(ktCN_PC(ma))
+				new MyDialog("Thêm thất bại.\nCông nhân đã được phân công trước đó.", MyDialog.WARNING_DIALOG);
 			else
 			{
 				LocalDate date= Snippet.convertJDateChooserToLocalDate(jdcngayBD);
@@ -683,6 +686,11 @@ public class PhancongJPanel extends JPanel implements MouseListener,ActionListen
 	}
 	public void loadCNtheoma() {
 		String ma=txtTimCN.getText();
+		if(!(ma.length()>0&& ma.matches("^CN\\d{4}$"))){
+			new MyDialog("Mã Công nhân không hợp lệ, mã phải bắt đầu là CN và tiếp theo là 4 số.", MyDialog.CANCEL_OPTION);
+			txtTimCN.requestFocus();
+		}
+		else {
 		ArrayList<CongNhan> dsCN=CN_BUS.getallCNtheoma(ma);
 		for(CongNhan cn: dsCN) {
 			Object[] row= {
@@ -692,7 +700,7 @@ public class PhancongJPanel extends JPanel implements MouseListener,ActionListen
 		}
 		if(modelCN.getRowCount()==0) {
 			new MyDialog("Mã công nhân không tồn tại.", MyDialog.CANCEL_OPTION);
-		}
+		}}
 	}
 	public void setEditnaltxt() {
 		txtmaCN.setEditable(true);
@@ -733,4 +741,13 @@ public class PhancongJPanel extends JPanel implements MouseListener,ActionListen
 		addatatotblePCCD();
 		}
 	}
+	public boolean ktCN_PC(String ma) {
+		boolean flag=false;
+		for(PhanCongCongDoan cd: PC_BUS.getAllPhanCongCD()) 
+			if(cd.getMaCN().equals(ma)) 
+				flag=true;
+		
+		return flag;
+	}
+	
 }

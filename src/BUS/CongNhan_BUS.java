@@ -165,14 +165,14 @@ public class CongNhan_BUS {
 
 		return null;
 	}
-	public void closeConnection() {
-		try {
-			ConnectDB.getInstance().disconnect();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+//	public void closeConnection() {
+//		try {
+//			ConnectDB.getInstance().disconnect();
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}
 	public ArrayList<CongNhan> getallCNtheoma(String ma){
 		return congNhanDAO.getALLCNtim_ma(ma);
 	}

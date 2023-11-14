@@ -450,7 +450,7 @@ public class ThongkeJpanel extends JPanel implements ItemListener,ActionListener
 		for(BangLuongCongNhan cn:dsCN) {
 			String hoten=cn.getCongNhan().getTen();
 
-			Object[] row= {cn.getCongNhan().getMaCongNhan(),hoten, cn.getTienThuong(),cn.getPhuCap(),cn.getThucLanh()};
+			Object[] row= {cn.getCongNhan().getMaCongNhan(),hoten,cn.getPhuCap(), cn.getTienThuong(),dctt.format(cn.getThucLanh())};
 			modeltk.addRow(row);
 			
 		}
@@ -463,7 +463,7 @@ public class ThongkeJpanel extends JPanel implements ItemListener,ActionListener
 		{
 			String hoten=cn.getCongNhan().getTen();
 
-			Object[] row= {cn.getCongNhan().getMaCongNhan(),hoten, cn.getTienThuong(),cn.getPhuCap(),cn.getThucLanh()};
+			Object[] row= {cn.getCongNhan().getMaCongNhan(),hoten,cn.getPhuCap(), cn.getTienThuong(),dctt.format(cn.getThucLanh())};
 			modeltk.addRow(row);
 			
 		}
@@ -476,7 +476,7 @@ public class ThongkeJpanel extends JPanel implements ItemListener,ActionListener
 			
 			String hoten=cn.getCongNhan().getTen();
 
-			Object[] row= {cn.getCongNhan().getMaCongNhan(),hoten, cn.getTienThuong(),cn.getPhuCap(),cn.getThucLanh()};
+			Object[] row= {cn.getCongNhan().getMaCongNhan(),hoten,cn.getPhuCap(), cn.getTienThuong(),dctt.format(cn.getThucLanh())};
 			modeltk.addRow(row);		
 		}
 		
