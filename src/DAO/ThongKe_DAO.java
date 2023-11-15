@@ -145,7 +145,7 @@ public class ThongKe_DAO {
 				LocalDate ngayChamCong= ProcessDate.date2LocalDate(rs.getDate("ngayChamCong"));
 				BangChamCongCongNhan cc= new BangChamCongCongNhan(rs.getString("maBangChamCongCN")
 						,rs.getString("maCN"),rs.getInt("soNgayLamViec"),rs.getInt("soNgayNghi")
-						,rs.getInt("SoLuongHangLamDuoc"),rs.getDouble("soGioTangCa"),ngayChamCong,rs.getInt("coPhep"));
+						,rs.getInt("SoLuongHangLamDuoc"),rs.getInt("soGioTangCa"),rs.getDate("ngayChamCong"),rs.getInt("coPhep"));
 				LocalDate ngayTinh=ProcessDate.date2LocalDate(rs.getDate("thoiGian"));
 				dsCN.add(new BangLuongCongNhan(rs.getString("maBangLuong"),
 						rs.getDouble("luongThang"),rs.getDouble("phuCap"),rs.getDouble("tienThuong"),
@@ -172,7 +172,7 @@ public class ThongKe_DAO {
 				LocalDate ngayChamCong= ProcessDate.date2LocalDate(rs.getDate("ngayChamCong"));
 				BangChamCongCongNhan cc= new BangChamCongCongNhan(rs.getString("maBangChamCongCN")
 						,rs.getString("maCN"),rs.getInt("soNgayLamViec"),rs.getInt("soNgayNghi")
-						,rs.getInt("SoLuongHangLamDuoc"),rs.getDouble("soGioTangCa"),ngayChamCong,rs.getInt("coPhep"));
+						,rs.getInt("SoLuongHangLamDuoc"),rs.getInt("soGioTangCa"),rs.getDate("ngayChamCong"),rs.getInt("coPhep"));
 				LocalDate ngayTinh=ProcessDate.date2LocalDate(rs.getDate("thoiGian"));
 				dsBLNVtheothang.add(new BangLuongCongNhan(rs.getString("maBangLuong"),
 						rs.getDouble("luongThang"),rs.getDouble("phuCap"),rs.getDouble("tienThuong"),
@@ -203,7 +203,7 @@ public class ThongKe_DAO {
 				LocalDate ngayChamCong= ProcessDate.date2LocalDate(rs.getDate("ngayChamCong"));
 				BangChamCongCongNhan cc= new BangChamCongCongNhan(rs.getString("maBangChamCongCN")
 						,rs.getString("maCN"),rs.getInt("soNgayLamViec"),rs.getInt("soNgayNghi")
-						,rs.getInt("SoLuongHangLamDuoc"),rs.getDouble("soGioTangCa"),ngayChamCong,rs.getInt("coPhep"));
+						,rs.getInt("SoLuongHangLamDuoc"),rs.getInt("soGioTangCa"),rs.getDate("ngayChamCong"),rs.getInt("coPhep"));
 				LocalDate ngayTinh=ProcessDate.date2LocalDate(rs.getDate("thoiGian"));
 				dsBLNVtheonam.add(new BangLuongCongNhan(rs.getString("maBangLuong"),
 						rs.getDouble("luongThang"),rs.getDouble("phuCap"),rs.getDouble("tienThuong"),

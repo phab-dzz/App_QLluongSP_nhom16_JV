@@ -88,7 +88,12 @@ public class Chuyenmanhinhcontroller {
                         break;
                     }
                     case "Chamcong": {
-                        node = new ChamcongJpanel();
+                        try {
+							node = new ChamcongJpanel();
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
                         break;
                     }
                     case "Phancong": {

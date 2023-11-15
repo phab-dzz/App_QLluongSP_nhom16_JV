@@ -28,6 +28,7 @@ import BUS.CongDoanSanPham_BUS;
 import BUS.CongNhan_BUS;
 import BUS.PhanCongCongDoan_BUS;
 import BUS.SanPham_BUS;
+import DAO.CongDoanSanPham_DAO;
 import DAO.CongNhan_DAO;
 import DAO.ConnectDB;
 import DAO.SanPham_DAO;
@@ -90,10 +91,12 @@ public class PhancongJPanel extends JPanel implements MouseListener,ActionListen
 	private JTextField txtmaSP;
 	private JTextField txttenSP;
 	private	CongNhan_BUS CN_BUS= new CongNhan_BUS();
-//	private SanPham_DAO  SP_DAO= new SanPham_DAO();
-	private SanPham_BUS SP_BUS = new SanPham_BUS();
+	private SanPham_DAO  SP_DAO= new SanPham_DAO();
+	private CongDoanSanPham_DAO cd_DAO;
+//	private SanPham_DAO SP_BUS;
 	private PhanCongCongDoan_BUS PC_BUS= new PhanCongCongDoan_BUS();
-	private CongDoanSanPham_BUS CongDoanSP_BUS= new CongDoanSanPham_BUS();
+	private CongDoanSanPham_BUS CongDoanSP_BUS1= new CongDoanSanPham_BUS();
+//	private CongDoanSanPham_DAO CongDoanSP_BUS = new CongDoanSanPham_DAO
 	private JTextField txtsl;
 	  DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 	SimpleDateFormat df= new SimpleDateFormat("dd-MM-yyy");
@@ -139,7 +142,7 @@ public class PhancongJPanel extends JPanel implements MouseListener,ActionListen
 		 btntim = new JButton("");
 		btntim.setBackground(new Color(30, 144, 255));
 		btntim.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(0, 0, 0), null, null, new Color(0, 0, 0)));
-		btntim.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\chamcong\\tim.png"));
+		btntim.setIcon(new ImageIcon("D:\\Desktop\\Kỳ1_23-24\\Phát Triển Ứng Dụng\\CK\\App_QLluongSP_nhom16_JV\\App_QLluongSP_nhom16_JV\\src\\Icons\\chamcong\\tim.png"));
 		btntim.setBounds(262, 21, 33, 22);
 		Jpl_CN.add(btntim);
 		
@@ -175,7 +178,7 @@ public class PhancongJPanel extends JPanel implements MouseListener,ActionListen
 		JblSP_CD.add(lblNewLabel_1);
 		// ComboBox đẩy vào tên sản phẩm
 		ArrayList<String> listtensp= new ArrayList<String>();
-		for(SanPham sP : SP_BUS.getAllSanPham()) {
+		for(SanPham sP : SP_DAO.getAllSanPham()) {
 			listtensp.add(sP.getTenSanPham());
 		}
 		DefaultComboBoxModel<String> modeljcbo= new DefaultComboBoxModel<>(listtensp.toArray(new String[0]));
@@ -212,7 +215,7 @@ public class PhancongJPanel extends JPanel implements MouseListener,ActionListen
 		lblNewLabel_1_1.setBounds(269, 22, 69, 14);
 		JblSP_CD.add(lblNewLabel_1_1);
 		ArrayList<String> listtencd= new ArrayList<String>();
-		for(CongDoanSanPham cd: CongDoanSP_BUS.getAllCongDoanSP()) {
+		for(CongDoanSanPham cd: CongDoanSP_BUS1.getAllCongDoanSP()) {
 			listtencd.add(cd.getTenCongDoan());
 		}
 		DefaultComboBoxModel<String> modelCboCD= new DefaultComboBoxModel<>(listtencd.toArray(new String[0]));
@@ -348,14 +351,14 @@ public class PhancongJPanel extends JPanel implements MouseListener,ActionListen
 		btnthem = new JButton("Thêm\r\n");
 		btnthem.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(0, 0, 0), null, null, new Color(0, 0, 0)));
 		btnthem.setBackground(new Color(30, 144, 255));
-		btnthem.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\chamcong\\them.png"));
+		btnthem.setIcon(new ImageIcon(PhancongJPanel.class.getResource("/Icons/chamcong/them.png")));
 		btnthem.setBounds(546, 101, 87, 23);
 		panel_6.add(btnthem);
 		
 	 btnsua = new JButton("Sửa");
 		btnsua.setBackground(new Color(30, 144, 255));
 		btnsua.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(0, 0, 0), null, null, new Color(0, 0, 0)));
-		btnsua.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\icons_sp\\editing.png"));
+		btnsua.setIcon(new ImageIcon(PhancongJPanel.class.getResource("/Icons/icons_sp/editing.png")));
 		btnsua.setBounds(643, 101, 87, 23);
 		panel_6.add(btnsua);
 		
@@ -363,14 +366,14 @@ public class PhancongJPanel extends JPanel implements MouseListener,ActionListen
 		btnxoa = new JButton("xóa");
 		btnxoa.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(0, 0, 0), null, null, new Color(0, 0, 0)));
 		btnxoa.setBackground(new Color(30, 144, 255));
-		btnxoa.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\chamcong\\xoa.png"));
+		btnxoa.setIcon(new ImageIcon(PhancongJPanel.class.getResource("/Icons/icons_sp/bin.png")));
 		btnxoa.setBounds(746, 101, 95, 23);
 		panel_6.add(btnxoa);
 		
 		 btnreset = new JButton("Làm mới\r\n");
 		btnreset.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(0, 0, 0), null, null, new Color(0, 0, 0)));
 		btnreset.setBackground(new Color(30, 144, 255));
-		btnreset.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\icons_sp\\refresh.png"));
+		btnreset.setIcon(new ImageIcon(PhancongJPanel.class.getResource("/Icons/icons_sp/refresh.png")));
 		btnreset.setBounds(446, 101, 87, 23);
 		panel_6.add(btnreset);
 		
@@ -406,10 +409,45 @@ public class PhancongJPanel extends JPanel implements MouseListener,ActionListen
 	    	   tblCD.getColumnModel().getColumn(i).setHeaderRenderer(centerRenderer);
 	       }
 		//load lên table
-		
+	       for(CongDoanSanPham cd:CongDoanSP_BUS1.getAllCongDoanSP()) {
+				
+	   		
+				Object[] row= {cd.getMaCongDoan(),cd.getTenCongDoan()};
+				modelCD.addRow(row);
+			}
 		addatatotbleSP();
 		adddatatotbleCN();
-		addatatotbleCDSP();
+//		ArrayList<PhanCongCongDoan> dsPC = PC_BUS.getAllPhanCongCD();
+//		for(PhanCongCongDoan pc: dsPC) {
+//			CongNhan cn= timkiemtheomaCN(pc.getMaCN());
+////			String date=df.format(pc.getNgayBatDau());
+////			ArrayList<SanPham> sp=SP_DAO.getSanPhamTheoMa(pc.getMaSP());
+//			String ngayBatdau=pc.getNgayBatDau().format(formatter);
+//			String ten=pc.getMaSP();
+////			SanPham sp1 = new SanPham() ;
+////			for( SanPham sp11 : SP_DAO.getAllSanPham()) {
+////				if(sp11.getMaSanPham().equalsIgnoreCase(ten)){
+////				if((sp.getMaSanPham().equalsIgnoreCase(ten))) {
+////					String tencd=pc.getMaCD();
+////					CongDoanSanPham cd2=new CongDoanSanPham();
+////					String tenCD= new String();
+////					for(CongDoanSanPham cd : CongDoanSP_BUS1.getAllCongDoanSP()) {
+////						if(cd.getMaCongDoan().equalsIgnoreCase(ten)) {
+////							tenCD.equals( cd.getTenCongDoan());
+////						}
+////					}
+//					
+//				
+////					ArrayList<CongDoanSanPham> cd= cd_DAO.get
+//					Object[] row= {pc.getMaCN(),cn.getTen(),ngayBatdau,pc.getMaSP(),pc.getMaCD(),pc.getSoLuongCongDoanPhanCong()};
+//					modelPC.addRow(row);
+//					break;
+//				}
+			
+			
+			
+		
+//		addatatotbleCDSP();
 		addatatotblePCCD();
 		// add sự kiện
 		btnreset.addActionListener(this);
@@ -429,15 +467,18 @@ public class PhancongJPanel extends JPanel implements MouseListener,ActionListen
 		
 	}
 	public void addatatotbleSP() {
-		for(SanPham sp:SP_BUS.getAllSanPham()) {
-			
 		
+		for(SanPham sp : SP_DAO.getAllSanPham()) {
+//			listtensp.add(sP.getTenSanPham());
+//		}
+//		for(SanPham sp:SP_DAO.getAllSanPham()) {
+			
 			Object[] row= {sp.getMaSanPham(),sp.getTenSanPham()};
 			modelSP.addRow(row);
 		}
 	}
 	public void addatatotbleCDSP() {
-		for(CongDoanSanPham cd:CongDoanSP_BUS.getAllCongDoanSP()) {
+		for(CongDoanSanPham cd:CongDoanSP_BUS1.getAllCongDoanSP()) {
 			
 		
 			Object[] row= {cd.getMaCongDoan(),cd.getTenCongDoan()};
@@ -462,9 +503,11 @@ public class PhancongJPanel extends JPanel implements MouseListener,ActionListen
 		for(PhanCongCongDoan pc: dsPC) {
 			CongNhan cn= timkiemtheomaCN(pc.getMaCN());
 //			String date=df.format(pc.getNgayBatDau());
+//			ArrayList<SanPham> sp=SP_DAO.getSanPhamTheoMa(pc.getMaSP());
 			String ngayBatdau=pc.getNgayBatDau().format(formatter);
 			SanPham sp= timkiemtheoten(pc.getMaSP());
 			CongDoanSanPham cd=timkiemtheotenCD(pc.getMaCD());
+//			ArrayList<CongDoanSanPham> cd= cd_DAO.get
 			Object[] row= {pc.getMaCN(),cn.getTen(),ngayBatdau,sp.getTenSanPham(),cd.getTenCongDoan(),pc.getSoLuongCongDoanPhanCong()};
 			modelPC.addRow(row);
 			
@@ -490,6 +533,12 @@ public class PhancongJPanel extends JPanel implements MouseListener,ActionListen
 			}
 		}
 		else if(o.equals(tblCD)) {
+			try {
+				ConnectDB.getInstance().connect();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			int row= tblCD.getSelectedRow();
 			if(row!=-1) {
 			txtmaCD.setText(modelCD.getValueAt(row, 0).toString());
@@ -498,29 +547,47 @@ public class PhancongJPanel extends JPanel implements MouseListener,ActionListen
 			
 		}
 		else if(o.equals(tblPC)) {
+			try {
+				ConnectDB.getInstance().connect();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			int row=tblPC.getSelectedRow();
 			if(row!=-1) {
 			
 				txtmaCN.setText(modelPC.getValueAt(row, 0).toString());
 			
-			
-			txttenCD.setText(modelPC.getValueAt(row,4).toString());
+				txthoTen.setText(modelPC.getValueAt(row, 1).toString());
+				java.util.Date ngayBD;
+				try {
+					String ngayBd=modelPC.getValueAt(row, 2).toString();
+					ngayBD = df.parse(ngayBd);
+					jdcngayBD.setDate(ngayBD);
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				txtsl.setText(modelPC.getValueAt(row, 5).toString());
+				SanPham sp= timkiemtheoten(modelPC.getValueAt(row,3).toString());
+				txtmaSP.setText(sp.getMaSanPham());
 			txttenSP.setText(modelPC.getValueAt(row, 3).toString());
-			txtsl.setText(modelPC.getValueAt(row, 5).toString());
-			SanPham sp= timkiemtheoten(modelPC.getValueAt(row,3).toString());
-			txtmaSP.setText(sp.getMaSanPham());
+			
+//			for(SanPham sp: SP_DAO.getAllSanPham()) {
+//				String ma= modelPC.getValueAt(row, 3).toString();
+//				if(sp.getMaSanPham().equalsIgnoreCase(ma)) {
+//					txtmaSP.setText(sp.getMaSanPham());
+//					txttenSP.setText(sp.getTenSanPham());
+//				}
+//			}
+//			SanPham sp= timkiemtheoten(modelPC.getValueAt(row,3).toString());
+//			txtmaSP.setText(sp.getMaSanPham());
 			CongDoanSanPham cd= timkiemtheotenCD(modelPC.getValueAt(row,4).toString());
 			txtmaCD.setText(cd.getMaCongDoan());
-			txthoTen.setText(modelPC.getValueAt(row, 1).toString());
-			java.util.Date ngayBD;
-			try {
-				String ngayBd=modelPC.getValueAt(row, 2).toString();
-				ngayBD = df.parse(ngayBd);
-				jdcngayBD.setDate(ngayBD);
-			} catch (ParseException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+			txttenCD.setText(modelPC.getValueAt(row,4).toString());
+			
+			
+			
 //				
 //			}
 //		}
@@ -658,16 +725,29 @@ public class PhancongJPanel extends JPanel implements MouseListener,ActionListen
 		
 	}
 	// một số pp 
-	public SanPham timkiemtheoten(String ten) {
-		for(SanPham sp: SP_BUS.getAllSanPham()) {
+	private SanPham timkiemtheoten(String ten) {
+		try {
+			ConnectDB.getInstance().connect();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		for(SanPham sp: SP_DAO.getAllSanPham()) {
 			if((sp.getTenSanPham().equalsIgnoreCase(ten))||(sp.getMaSanPham().equalsIgnoreCase(ten))) {
+//			if((sp.getMaSanPham().equalsIgnoreCase(ten))) {
 				return sp;
 			}
 		}
 		return null;
 	}
 	public CongDoanSanPham timkiemtheotenCD(String ten) {
-		for(CongDoanSanPham cd : CongDoanSP_BUS.getAllCongDoanSP()) {
+		try {
+			ConnectDB.getInstance().connect();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		for(CongDoanSanPham cd : CongDoanSP_BUS1.getAllCongDoanSP()) {
 			if((cd.getTenCongDoan().equalsIgnoreCase(ten))||(cd.getMaCongDoan().equalsIgnoreCase(ten))) {
 				return cd;
 			}
@@ -675,7 +755,12 @@ public class PhancongJPanel extends JPanel implements MouseListener,ActionListen
 		return null;
 	}
 	public CongNhan timkiemtheomaCN(String ma) {
-		
+		try {
+			ConnectDB.getInstance().connect();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		ArrayList<CongNhan> dsCN= CN_BUS.getDanhSachCongNhan();
 		for(CongNhan cn : dsCN) {
 			if(cn.getMaCongNhan().equals(ma)) {

@@ -17,7 +17,7 @@ public class BangLuongNhanVien_DAO {
 	public ArrayList<BangLuongNhanVien> getALLbangluongNV() {
 	    ArrayList<BangLuongNhanVien> dsBangLuongNV = new ArrayList<BangLuongNhanVien>();
 	    try (Connection con = ConnectDB.getInstance().connect()) {
-	        String sql = "select * from BangluongNhanVien l join NhanVien nv on l.MaNV=nv.maNhanVien join BangChamCongNhanVien cc  on l.MaNV =cc.maNhanVien";
+	        String sql = "select  * from BangluongNhanVien l join NhanVien nv on l.MaNV=nv.maNhanVien join BangChamCongNhanVien cc  on l.thoiGian=cc.ngayChamCong AND l.MaNV = cc.maNhanVien";
 	        try (Statement statement = con.createStatement();
 	             ResultSet rs = statement.executeQuery(sql)) {
 	            while (rs.next()) {
@@ -25,10 +25,10 @@ public class BangLuongNhanVien_DAO {
 	                
 	                // Xử lý ngày tháng để tránh NullPointerException
 	                LocalDate ngayTinh = getLocalDate(rs, "thoiGian");
-	                LocalDate ngayChamCong = getLocalDate(rs, "ngayChamCong");
+//	                LocalDate ngayChamCong = getLocalDate(rs, "ngayChamCong");
 
 	                BangChamCongNhanVien cc = new BangChamCongNhanVien(rs.getString("maBangChamCongNV"), rs.getString("maNhanVien"),
-	                        rs.getInt("soNgayLamViec"), rs.getInt("soNgayNghi"), rs.getDouble("soGioTangCa"), ngayChamCong, rs.getInt("coPhep"));
+	                        rs.getInt("soNgayLamViec"), rs.getInt("soNgayNghi"), rs.getDouble("soGioTangCa"), rs.getDate("ngayChamCong"), rs.getInt("coPhep"));
 
 	                dsBangLuongNV.add(new BangLuongNhanVien(rs.getString("maBangLuong"), rs.getDouble("luongThang"), rs.getDouble("phuCap"),
 	                        rs.getDouble("tienThuong"), rs.getDouble("baoHiemXH"), rs.getDouble("thucLanh"), rs.getDouble("luongCoBan"), ngayTinh, nv, cc));
@@ -55,9 +55,9 @@ public class BangLuongNhanVien_DAO {
 	                while (rs.next()) {
 	                    NhanVien nv = new NhanVien(rs.getString("maNhanVien"), rs.getString("ten"), rs.getString("phongBan"));
 	                    LocalDate ngayTinh = getLocalDate(rs, "thoiGian");
-	                    LocalDate ngayChamCong = getLocalDate(rs, "ngayChamCong");
+//	                    LocalDate ngayChamCong = getLocalDate(rs, "ngayChamCong");
 	                    BangChamCongNhanVien cc = new BangChamCongNhanVien(rs.getString("maBangChamCongNV"), rs.getString("maNhanVien"),
-	                            rs.getInt("soNgayLamViec"), rs.getInt("soNgayNghi"), rs.getDouble("soGioTangCa"), ngayChamCong, rs.getInt("coPhep"));
+	                            rs.getInt("soNgayLamViec"), rs.getInt("soNgayNghi"), rs.getDouble("soGioTangCa"), rs.getDate("ngayChamCong"), rs.getInt("coPhep"));
 	                    dsBangLuongNVTK.add(new BangLuongNhanVien(rs.getString("maBangLuong"), rs.getDouble("luongThang"), rs.getDouble("phuCap"), rs.getDouble("tienThuong"), rs.getDouble("baoHiemXH"), rs.getDouble("thucLanh"), rs.getDouble("luongCoBan"), ngayTinh, nv, cc));
 	                }
 	            }
@@ -78,9 +78,9 @@ public class BangLuongNhanVien_DAO {
 	                while (rs.next()) {
 	                    NhanVien nv = new NhanVien(rs.getString("maNhanVien"), rs.getString("ten"), rs.getString("phongBan"));
 	                    LocalDate ngayTinh = getLocalDate(rs, "thoiGian");
-	                    LocalDate ngayChamCong = getLocalDate(rs, "ngayChamCong");
+//	                    LocalDate ngayChamCong = getLocalDate(rs, "ngayChamCong");
 	                    BangChamCongNhanVien cc = new BangChamCongNhanVien(rs.getString("maBangChamCongNV"), rs.getString("maNhanVien"),
-	                            rs.getInt("soNgayLamViec"), rs.getInt("soNgayNghi"), rs.getDouble("soGioTangCa"), ngayChamCong, rs.getInt("coPhep"));
+	                            rs.getInt("soNgayLamViec"), rs.getInt("soNgayNghi"), rs.getDouble("soGioTangCa"),rs.getDate("ngayChamCong"), rs.getInt("coPhep"));
 	                    dsBLNVtheonam.add(new BangLuongNhanVien(rs.getString("maBangLuong"), rs.getDouble("luongThang"), rs.getDouble("phuCap"), rs.getDouble("tienThuong"), rs.getDouble("baoHiemXH"), rs.getDouble("thucLanh"), rs.getDouble("luongCoBan"), ngayTinh, nv, cc));
 	                }
 	            }
@@ -103,7 +103,7 @@ public class BangLuongNhanVien_DAO {
 	                    LocalDate ngayTinh = getLocalDate(rs, "thoiGian");
 	                    LocalDate ngayChamCong = getLocalDate(rs, "ngayChamCong");
 	                    BangChamCongNhanVien cc = new BangChamCongNhanVien(rs.getString("maBangChamCongNV"), rs.getString("maNhanVien"),
-	                            rs.getInt("soNgayLamViec"), rs.getInt("soNgayNghi"), rs.getDouble("soGioTangCa"), ngayChamCong, rs.getInt("coPhep"));
+	                            rs.getInt("soNgayLamViec"), rs.getInt("soNgayNghi"), rs.getDouble("soGioTangCa"),rs.getDate("ngayChamCong"), rs.getInt("coPhep"));
 	                    dsBLNVtheothang.add(new BangLuongNhanVien(rs.getString("maBangLuong"), rs.getDouble("luongThang"), rs.getDouble("phuCap"), rs.getDouble("tienThuong"), rs.getDouble("baoHiemXH"), rs.getDouble("thucLanh"), rs.getDouble("luongCoBan"), ngayTinh, nv, cc));
 	                }
 	            }
@@ -114,30 +114,30 @@ public class BangLuongNhanVien_DAO {
 	    return dsBLNVtheothang;
 	}
 
-	public ArrayList<BangLuongNhanVien> getBLNV_tg(String nam, String month) {
-	    ArrayList<BangLuongNhanVien> dsNV = new ArrayList<>();
-	    int thang = Integer.parseInt(month);
-	    String d1 = nam + "-" + thang + "-01";
-	    String d2 = nam + "-" + (thang + 1) + "-01";
-	    String sql = "SELECT * FROM BangluongNhanVien l JOIN NhanVien nv ON l.MaNV=nv.maNhanVien JOIN BangChamCongNhanVien cc ON l.MaNV = cc.maNhanVien WHERE thoiGian BETWEEN CAST( ? AS DATE) AND CAST(? AS DATE)";
-	    try (Connection con = ConnectDB.getInstance().connect(); PreparedStatement stmt = con.prepareStatement(sql)) {
-	        stmt.setString(1, d1);
-	        stmt.setString(2, d2);
-	        try (ResultSet rs = stmt.executeQuery()) {
-	            while (rs.next()) {
-	                NhanVien nv = new NhanVien(rs.getString("maNhanVien"), rs.getString("ten"), rs.getString("phongBan"));
-	                LocalDate ngayTinh = getLocalDate(rs, "thoiGian");
-	                LocalDate ngayChamCong = getLocalDate(rs, "ngayChamCong");
-	                BangChamCongNhanVien cc = new BangChamCongNhanVien(rs.getString("maBangChamCongNV"), rs.getString("maNhanVien"),
-	                        rs.getInt("soNgayLamViec"), rs.getInt("soNgayNghi"), rs.getDouble("soGioTangCa"), ngayChamCong, rs.getInt("coPhep"));
-	                dsNV.add(new BangLuongNhanVien(rs.getString("maBangLuong"), rs.getDouble("luongThang"), rs.getDouble("phuCap"), rs.getDouble("tienThuong"), rs.getDouble("baoHiemXH"), rs.getDouble("thucLanh"), rs.getDouble("luongCoBan"), ngayTinh, nv, cc));
-	            }
-	        }
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    }
-	    return dsNV;
-	}
+//	public ArrayList<BangLuongNhanVien> getBLNV_tg(String nam, String month) {
+//	    ArrayList<BangLuongNhanVien> dsNV = new ArrayList<>();
+//	    int thang = Integer.parseInt(month);
+//	    String d1 = nam + "-" + thang + "-01";
+//	    String d2 = nam + "-" + (thang + 1) + "-01";
+//	    String sql = "SELECT * FROM BangluongNhanVien l JOIN NhanVien nv ON l.MaNV=nv.maNhanVien JOIN BangChamCongNhanVien cc ON l.MaNV = cc.maNhanVien WHERE thoiGian BETWEEN CAST( ? AS DATE) AND CAST(? AS DATE)";
+//	    try (Connection con = ConnectDB.getInstance().connect(); PreparedStatement stmt = con.prepareStatement(sql)) {
+//	        stmt.setString(1, d1);
+//	        stmt.setString(2, d2);
+//	        try (ResultSet rs = stmt.executeQuery()) {
+//	            while (rs.next()) {
+//	                NhanVien nv = new NhanVien(rs.getString("maNhanVien"), rs.getString("ten"), rs.getString("phongBan"));
+//	                LocalDate ngayTinh = getLocalDate(rs, "thoiGian");
+//	                LocalDate ngayChamCong = getLocalDate(rs, "ngayChamCong");
+//	                BangChamCongNhanVien cc = new BangChamCongNhanVien(rs.getString("maBangChamCongNV"), rs.getString("maNhanVien"),
+//	                        rs.getInt("soNgayLamViec"), rs.getInt("soNgayNghi"), rs.getDouble("soGioTangCa"), ngayChamCong, rs.getInt("coPhep"));
+//	                dsNV.add(new BangLuongNhanVien(rs.getString("maBangLuong"), rs.getDouble("luongThang"), rs.getDouble("phuCap"), rs.getDouble("tienThuong"), rs.getDouble("baoHiemXH"), rs.getDouble("thucLanh"), rs.getDouble("luongCoBan"), ngayTinh, nv, cc));
+//	            }
+//	        }
+//	    } catch (SQLException e) {
+//	        e.printStackTrace();
+//	    }
+//	    return dsNV;
+//	}
 
 //	public static void main(String[] args) {
 //		try {

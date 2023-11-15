@@ -23,7 +23,7 @@ public class BangLuongNhanVien_BUS {
 //		return dsBangLuongNV;
 //	}
 	public ArrayList<BangLuongNhanVien> timBangLuongNV(String ma){
-		
+	
 			
 			return BangLuongNVDAO.getallbangLuongNVTK(ma);
 	

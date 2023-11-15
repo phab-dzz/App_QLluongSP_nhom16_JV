@@ -833,7 +833,7 @@ public class NhansuJpanel extends JPanel {
 			}
 		});
 		btnAddNV.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(0, 0, 0), null, null, new Color(0, 0, 0)));
-		btnAddNV.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\chamcong\\them.png"));
+		btnAddNV.setIcon(new ImageIcon(NhansuJpanel.class.getResource("/Icons/chamcong/them.png")));
 		btnAddNV.setBackground(new Color(30, 144, 255));
 		btnAddNV.setBounds(654, 197, 89, 23);
 		tabbedNhanVien.add(btnAddNV);
@@ -857,7 +857,7 @@ public class NhansuJpanel extends JPanel {
 			}
 		});
 		btnDeleteNV.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(0, 0, 0), null, null, new Color(0, 0, 0)));
-		btnDeleteNV.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\chamcong\\xoa.png"));
+		btnDeleteNV.setIcon(new ImageIcon(NhansuJpanel.class.getResource("/Icons/chamcong/xoa.png")));
 		btnDeleteNV.setBackground(new Color(30, 144, 255));
 		btnDeleteNV.setBounds(539, 197, 89, 23);
 		tabbedNhanVien.add(btnDeleteNV);
@@ -921,7 +921,7 @@ public class NhansuJpanel extends JPanel {
 				return null; // Trả về giá trị mặc định nếu ngày là null.
 			}
 		});
-		btnSaveNV.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\chamcong\\luu.png"));
+		btnSaveNV.setIcon(new ImageIcon(NhansuJpanel.class.getResource("/Icons/chamcong/luu.png")));
 		btnSaveNV.setBackground(new Color(30, 144, 255));
 		btnSaveNV.setBounds(770, 197, 89, 23);
 		tabbedNhanVien.add(btnSaveNV);
@@ -1261,7 +1261,7 @@ public class NhansuJpanel extends JPanel {
 		// Thêm Công nhân
 		JButton btnAddCN = new JButton("Thêm");
 		btnAddCN.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(0, 0, 0), null, null, new Color(0, 0, 0)));
-		btnAddCN.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\chamcong\\them.png"));
+		btnAddCN.setIcon(new ImageIcon(NhansuJpanel.class.getResource("/Icons/chamcong/them.png")));
 		btnAddCN.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Lấy thông tin từ các trường nhập liệu
@@ -1318,7 +1318,7 @@ public class NhansuJpanel extends JPanel {
 		// xóa công nhân
 		JButton btnDeleteCN = new JButton("Xóa");
 		btnDeleteCN.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(0, 0, 0), null, null, new Color(0, 0, 0)));
-		btnDeleteCN.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\chamcong\\xoa.png"));
+		btnDeleteCN.setIcon(new ImageIcon(NhansuJpanel.class.getResource("/Icons/chamcong/xoa.png")));
 		btnDeleteCN.addActionListener(new ActionListener() {
 
 			@Override
@@ -1343,7 +1343,7 @@ public class NhansuJpanel extends JPanel {
 		// Update công nhân
 		JButton btnSaveCN = new JButton("Lưu");
 		btnSaveCN.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(0, 0, 0), null, null, new Color(0, 0, 0)));
-		btnSaveCN.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\chamcong\\luu.png"));
+		btnSaveCN.setIcon(new ImageIcon(NhansuJpanel.class.getResource("/Icons/chamcong/luu.png")));
 		btnSaveCN.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 

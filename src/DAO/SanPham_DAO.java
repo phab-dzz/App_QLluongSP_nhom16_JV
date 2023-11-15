@@ -7,110 +7,172 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import DAO.ConnectDB;
 import DTO.SanPham;
 
 public class SanPham_DAO {
-	
-	public SanPham_DAO() {}
-	
+
+	public SanPham_DAO() {
+	}
+
 	public ArrayList<SanPham> getAllSanPham() {
-        ArrayList<SanPham> danhSachSanPham = new ArrayList<>();
-        try (Connection con = ConnectDB.getInstance().connect();
-             Statement statement = con.createStatement();
-             ResultSet rs = statement.executeQuery("SELECT * FROM SanPham")) {
+		ArrayList<SanPham> danhSachSanPham = new ArrayList<SanPham>();
+		try {
+			ConnectDB.getInstance();
+			Connection con = ConnectDB.getConnection();
+			String sql = "select * from SanPham";
+//			 try (Connection con = ConnectDB.getInstance().connect(); Statement statement = con.createStatement()) {
+			Statement statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			while (rs.next()) {
+				String maSP = rs.getString("maSanPham");
+				String tenSP = rs.getString("tenSanPham");
+				int slCongDoan = rs.getInt("soLuongCongDoan");
+				int slSanPham = rs.getInt("soLuong");
+				SanPham sp = new SanPham(maSP, tenSP, slCongDoan, slSanPham);
+				danhSachSanPham.add(sp);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return danhSachSanPham;
+	}
 
-            while (rs.next()) {
-                String maSP = rs.getString("maSanPham");
-                String tenSP = rs.getString("tenSanPham");
-                int slCongDoan = rs.getInt("soLuongCongDoan");
-                int slSanPham = rs.getInt("soLuong");
-                SanPham sp = new SanPham(maSP, tenSP, slCongDoan, slSanPham);
-                danhSachSanPham.add(sp);
-            }
+	public ArrayList<SanPham> getSanPhamTheoMa(String id) {
+		ArrayList<SanPham> danhSachSanPham = new ArrayList<SanPham>();
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement statement = null;
+		try {
+			String sql = "Select * from SanPham where maSanPham = ?";
+			statement = con.prepareStatement(sql);
+			statement.setString(1, id);
+			ResultSet rs = statement.executeQuery();
 
-        return danhSachSanPham;
-    }
+			while (rs.next()) {
+				String maSP = rs.getString("maSanPham");
+				String tenSP = rs.getString("tenSanPham");
+				int slSanPham = rs.getInt("soLuong");
+				int slCongDoan = rs.getInt("soLuongCongDoan");
+				SanPham sp = new SanPham(maSP, tenSP, slSanPham, slCongDoan);
+				danhSachSanPham.add(sp);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				statement.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return danhSachSanPham;
+	}
 
-    public ArrayList<SanPham> getSanPhamTheoMa(String id) {
-        ArrayList<SanPham> danhSachSanPham = new ArrayList<>();
+	public boolean create(SanPham sp) {
 
-        try (Connection con = ConnectDB.getInstance().connect();
-             PreparedStatement statement = con.prepareStatement("SELECT * FROM SanPham WHERE maSanPham = ?")) {
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement statement = null;
+		int n = 0;
+		try {
 
-            statement.setString(1, id);
-            try (ResultSet rs = statement.executeQuery()) {
-                while (rs.next()) {
-                    String maSP = rs.getString("maSanPham");
-                    String tenSP = rs.getString("tenSanPham");
-                    int slCongDoan = rs.getInt("soLuongCongDoan");
-                    int slSanPham = rs.getInt("soLuong");
-                    SanPham sp = new SanPham(maSP, tenSP, slCongDoan, slSanPham);
-                    danhSachSanPham.add(sp);
-                }
-            }
+			statement = con.prepareStatement("insert into SanPham values(?,?,?,?)");
+			statement.setString(1, sp.getMaSanPham());
+			statement.setString(2, sp.getTenSanPham());
+			statement.setInt(3, sp.getSoLuong());
+			statement.setInt(4, sp.getSoLuongCongDoan());
+			n = statement.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				statement.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return n > 0;
+	}
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+	public boolean update(SanPham sp) {
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement statement = null;
+		int n = 0;
+		try {
+			statement = con.prepareStatement(
+					"update SanPham set tenSanPham = ?, soLuong = ?, soLuongCongDoan=? where maSanPham = ?");
+			statement.setString(1, sp.getTenSanPham());
+			statement.setInt(2, sp.getSoLuong());
+			statement.setInt(3, sp.getSoLuongCongDoan());
+			statement.setString(4, sp.getMaSanPham());
+			n = statement.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				statement.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return n > 0;
+	}
 
-        return danhSachSanPham;
-    }
+	public boolean delete(SanPham sp) {
 
-    public boolean create(SanPham sp) {
-        int n = 0;
-        try (Connection con = ConnectDB.getInstance().connect();
-             PreparedStatement statement = con.prepareStatement("INSERT INTO SanPham VALUES (?, ?, ?, ?)")) {
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement statement = null;
+		int n = 0;
+		try {
 
-            statement.setString(1, sp.getMaSanPham());
-            statement.setString(2, sp.getTenSanPham());
-            statement.setInt(3, sp.getSoLuongCongDoan());
-            statement.setInt(4, sp.getSoLuong());
-            n = statement.executeUpdate();
+			statement = con.prepareStatement("delete from SanPham where maSanPham=?");
+			statement.setString(1, sp.getMaSanPham());
+			n = statement.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				statement.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return n > 0;
+	}
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+	public String phatSinhMaSanPhamMoi() {
+		String maCuoiSanPham = null;
+		try {
+			ConnectDB.getInstance();
+			Connection con = ConnectDB.getConnection();
+			String sql = "  SELECT TOP 1 SUBSTRING(maSanPham, 3, LEN(maSanPham) - 2) AS maCuoi FROM SanPham ORDER BY maSanPham DESC";
+			Statement statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			while (rs.next()) {
+				maCuoiSanPham = rs.getString("maCuoi").trim(); // Trim to remove leading/trailing whitespaces
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
-        return n > 0;
-    }
+		// Check if the string is not empty or contains only whitespace
+		if (!maCuoiSanPham.isEmpty() && !maCuoiSanPham.isBlank()) {
+			try {
+				int soCuoi = Integer.parseInt(maCuoiSanPham);
+				soCuoi++;
 
-    public boolean update(SanPham sp) {
-        int n = 0;
-        try (Connection con = ConnectDB.getInstance().connect();
-             PreparedStatement statement = con.prepareStatement(
-                     "UPDATE SanPham SET tenSanPham = ?, soLuongCongDoan = ?, soLuong = ? WHERE maSanPham = ?")) {
+				// Format the new number
+				maCuoiSanPham = String.format("%03d", soCuoi);
+			} catch (NumberFormatException ex) {
+				ex.printStackTrace();
+				// Handle the case where maCuoiSanPham is not a valid integer
+			}
+		}
 
-            statement.setString(1, sp.getTenSanPham());
-            statement.setInt(2, sp.getSoLuongCongDoan());
-            statement.setInt(3, sp.getSoLuong());
-            statement.setString(4, sp.getMaSanPham());
-            n = statement.executeUpdate();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return n > 0;
-    }
-
-    public boolean delete(SanPham sp) {
-        int n = 0;
-        try (Connection con = ConnectDB.getInstance().connect();
-             PreparedStatement statement = con.prepareStatement("DELETE FROM SanPham WHERE maSanPham = ?")) {
-
-            statement.setString(1, sp.getMaSanPham());
-            n = statement.executeUpdate();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return n > 0;
-    }
+		return "SP" + maCuoiSanPham;
+	}
 
 }

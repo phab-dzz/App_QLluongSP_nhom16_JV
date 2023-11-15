@@ -1,12 +1,5 @@
-/App_QLLuong/
-/Icons/
-/data/
-/libs/
-/BUS/
-/ChuyenmanController/
 /CustomGUi/
-/DAO/
 /DTO/
-/Dangnhap/
-/MyCustom/
-/utilities/
+/DAO/
+/App_QLLuong/
+/BUS/

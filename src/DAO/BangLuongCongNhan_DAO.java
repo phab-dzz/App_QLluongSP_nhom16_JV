@@ -22,10 +22,10 @@ public class BangLuongCongNhan_DAO {
             ResultSet rs = stmt.executeQuery("select * from BangluongCongNhan l join CongNhan nv on l.MaCN=nv.maCongNhan join BangChamCongCongNhan cc on l.maCN =cc.maCN ");
             while (rs.next()) {
                 CongNhan cn = new CongNhan(rs.getString("maCN"), rs.getString("ten"), rs.getString("sDT"), rs.getString("xuong"), rs.getString("chuyenMon"));
-                LocalDate ngayChamCong = ProcessDate.date2LocalDate(rs.getDate("ngayChamCong"));
+//                LocalDate ngayChamCong = ProcessDate.date2LocalDate(rs.getDate("ngayChamCong"));
                 BangChamCongCongNhan cc = new BangChamCongCongNhan(rs.getString("maBangChamCongCN"),
                         rs.getString("maCN"), rs.getInt("soNgayLamViec"), rs.getInt("soNgayNghi"),
-                        rs.getInt("SoLuongHangLamDuoc"), rs.getDouble("soGioTangCa"), ngayChamCong, rs.getInt("coPhep"));
+                        rs.getInt("SoLuongHangLamDuoc"), rs.getInt("soGioTangCa"),rs.getDate("ngayChamCong"), rs.getInt("coPhep"));
                 LocalDate ngayTinh = ProcessDate.date2LocalDate(rs.getDate("thoiGian"));
                 dsBangLuongCN.add(new BangLuongCongNhan(rs.getString("maBangLuong"),
                         rs.getDouble("luongThang"), rs.getDouble("phuCap"), rs.getDouble("tienThuong"),
@@ -47,10 +47,10 @@ public class BangLuongCongNhan_DAO {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 CongNhan cn = new CongNhan(rs.getString("maCN"), rs.getString("ten"), rs.getString("sDT"), rs.getString("xuong"), rs.getString("chuyenMon"));
-                LocalDate ngayChamCong = ProcessDate.date2LocalDate(rs.getDate("ngayChamCong"));
+//                LocalDate ngayChamCong = ProcessDate.date2LocalDate(rs.getDate("ngayChamCong"));
                 BangChamCongCongNhan cc = new BangChamCongCongNhan(rs.getString("maBangChamCongCN"),
                         rs.getString("maCN"), rs.getInt("soNgayLamViec"), rs.getInt("soNgayNghi"),
-                        rs.getInt("SoLuongHangLamDuoc"), rs.getDouble("soGioTangCa"), ngayChamCong, rs.getInt("coPhep"));
+                        rs.getInt("SoLuongHangLamDuoc"), rs.getInt("soGioTangCa"), rs.getDate("ngayChamCong"), rs.getInt("coPhep"));
                 LocalDate ngayTinh = ProcessDate.date2LocalDate(rs.getDate("thoiGian"));
                 dsBangLuongCNTK.add(new BangLuongCongNhan(rs.getString("maBangLuong"),
                         rs.getDouble("luongThang"), rs.getDouble("phuCap"), rs.getDouble("tienThuong"),
@@ -62,7 +62,6 @@ public class BangLuongCongNhan_DAO {
 
         return dsBangLuongCNTK;
     }
-
     public ArrayList<BangLuongCongNhan> getalltheonam(String nam) {
         ArrayList<BangLuongCongNhan> dsBLNVtheonam = new ArrayList<>();
 
@@ -72,10 +71,10 @@ public class BangLuongCongNhan_DAO {
             ResultSet rs = prtm.executeQuery();
             while (rs.next()) {
                 CongNhan cn = new CongNhan(rs.getString("maCN"), rs.getString("ten"), rs.getString("sDT"), rs.getString("xuong"), rs.getString("chuyenMon"));
-                LocalDate ngayChamCong = ProcessDate.date2LocalDate(rs.getDate("ngayChamCong"));
+//                LocalDate ngayChamCong = ProcessDate.date2LocalDate(rs.getDate("ngayChamCong"));
                 BangChamCongCongNhan cc = new BangChamCongCongNhan(rs.getString("maBangChamCongCN"),
                         rs.getString("maCN"), rs.getInt("soNgayLamViec"), rs.getInt("soNgayNghi"),
-                        rs.getInt("SoLuongHangLamDuoc"), rs.getDouble("soGioTangCa"), ngayChamCong, rs.getInt("coPhep"));
+                        rs.getInt("SoLuongHangLamDuoc"), rs.getInt("soGioTangCa"), rs.getDate("ngayChamCong"), rs.getInt("coPhep"));
                 LocalDate ngayTinh = ProcessDate.date2LocalDate(rs.getDate("thoiGian"));
                 dsBLNVtheonam.add(new BangLuongCongNhan(rs.getString("maBangLuong"),
                         rs.getDouble("luongThang"), rs.getDouble("phuCap"), rs.getDouble("tienThuong"),
@@ -97,10 +96,10 @@ public class BangLuongCongNhan_DAO {
             ResultSet rs = prtm.executeQuery();
             while (rs.next()) {
                 CongNhan cn = new CongNhan(rs.getString("maCN"), rs.getString("ten"), rs.getString("sDT"), rs.getString("xuong"), rs.getString("chuyenMon"));
-                LocalDate ngayChamCong = ProcessDate.date2LocalDate(rs.getDate("ngayChamCong"));
+//                LocalDate ngayChamCong = ProcessDate.date2LocalDate(rs.getDate("ngayChamCong"));
                 BangChamCongCongNhan cc = new BangChamCongCongNhan(rs.getString("maBangChamCongCN"),
                         rs.getString("maCN"), rs.getInt("soNgayLamViec"), rs.getInt("soNgayNghi"),
-                        rs.getInt("SoLuongHangLamDuoc"), rs.getDouble("soGioTangCa"), ngayChamCong, rs.getInt("coPhep"));
+                        rs.getInt("SoLuongHangLamDuoc"), rs.getInt("soGioTangCa"), rs.getDate("ngayChamCong"), rs.getInt("coPhep"));
                 LocalDate ngayTinh = ProcessDate.date2LocalDate(rs.getDate("thoiGian"));
                 dsBLNVtheothang.add(new BangLuongCongNhan(rs.getString("maBangLuong"),
                         rs.getDouble("luongThang"), rs.getDouble("phuCap"), rs.getDouble("tienThuong"),

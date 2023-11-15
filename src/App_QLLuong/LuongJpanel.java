@@ -142,7 +142,7 @@ public class LuongJpanel extends JPanel implements ActionListener, MouseListener
 		btnChitiet = new JButton("Chi tiết\r\n");
 		btnChitiet.setBackground(new Color(30, 144, 255));
 		btnChitiet.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(0, 0, 0), null, null, new Color(0, 0, 0)));
-		btnChitiet.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\icons_sp\\editing.png"));
+		btnChitiet.setIcon(new ImageIcon(LuongJpanel.class.getResource("/Icons/icons_jplThongke/baseline_print_black_24dp.png")));
 
 		btnChitiet.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnChitiet.setBounds(623, 107, 90, 31);
@@ -282,7 +282,7 @@ public class LuongJpanel extends JPanel implements ActionListener, MouseListener
 		});
 		btnChitietCN.setBackground(new Color(30, 144, 255));
 		btnChitietCN.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(0, 0, 0), null, null, new Color(0, 0, 0)));
-		btnChitietCN.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\icons_sp\\editing.png"));
+		btnChitietCN.setIcon(new ImageIcon(LuongJpanel.class.getResource("/Icons/icons_jplThongke/baseline_print_black_24dp.png")));
 		btnChitietCN.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnChitietCN.setBounds(674, 101, 85, 31);
 		pnCongNhan.add(btnChitietCN);
@@ -307,7 +307,7 @@ public class LuongJpanel extends JPanel implements ActionListener, MouseListener
 		btnTimCN = new JButton("");
 		btnTimCN.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(0, 0, 0), null, null, new Color(0, 0, 0)));
 		btnTimCN.setBackground(new Color(30, 144, 255));
-		btnTimCN.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\chamcong\\tim.png"));
+		btnTimCN.setIcon(new ImageIcon(LuongJpanel.class.getResource("/Icons/chamcong/tim.png")));
 		btnTimCN.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnTimCN.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -317,7 +317,7 @@ public class LuongJpanel extends JPanel implements ActionListener, MouseListener
 		pnCongNhan.add(btnTimCN);
 
 		btnreset_2 = new JButton("Làm mới");
-		btnreset_2.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\icons_sp\\refresh.png"));
+		btnreset_2.setIcon(new ImageIcon(LuongJpanel.class.getResource("/Icons/icons_sp/refresh.png")));
 		btnreset_2.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnreset_2.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(0, 0, 0), null, null, new Color(0, 0, 0)));
 		btnreset_2.setBackground(new Color(30, 144, 255));
@@ -363,13 +363,13 @@ public class LuongJpanel extends JPanel implements ActionListener, MouseListener
 		btnTimNV = new JButton("");
 		btnTimNV.setBackground(new Color(30, 144, 255));
 		btnTimNV.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(0, 0, 0), null, null, new Color(0, 0, 0)));
-		btnTimNV.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\chamcong\\tim.png"));
+		btnTimNV.setIcon(new ImageIcon(LuongJpanel.class.getResource("/Icons/chamcong/tim.png")));
 		btnTimNV.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnTimNV.setBounds(315, 23, 44, 23);
 		pnNhanVien.add(btnTimNV);
 
 		btnreset = new JButton("Làm mới");
-		btnreset.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\icons_sp\\refresh.png"));
+		btnreset.setIcon(new ImageIcon(LuongJpanel.class.getResource("/Icons/icons_sp/refresh.png")));
 		btnreset.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnreset.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(0, 0, 0), null, null, new Color(0, 0, 0)));
 		btnreset.setBackground(new Color(30, 144, 255));
@@ -563,7 +563,7 @@ public class LuongJpanel extends JPanel implements ActionListener, MouseListener
 
 			stt++;
 			String hoten =l.getCongNhan().getTen();
-			Object[] row= { stt, l.getCongNhan().getMaCongNhan(),hoten," " ," ",l.getThucLanh()};
+			Object[] row= { stt, l.getCongNhan().getMaCongNhan(),hoten,l.getCccn().getSoLuongSanPham() ,l.getCccn().getSoNgayNghi(),dcf.format(l.getThucLanh())};
 			modelluongCN.addRow(row);
 
 		}

@@ -144,7 +144,7 @@ public class ThongkeJpanel extends JPanel implements ItemListener,ActionListener
 		JLabel lblNewLabel_1 = new JLabel("");
 		lblNewLabel_1.setIconTextGap(8);
 		lblNewLabel_1.setSize(new Dimension(99, 88));
-		lblNewLabel_1.setIcon(new ImageIcon("Icons\\icons_jplThongke\\sp03.png"));
+		lblNewLabel_1.setIcon(new ImageIcon(ThongkeJpanel.class.getResource("/Icons/icons_jplThongke/sp03.png")));
 		lblNewLabel_1.setBackground(Color.WHITE);
 		lblNewLabel_1.setBounds(0, 0, 99, 84);
 		panel_5.add(lblNewLabel_1);
@@ -186,7 +186,7 @@ public class ThongkeJpanel extends JPanel implements ItemListener,ActionListener
 		panel_3.setLayout(null);
 		
 		JLabel lblNewLabel_5 = new JLabel("");
-		lblNewLabel_5.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\icons_jplThongke\\cn1.png"));
+		lblNewLabel_5.setIcon(new ImageIcon(ThongkeJpanel.class.getResource("/Icons/icons_jplThongke/cn1.png")));
 		lblNewLabel_5.setSize(new Dimension(99, 88));
 		lblNewLabel_5.setBounds(0, 0, 99, 88);
 		panel_3.add(lblNewLabel_5);
@@ -227,7 +227,7 @@ public class ThongkeJpanel extends JPanel implements ItemListener,ActionListener
 		jpl_NhanVien.add(panel_6);
 		
 		JLabel lblNewLabel_5_1 = new JLabel("");
-		lblNewLabel_5_1.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\icons_jplThongke\\nv.png"));
+		lblNewLabel_5_1.setIcon(new ImageIcon(ThongkeJpanel.class.getResource("/Icons/icons_jplThongke/nv.png")));
 		lblNewLabel_5_1.setSize(new Dimension(99, 88));
 		lblNewLabel_5_1.setBounds(0, 0, 97, 84);
 		panel_6.add(lblNewLabel_5_1);
@@ -269,7 +269,7 @@ public class ThongkeJpanel extends JPanel implements ItemListener,ActionListener
 		panel_9.setLayout(null);
 		
 		JLabel lblNewLabel_5_2 = new JLabel("");
-		lblNewLabel_5_2.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\icons_jplThongke\\luong.png"));
+		lblNewLabel_5_2.setIcon(new ImageIcon(ThongkeJpanel.class.getResource("/Icons/icons_jplThongke/luong.png")));
 		lblNewLabel_5_2.setSize(new Dimension(99, 88));
 		lblNewLabel_5_2.setBounds(0, 0, 99, 84);
 		panel_9.add(lblNewLabel_5_2);
@@ -311,7 +311,7 @@ public class ThongkeJpanel extends JPanel implements ItemListener,ActionListener
 		panel_10.setLayout(null);
 		
 		JLabel lblNewLabel_5_3 = new JLabel("");
-		lblNewLabel_5_3.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\icons_jplThongke\\congdoan.png"));
+		lblNewLabel_5_3.setIcon(new ImageIcon(ThongkeJpanel.class.getResource("/Icons/icons_jplThongke/congdoan.png")));
 		lblNewLabel_5_3.setSize(new Dimension(99, 88));
 		lblNewLabel_5_3.setBounds(0, 0, 97, 84);
 		panel_10.add(lblNewLabel_5_3);
@@ -402,7 +402,7 @@ public class ThongkeJpanel extends JPanel implements ItemListener,ActionListener
 		btnreset.setAutoscrolls(true);
 		btnreset.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnreset.setForeground(new Color(0, 0, 0));
-		btnreset.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\icons_jplThongke\\details.png"));
+		btnreset.setIcon(new ImageIcon(ThongkeJpanel.class.getResource("/Icons/icons_jplThongke/details.png")));
 		btnreset.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(0, 0, 0), null, null, new Color(0, 0, 0)));
 		btnreset.setBounds(602, 293, 114, 30);
 		pblbangluong.add(btnreset);
@@ -412,7 +412,7 @@ public class ThongkeJpanel extends JPanel implements ItemListener,ActionListener
 		btnCT.setDefaultCapable(false);
 		btnCT.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnCT.setBackground(new Color(0, 191, 255));
-		btnCT.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\icons_jplThongke\\baseline_print_black_24dp.png"));
+		btnCT.setIcon(new ImageIcon(ThongkeJpanel.class.getResource("/Icons/icons_jplThongke/baseline_print_black_24dp.png")));
 		btnCT.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(0, 0, 0), null, null, new Color(0, 0, 0)));
 		btnCT.setBounds(747, 293, 114, 30);
 		pblbangluong.add(btnCT);
