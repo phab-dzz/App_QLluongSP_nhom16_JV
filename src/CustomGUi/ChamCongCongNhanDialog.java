@@ -151,7 +151,7 @@ public class ChamCongCongNhanDialog extends JDialog {
 	// Xu ly xuat excel
 	private static void exportToExcel(JTable table) throws Exception {
 		String generatedString = RandomStringUtils.random(4, true, true);
-		String filePath = "D:\\Desktop\\Kỳ1_23-24\\Phát Triển Ứng Dụng\\CK\\App_QLluongSP_nhom16_JV\\src\\data\\BangChamCongNhan_" + generatedString + ".xlsx";
+		String filePath = "E:\\PTUD\\APP_LUONG\\App_QLluongSP_nhom16_JV\\src\\data\\BangChamCongNhan_" + generatedString + ".xlsx";
 		TableModel model = table.getModel();
 		Workbook workbook = new XSSFWorkbook();
 		Sheet sheet = workbook.createSheet();

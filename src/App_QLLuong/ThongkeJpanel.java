@@ -6,6 +6,8 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import java.awt.Color;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.BorderLayout;
 import java.awt.Font;
 import javax.swing.SwingConstants;
@@ -20,14 +22,23 @@ import java.awt.Canvas;
 
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+
+import org.apache.commons.lang.RandomStringUtils;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import BUS.CongNhan_BUS;
 import BUS.ThongKe_BUS;
-import DAO.ConnectDB;
 import DTO.BangLuongCongNhan;
 import DTO.CongNhan;
 import DTO.Thongke;
+import CustomGUi.DlgThongkeCN;
 import CustomGUi.ScrollBarCustom;
+import DAO.ConnectDB;
 
 import javax.swing.ListSelectionModel;
 import java.awt.CardLayout;
@@ -49,6 +60,8 @@ import javax.swing.DebugGraphics;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -490,7 +503,7 @@ public class ThongkeJpanel extends JPanel implements ItemListener,ActionListener
 			loaddatatotable();
 		}
 		if(o.equals(btnCT)) {
-			new DlgthongkeThang().setVisible(true);
+			new DlgThongkeCN().setVisible(true);
 		}
 	}
 	@Override
@@ -507,6 +520,43 @@ public class ThongkeJpanel extends JPanel implements ItemListener,ActionListener
 			modeltk.setRowCount(0);
 			cbbNamCN();
 		}
+	}
+	private static void exportToExcel(JTable table) throws Exception {
+		String generatedString = RandomStringUtils.random(4, true, true);
+		String filePath = "E:\\PTUD\\APP_LUONG\\App_QLluongSP_nhom16_JV\\src\\data\\BangLuong_" + generatedString + ".xlsx";
+		TableModel model = table.getModel();
+		Workbook workbook = new XSSFWorkbook();
+		Sheet sheet = workbook.createSheet();
+		Row row;
+		Cell cell;
+		// write the column headers
+		row = sheet.createRow(0);
+		for (int c = 0; c < model.getColumnCount(); c++) {
+			cell = row.createCell(c);
+			cell.setCellValue(model.getColumnName(c));
+		}
+		// write the data rows
+		for (int r = 0; r < model.getRowCount(); r++) {
+			row = sheet.createRow(r + 1);
+			for (int c = 0; c < model.getColumnCount(); c++) {
+				cell = row.createCell(c);
+				Object value = model.getValueAt(r, c);
+				if (value instanceof String) {
+					cell.setCellValue((String) value);
+				} else if (value instanceof Integer) {
+					cell.setCellValue((Integer) value);
+				}
+			}
+		}
+		File file = new File(filePath);
+		file.getParentFile().mkdirs();
+		file.createNewFile();
+		FileOutputStream out = new FileOutputStream(file);
+		workbook.write(out);
+		out.close();
+		workbook.close();
+		JOptionPane.showMessageDialog(null, "Xuất file thành công.\nXem tại: " + filePath, "Kết quả",
+				JOptionPane.INFORMATION_MESSAGE);
 	}
 	
 }

@@ -17,8 +17,17 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 
+import org.apache.commons.lang.RandomStringUtils;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
 import BUS.BangLuongCongNhan_BUS;
 import BUS.BangLuongNhanVien_BUS;
+import CustomGUi.ChamCongCongNhanDialog;
+import DAO.BangLuongCongNhan_DAO;
 import DAO.BangLuongNhanVien_DAO;
 import DAO.ConnectDB;
 import DAO.NhanVien_DAO;
@@ -29,12 +38,14 @@ import MyCustom.MyDialog;
 import utilities.exportExcel;
 
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
@@ -45,6 +56,7 @@ import java.util.Properties;
 import java.util.Random;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
+import java.awt.EventQueue;
 import java.awt.SystemColor;
 
 import javax.swing.JFormattedTextField.AbstractFormatter;
@@ -53,6 +65,9 @@ import javax.swing.JFrame;
 import javax.swing.ImageIcon;
 import javax.swing.JTextPane;
 import javax.swing.border.BevelBorder;
+import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
@@ -65,24 +80,25 @@ public class LuongJpanel extends JPanel implements ActionListener, MouseListener
 	private JTable tblluongNV;
 	private JComboBox cbbPhongBanNV,cbbMaXuong,cbbThang,cbbNam,cbbThang1,cbbNam1;
 	private DefaultTableModel modelluongNV,modelluongCN;
-	private JButton btnTimNV,btnreset,btnreset_2,btnIn,btnChitiet,btnChitietCN;
+	private JButton btnTimNV,btnreset,btnreset_2,btnIn,btnChitiet,btnChitietCN,btnIn1;
 	private JTextField txtTKNV;
 	private 	JButton btnTimCN;
 	private int indexNV=0,indexCN=0;
 	private BangLuongCongNhan_BUS LuongCN_BUS= new BangLuongCongNhan_BUS();
 	private BangLuongNhanVien_BUS luongNV_BUS= new BangLuongNhanVien_BUS();
+	private BangLuongCongNhan_DAO LuongCNDAO= new BangLuongCongNhan_DAO();
 	private BangLuongNhanVien_DAO luongNVDAO= new BangLuongNhanVien_DAO();
-
+	private JPanel contentPane;
 	private NhanVien_DAO NV_DAO= new NhanVien_DAO();
 	private DecimalFormat dcf= new DecimalFormat("###,###,###,###");
 
 	public LuongJpanel(){
-
+		
 		//setSize(1100,1100);
 		//setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 
-
+		
 		setSize(912, 623);
 		setLayout(null);
 
@@ -148,9 +164,9 @@ public class LuongJpanel extends JPanel implements ActionListener, MouseListener
 		btnChitiet.setBounds(623, 107, 90, 31);
 		pnNhanVien.add(btnChitiet);
 		ArrayList<String> listPB= new ArrayList<String>();
-		for(NhanVien nv: NV_DAO.getDanhSachNhanVien()) {
+		for(BangLuongNhanVien nv: luongNV_BUS.getDsBangLuongNhanVien()) {
 			//			if(!(nv.getPhongBan().equalsIgnoreCase(nv.get))
-			listPB.add(nv.getPhongBan());
+			listPB.add(nv.getNv().getPhongBan());
 
 		}
 		HashSet<String> uniqueSet = new HashSet<>(listPB);
@@ -168,18 +184,18 @@ public class LuongJpanel extends JPanel implements ActionListener, MouseListener
 		btnIn.setBackground(new Color(30, 144, 255));
 		btnIn.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(0, 0, 0), null, null, new Color(0, 0, 0)));
 		btnIn.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\icons_jplThongke\\baseline_print_black_24dp.png"));
-		btnIn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// Xuat excel
-				try {
-
-					int number = new Random().nextInt(1000, 9999);
-					exportExcel.exportToExcel(tblluongNV, "F:\\App_QLluongSP_nhom16_JV\\src\\data" + number + ".xlsx");
-				} catch (Exception e1) {
-					e1.printStackTrace();
-				}
-			}
-		});
+//		btnIn.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				// Xuat excel
+//				try {
+//
+//					int number = new Random().nextInt(1000, 9999);
+//					exportExcel.exportToExcel(tblluongNV, "F:\\App_QLluongSP_nhom16_JV\\src\\data" + number + ".xlsx");
+//				} catch (Exception e1) {
+//					e1.printStackTrace();
+//				}
+//			}
+//		});
 
 
 
@@ -208,6 +224,46 @@ public class LuongJpanel extends JPanel implements ActionListener, MouseListener
 		txtTKCN.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		pnCongNhan.add(txtTKCN);
 		txtTKCN.setColumns(10);
+		txtTKCN.getDocument().addDocumentListener(new DocumentListener() {
+		    @Override
+		    public void insertUpdate(DocumentEvent e) {
+		    	
+		        updateTable();
+		        
+		    }
+
+		    @Override
+		    public void removeUpdate(DocumentEvent e) {
+		        updateTable();
+		    }
+
+		    @Override
+		    public void changedUpdate(DocumentEvent e) {
+		        // Xử lý khi có sự thay đổi trong các thuộc tính không thể chỉnh sửa
+		    }
+
+		    // Hàm cập nhật dữ liệu cho JTable
+		    private void updateTable() {
+		        String text = txtTKCN.getText();
+		        ArrayList<BangLuongCongNhan> ds = LuongCNDAO.getallbangLuongTK(text);
+		        
+		        // Xóa dữ liệu cũ trong JTable
+		        modelluongCN.setRowCount(0);
+		        
+		        int stt = 0;
+		     
+				for(BangLuongCongNhan l: ds) {
+					stt++;
+					String hoten =l.getCongNhan().getTen();
+					Object[] row= { stt, l.getCongNhan().getMaCongNhan(),hoten,l.getCccn().getSoLuongSanPham() ,l.getCccn().getSoNgayNghi(),dcf.format(l.getThucLanh())};
+
+					modelluongCN.addRow(row);
+				}
+		       
+//		        if(modelluongCN.getRowCount()==0)
+//		        	new MyDialog("Không tìm thấy thông tin nhân viên.", MyDialog.ERROR_DIALOG);
+		    }
+		});
 
 		JLabel lblNam1 = new JLabel("Năm :");
 		lblNam1.setBounds(486, 20, 63, 17);
@@ -276,10 +332,10 @@ public class LuongJpanel extends JPanel implements ActionListener, MouseListener
 		scrollPaneCN.setViewportView(tblluongCN);
 
 		btnChitietCN = new JButton("Chi tiết");
-		btnChitietCN.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+//		btnChitietCN.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//			}
+//		});
 		btnChitietCN.setBackground(new Color(30, 144, 255));
 		btnChitietCN.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(0, 0, 0), null, null, new Color(0, 0, 0)));
 		btnChitietCN.setIcon(new ImageIcon(LuongJpanel.class.getResource("/Icons/icons_jplThongke/baseline_print_black_24dp.png")));
@@ -287,11 +343,11 @@ public class LuongJpanel extends JPanel implements ActionListener, MouseListener
 		btnChitietCN.setBounds(674, 101, 85, 31);
 		pnCongNhan.add(btnChitietCN);
 
-		JButton btnIn1 = new JButton("Xuất excel");
-		btnIn1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+		 btnIn1 = new JButton("Xuất excel");
+//		btnIn1.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//			}
+//		});
 		btnIn1.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(0, 0, 0), null, null, new Color(0, 0, 0)));
 		btnIn1.setBackground(new Color(30, 144, 255));
 		btnIn1.setIcon(new ImageIcon("E:\\APP_quanLyLuong\\App_QuanlyluongSP\\src\\Icons\\icons_jplThongke\\baseline_print_black_24dp.png"));
@@ -309,12 +365,12 @@ public class LuongJpanel extends JPanel implements ActionListener, MouseListener
 		btnTimCN.setBackground(new Color(30, 144, 255));
 		btnTimCN.setIcon(new ImageIcon(LuongJpanel.class.getResource("/Icons/chamcong/tim.png")));
 		btnTimCN.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnTimCN.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+//		btnTimCN.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//			}
+//		});
 		btnTimCN.setBounds(346, 15, 42, 22);
-		pnCongNhan.add(btnTimCN);
+//		pnCongNhan.add(btnTimCN);
 
 		btnreset_2 = new JButton("Làm mới");
 		btnreset_2.setIcon(new ImageIcon(LuongJpanel.class.getResource("/Icons/icons_sp/refresh.png")));
@@ -331,30 +387,52 @@ public class LuongJpanel extends JPanel implements ActionListener, MouseListener
 		tblluongNV.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		TableColumn columnID = tblluongNV.getColumnModel().getColumn(0);
 		columnID.setPreferredWidth(10);
-		//		tblluongNV.setModel(new DefaultTableModel(
-		//			new Object[][] {
-		//				{new Long(1L), "NV0001", "Nguyen Van A","20", "2", "8000000", "4300000"},
-		//			},
-		//			new String[] {
-		//				"STT", "MA NV", "HoTen", "So Ngay Lam", "So Gio Tang Ca", "Luong Co Ban", "ThucLanh"
-		//			}
-		//		) {
-		//			Class[] columnTypes = new Class[] {
-		//				Long.class, String.class, String.class, String.class, String.class, String.class, String.class
-		//			};
-		//			public Class getColumnClass(int columnIndex) {
-		//				return columnTypes[columnIndex];
-		//			}
-		//		});
-		//table.getColumnModel().getColumn(4).setPreferredWidth(89);
-		//table.getColumnModel().getColumn(5).setPreferredWidth(99);
+
 		scrollPaneNV.setViewportView(tblluongNV);
 
 		txtTKNV = new JTextField();
 		txtTKNV.setBounds(156, 22, 145, 22);
 		pnNhanVien.add(txtTKNV);
 		txtTKNV.setColumns(10);
+		txtTKNV.getDocument().addDocumentListener(new DocumentListener() {
+		    @Override
+		    public void insertUpdate(DocumentEvent e) {
+		    	
+		        updateTable();
+		        
+		    }
 
+		    @Override
+		    public void removeUpdate(DocumentEvent e) {
+		        updateTable();
+		    }
+
+		    @Override
+		    public void changedUpdate(DocumentEvent e) {
+		        // Xử lý khi có sự thay đổi trong các thuộc tính không thể chỉnh sửa
+		    }
+
+		    // Hàm cập nhật dữ liệu cho JTable
+		    private void updateTable() {
+		        String text = txtTKNV.getText();
+		        ArrayList<BangLuongNhanVien> ds = luongNVDAO.getallbangLuongtk(text);
+		        
+		        // Xóa dữ liệu cũ trong JTable
+		        modelluongNV.setRowCount(0);
+		        
+		        int stt = 0;
+		        for (BangLuongNhanVien lcn : ds) {
+		            stt++;
+		            String hoten = lcn.getNv().getTen();
+		            Object[] row = { stt, lcn.getNv().getMaNhanVien(), hoten, lcn.getCcnv().getSoNgayNghi(), lcn.getCcnv().getSoGioTangCa(), lcn.getTienThuong(), dcf.format(lcn.getThucLanh()) };
+		            
+		            // Thêm dòng mới vào JTable
+		            modelluongNV.addRow(row);
+		        }
+//		        if(modelluongNV.getRowCount()==0)
+//		        	new MyDialog("Không tìm thấy thông tin nhân viên.", MyDialog.ERROR_DIALOG);
+		    }
+		});
 		JLabel lblNewLabel = new JLabel("Danh sách tiền lương nhân viên");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblNewLabel.setBounds(287, 138, 299, 40);
@@ -366,7 +444,7 @@ public class LuongJpanel extends JPanel implements ActionListener, MouseListener
 		btnTimNV.setIcon(new ImageIcon(LuongJpanel.class.getResource("/Icons/chamcong/tim.png")));
 		btnTimNV.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnTimNV.setBounds(315, 23, 44, 23);
-		pnNhanVien.add(btnTimNV);
+//		pnNhanVien.add(btnTimNV);
 
 		btnreset = new JButton("Làm mới");
 		btnreset.setIcon(new ImageIcon(LuongJpanel.class.getResource("/Icons/icons_sp/refresh.png")));
@@ -403,13 +481,15 @@ public class LuongJpanel extends JPanel implements ActionListener, MouseListener
 		cbbThang1.addItemListener(this);
 		tblluongCN.addMouseListener(this);
 		tblluongNV.addMouseListener(this);
-		btnTimNV.addActionListener(this);
-		btnTimCN.addActionListener(this);
+//		btnTimNV.addActionListener(this);
+//		btnTimCN.addActionListener(this);
 		btnreset.addActionListener(this);
 		btnIn.addActionListener(this);
 		btnChitiet.addActionListener(this);
 		btnChitietCN.addActionListener(this);
 		btnreset_2.addActionListener(this);
+		btnIn1.addActionListener(this);
+		
 
 
 
@@ -448,8 +528,6 @@ public class LuongJpanel extends JPanel implements ActionListener, MouseListener
 			int row=tblluongNV.getSelectedRow();
 			if(row!=-1) {
 				indexNV=row;
-				//				BangLuongNhanVien l= luongNV_BUS.getDsBangLuongNhanVien().get(row);
-				//				new DlgLuongNV(l).setVisible(true);
 
 			}
 		}
@@ -485,11 +563,19 @@ public class LuongJpanel extends JPanel implements ActionListener, MouseListener
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		Object o= e.getSource();
-		if(o.equals(btnTimNV)) {
-			modelluongNV.setRowCount(0);
-			timkiemNVtheo_ma();
-		}
-		else if(o.equals(btnreset)) {
+//		if(o.equals(btnTimNV)) {
+//		String maNV=txtTKNV.getText();
+//			if(!(maNV.length()>0&& maNV.matches("^NV\\d{4}$"))){
+//			new MyDialog("Mã nhân viên không hợp lệ, mã phải bắt đầu là NV và tiếp theo là 4 số.", MyDialog.CANCEL_OPTION);
+//			txtTKNV.requestFocus();
+//			txtTKNV.setText("");
+//			}
+//			else {
+//			modelluongNV.setRowCount(0);
+//			timkiemNVtheo_ma();
+//			}
+//		}
+		 if(o.equals(btnreset)) {
 			modelluongNV.setRowCount(0);
 			luongNV_BUS.docDanhSach();
 			loadtotblLuongNV();
@@ -499,19 +585,20 @@ public class LuongJpanel extends JPanel implements ActionListener, MouseListener
 			LuongCN_BUS.docDanhSach();
 			loadtoLuongCN();
 		}
-		else if(o.equals(btnTimCN)) {
-			modelluongCN.setRowCount(0);
-			timkiemCNtheoma();
-		}
-		//		else if(o.equals(btnIn)) {
-		//			int number= new Random().nextInt(1000,9999);
-		//			try {
-		//			exportToExcel(tblluongNV,"F:\\App_QLluongSP_nhom16_JV\\src\\data"+ number +".xlsx");
-		//			} catch (Exception e1) {
-		//				// TODO Auto-generated catch block
-		//				e1.printStackTrace();
-		//			}
-		//		}
+//		else if(o.equals(btnTimCN)) {
+//			String maCN=txtTKCN.getText();
+//		
+//			if(!(maCN.length()>0&& maCN.matches("^CN\\d{4}$"))){
+//				new MyDialog("Mã Công nhân không hợp lệ, mã phải bắt đầu là CN và tiếp theo là 4 số.", MyDialog.CANCEL_OPTION);
+//				txtTKCN.requestFocus();
+//				txtTKCN.setText("");
+//				}
+//				else {
+//			modelluongCN.setRowCount(0);
+//			timkiemCNtheoma();
+//				}
+//		}
+	
 		else if(o.equals(btnChitiet)) {
 			if(indexNV!=-1) {
 				ArrayList<BangLuongNhanVien> dslNV= luongNV_BUS.getDsBangLuongNhanVien();
@@ -527,6 +614,23 @@ public class LuongJpanel extends JPanel implements ActionListener, MouseListener
 				new DlgInPDFCN(l).setVisible(true);
 			}
 		}
+		else if(o.equals(btnIn)){
+			try {
+				exportToExcel(tblluongNV);
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		else if(o.equals(btnIn1)){
+			try {
+				exportToExcel(tblluongCN);
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+	
 
 
 
@@ -662,20 +766,6 @@ public class LuongJpanel extends JPanel implements ActionListener, MouseListener
 
 	}
 
-	//	public void loadngaythang() {
-	//		String thang=cbbThang.getSelectedItem().toString();
-	//		String nam=cbbNam.getSelectedItem().toString();
-	//		int stt =0;
-	//		for(BangLuongNhanVien lcn: luongNV_BUS.getNV_namThang(nam, thang)) {
-	//			
-	//			stt++;
-	//			String hoten=lcn.getNv().getTen();
-	//			Object[] row= {stt,lcn.getNv().getMaNhanVien(),hoten,lcn.getCcnv().getSoNgayNghi(),lcn.getCcnv().getSoGioTangCa(),lcn.getTienThuong(),dcf.format(lcn.getThucLanh())};
-	//			
-	//			modelluongNV.addRow(row);
-	//		
-	//	}
-	//	}
 
 	@Override
 	public void itemStateChanged(ItemEvent e) {
@@ -699,7 +789,49 @@ public class LuongJpanel extends JPanel implements ActionListener, MouseListener
 			cbbNamCN();
 
 	}
+	private static void exportToExcel(JTable table) throws Exception {
+		String generatedString = RandomStringUtils.random(4, true, true);
+		String filePath = "E:\\PTUD\\APP_LUONG\\App_QLluongSP_nhom16_JV\\src\\data\\BangLuong_" + generatedString + ".xlsx";
+		TableModel model = table.getModel();
+		Workbook workbook = new XSSFWorkbook();
+		Sheet sheet = workbook.createSheet();
+		Row row;
+		Cell cell;
+		// write the column headers
+		row = sheet.createRow(0);
+		for (int c = 0; c < model.getColumnCount(); c++) {
+			cell = row.createCell(c);
+			cell.setCellValue(model.getColumnName(c));
+		}
+		// write the data rows
+		for (int r = 0; r < model.getRowCount(); r++) {
+			row = sheet.createRow(r + 1);
+			for (int c = 0; c < model.getColumnCount(); c++) {
+				cell = row.createCell(c);
+				Object value = model.getValueAt(r, c);
+				if (value instanceof String) {
+					cell.setCellValue((String) value);
+				} else if (value instanceof Integer) {
+					cell.setCellValue((Integer) value);
+				}
+			}
+		}
+		File file = new File(filePath);
+		file.getParentFile().mkdirs();
+		file.createNewFile();
+		FileOutputStream out = new FileOutputStream(file);
+		workbook.write(out);
+		out.close();
+		workbook.close();
+		JOptionPane.showMessageDialog(null, "Xuất file thành công.\nXem tại: " + filePath, "Kết quả",
+				JOptionPane.INFORMATION_MESSAGE);
+	}
+		 
+	
 
+//	}
+
+		 
 
 }
 

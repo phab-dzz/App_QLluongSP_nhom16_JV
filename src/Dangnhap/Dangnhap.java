@@ -71,9 +71,10 @@ public class Dangnhap extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 764, 469);
 		setResizable(false);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		URL url= App_main.class.getResource("icon_main.png");
+		URL url= App_main.class.getResource("/Icons/menu_left/icon_main.png");
 		Image img = Toolkit.getDefaultToolkit().createImage(url);
 		this.setIconImage(img);
 		setContentPane(contentPane);

@@ -9,8 +9,8 @@ public class ConnectDB {
 	public static Connection con=null;
 	private static ConnectDB instance= new ConnectDB();
 	public Connection connect() throws SQLException {
-	    String url = "jdbc:sqlserver://TRINHNAMTRUNG:1433;databaseName=QLLUONG";
-	    con = DriverManager.getConnection(url, "sa", "sapassword");
+	    String url = "jdbc:sqlserver://localhost:1433;databaseName=QLLUONG";
+	    con = DriverManager.getConnection(url, "sa", "password");
 	    return con;
 	}
 
@@ -30,8 +30,8 @@ public class ConnectDB {
 //		ConnectDB connect = new ConnectDB();
 //		ConnectDB.getInstance();
 		Connection c= null;
-		String url="jdbc:sqlserver://TRINHNAMTRUNG:1433;databaseName=QLLUONG";
-		c= DriverManager.getConnection(url,"sa","sapassword");
+		String url="jdbc:sqlserver://localhost:1433;databaseName=QLLUONG";
+		c= DriverManager.getConnection(url,"sa","password");
 		System.out.println(c);
 //		
 //		if(c== null)

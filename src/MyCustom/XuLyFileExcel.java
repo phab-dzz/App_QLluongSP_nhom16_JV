@@ -1,7 +1,7 @@
 package MyCustom;
 
 
-import Main.Main;
+
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -16,7 +16,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 public class XuLyFileExcel {
 
     public void xuatExcel(JTable tbl) {
-        Main.changLNF("Windows");
+        changLNF("Windows");
         try {
             TableModel dtm = tbl.getModel();
 
@@ -91,8 +91,13 @@ public class XuLyFileExcel {
         }
     }
 
-    public void nhapExcel(JTable tbl) {
-        Main.changLNF("Windows");
+    private void changLNF(String string) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void nhapExcel(JTable tbl) {
+      changLNF("Windows");
         try {
             TableModel dtm = tbl.getModel();
 

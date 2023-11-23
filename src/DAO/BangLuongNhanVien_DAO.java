@@ -113,6 +113,42 @@ public class BangLuongNhanVien_DAO {
 	    }
 	    return dsBLNVtheothang;
 	}
+	public ArrayList<BangLuongNhanVien> getallbangLuongtk(String text) {
+	    ArrayList<BangLuongNhanVien> dsBangLuongNVTK = new ArrayList<>();
+	    try (Connection con = ConnectDB.getInstance().connect()) {
+//	        String sql = "SELECT * FROM BangluongNhanVien l JOIN NhanVien nv ON l.MaNV=nv.maNhanVien JOIN BangChamCongNhanVien cc ON l.MaNV = cc.maNhanVien WHERE MaNV = ?";
+	        
+	    	String sql="select  * \r\n"
+	    			+ "from BangluongNhanVien l join NhanVien nv on l.MaNV=nv.maNhanVien \r\n"
+	    			+ "join BangChamCongNhanVien cc  on l.thoiGian=cc.ngayChamCong AND l.MaNV = cc.maNhanVien\r\n"
+	    			+ "\r\n"
+	    			+ "WHERE MaNV LIKE CONCAT('%', ?, '%') OR ten LIKE CONCAT('%', ?, '%') OR sDT LIKE CONCAT('%', ?, '%') OR chucDanh LIKE CONCAT('%', ?, '%')  OR email LIKE CONCAT('%', ?, '%') OR phongBan LIKE CONCAT('%',  ?, '%')  OR soGioTangCa  LIKE CONCAT('%',  ?, '%') OR soNgayNghi LIKE CONCAT('%',  ?, '%')";
+	    	try (PreparedStatement stmt = con.prepareStatement(sql)) {
+	            stmt.setString(1, text);
+	            stmt.setString(2, text);
+	            stmt.setString(3, text);
+	            
+	            stmt.setString(4, text);
+	            stmt.setString(5, text);
+	            stmt.setString(6, text);
+	            stmt.setString(7, text);
+	            stmt.setString(8, text);
+	            try (ResultSet rs = stmt.executeQuery()) {
+	                while (rs.next()) {
+	                    NhanVien nv = new NhanVien(rs.getString("maNhanVien"), rs.getString("ten"), rs.getString("phongBan"));
+	                    LocalDate ngayTinh = getLocalDate(rs, "thoiGian");
+//	                    LocalDate ngayChamCong = getLocalDate(rs, "ngayChamCong");
+	                    BangChamCongNhanVien cc = new BangChamCongNhanVien(rs.getString("maBangChamCongNV"), rs.getString("maNhanVien"),
+	                            rs.getInt("soNgayLamViec"), rs.getInt("soNgayNghi"), rs.getDouble("soGioTangCa"), rs.getDate("ngayChamCong"), rs.getInt("coPhep"));
+	                    dsBangLuongNVTK.add(new BangLuongNhanVien(rs.getString("maBangLuong"), rs.getDouble("luongThang"), rs.getDouble("phuCap"), rs.getDouble("tienThuong"), rs.getDouble("baoHiemXH"), rs.getDouble("thucLanh"), rs.getDouble("luongCoBan"), ngayTinh, nv, cc));
+	                }
+	            }
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return dsBangLuongNVTK;
+	}
 
 //	public ArrayList<BangLuongNhanVien> getBLNV_tg(String nam, String month) {
 //	    ArrayList<BangLuongNhanVien> dsNV = new ArrayList<>();

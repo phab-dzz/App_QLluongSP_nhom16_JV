@@ -28,10 +28,6 @@ import BUS.CongDoanSanPham_BUS;
 import BUS.CongNhan_BUS;
 import BUS.PhanCongCongDoan_BUS;
 import BUS.SanPham_BUS;
-import DAO.CongDoanSanPham_DAO;
-import DAO.CongNhan_DAO;
-import DAO.ConnectDB;
-import DAO.SanPham_DAO;
 import DTO.CongDoanSanPham;
 import DTO.CongNhan;
 import DTO.NhanVien;
@@ -39,6 +35,10 @@ import DTO.PhanCongCongDoan;
 import DTO.SanPham;
 import MyCustom.MyDialog;
 import CustomGUi.ScrollBarCustom;
+import DAO.CongDoanSanPham_DAO;
+import DAO.CongNhan_DAO;
+import DAO.ConnectDB;
+import DAO.SanPham_DAO;
 import utilities.DateChooserUtils;
 import utilities.ProcessDate;
 import utilities.Snippet;
@@ -499,6 +499,7 @@ public class PhancongJPanel extends JPanel implements MouseListener,ActionListen
 	}
 	public void addatatotblePCCD() {
 		modelPC.setRowCount(0);
+	
 		ArrayList<PhanCongCongDoan> dsPC = PC_BUS.getAllPhanCongCD();
 		for(PhanCongCongDoan pc: dsPC) {
 			CongNhan cn= timkiemtheomaCN(pc.getMaCN());
