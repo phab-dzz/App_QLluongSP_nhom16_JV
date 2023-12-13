@@ -1,81 +1,74 @@
 package BUS;
 
-import java.sql.Date;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import javax.xml.validation.Validator;
-
+import DAO.ConnectDB;
 import DAO.PhanCongCongDoan_DAO;
-import DAO.SanPham_DAO;
-import DTO.CongNhan;
 import DTO.PhanCongCongDoan;
-import DTO.SanPham;
 import MyCustom.MyDialog;
 
 public class PhanCongCongDoan_BUS {
-	private PhanCongCongDoan_DAO PhanCongDAO= new PhanCongCongDoan_DAO();
-	private ArrayList<PhanCongCongDoan>  dsPhanCong= null;
+	private PhanCongCongDoan_DAO PhanCongDAO = new PhanCongCongDoan_DAO();
+	private ArrayList<PhanCongCongDoan> dsPhanCong = null;
+
 	public ArrayList<PhanCongCongDoan> getAllPhanCongCD() {
-        dsPhanCong=PhanCongDAO.getALLPhanCongCongDoan();
-       return dsPhanCong;
-   }
-	public void docDanhSach() {
-		this.dsPhanCong = PhanCongDAO.getALLPhanCongCongDoan();
+		dsPhanCong = PhanCongDAO.getALLPhanCongCongDoan();
+		return dsPhanCong;
 	}
-//   public int getCongNhanCount() {
-//       ArrayList<CongNhan> dsCN = getAllCongNhan();
-//       return dsCN.size();
-//   }
-	public boolean themPhanCongCongDoan(String maCN, String maSP, String maCD, int soLuongCongDoanPhanCong, LocalDate ngayBatDau) {
-		if(!maCN.equals("")) {
-			PhanCongCongDoan cd= new PhanCongCongDoan();
+	public PhanCongCongDoan getPhanCongCD(String maCN) {
+		return PhanCongDAO.getPhanCong(maCN);
+	}
+	public ArrayList<PhanCongCongDoan> getDanhSachCanPhanCong(String chuyenMon) {
+		dsPhanCong = PhanCongDAO.getDSCanPhanCong(chuyenMon);
+		return dsPhanCong;
+	}
+	public ArrayList<PhanCongCongDoan> getDanhSachPhanCongTheoXuong(String xuong) {
+		return PhanCongDAO.getDSPhanCongTheoXuong(xuong);
+	}
+	public int getSoLuongCongDoanPhanCong(String maCN) {
+		return PhanCongDAO.getSoLuongPhanCong(maCN);
+	}
+
+	public boolean themPhanCongCongDoan(String maCN, String maSP, String maCD, int soLuongCongDoanPhanCong,
+			LocalDate ngayBatDau) {
+		if (!maCN.equals("")) {
+			PhanCongCongDoan cd = new PhanCongCongDoan();
 			cd.setMaCD(maCD);
 			cd.setMaCN(maCN);
 			cd.setMaSP(maSP);
 			cd.setNgayBatDau(ngayBatDau);
 			cd.setSoLuongCongDoanPhanCong(soLuongCongDoanPhanCong);
-			boolean flag= PhanCongDAO.themPhanCongCongDoan(cd);
+			boolean flag = PhanCongDAO.themPhanCongCongDoan(cd);
 			if (!flag) {
-				new MyDialog("Thêm thất bại!", MyDialog.ERROR_DIALOG);
+				System.out.println("INSERT FAILE!");
 			} else {
-				new MyDialog("Thêm thành công!", MyDialog.SUCCESS_DIALOG);
+				System.out.println("INSERT SUCCESS!");
 			}
 			return flag;
-			}
-			else
-				return false;
-		}
-	public boolean xoaPhanCongCongDoan(String maCN) {
-		if(!maCN.equals("")) {
-			boolean flag=PhanCongDAO.xoaPhanCongCD(maCN);
-			
-			if (!flag) {
-				new MyDialog("Xóa thất bại!", MyDialog.ERROR_DIALOG);
-			} else {
-				new MyDialog("Xóa thành công!", MyDialog.SUCCESS_DIALOG);
-			}
-			return flag;
-			}
-			else
-				return false;
+		} else
+			return false;
 	}
+
+
 	public boolean updateCongDoan(PhanCongCongDoan cd) {
-		if(!cd.getMaCN().equals("")) {
-			boolean flag= PhanCongDAO.updateCD(cd);
+		try {
+			ConnectDB.getInstance().connect();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		if (!cd.getMaCN().equals("")) {
+			boolean flag = PhanCongDAO.updateCD(cd);
 			if (!flag) {
-				new MyDialog("Sửa thất bại!", MyDialog.ERROR_DIALOG);
+				System.out.println("UPDATE FAILE!");
 			} else {
-				new MyDialog("Sửa thành công!", MyDialog.SUCCESS_DIALOG);
+				System.out.println("UPDATE SUCCESS!");
 			}
 			return flag;
-			}
-			else
-				return false;
-		
+		} else
+			return false;
+
 	}
 }
-	
-	
-
-

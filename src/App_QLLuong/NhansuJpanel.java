@@ -35,6 +35,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.swing.ImageIcon;
 import javax.swing.border.BevelBorder;
@@ -43,13 +44,15 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.border.EmptyBorder;
 import com.toedter.calendar.JDateChooser;
-
+import BUS.PhanCongCongDoan_BUS;
 import BUS.CongNhan_BUS;
 import BUS.NhanVien_BUS;
+import BUS.PhanCongCongDoan_BUS;
 import DTO.CongNhan;
+import DTO.PhanCongCongDoan;
 import DTO.NhanVien;
 public class NhansuJpanel extends JPanel {
-	
+
 	private JTable tableNhanVien;
 	private JTable tableCongNhan;
 
@@ -60,7 +63,7 @@ public class NhansuJpanel extends JPanel {
 	private JTextField txtEmailNV;
 	private JTextField txtLuongCoBanNV;
 	private JTextField txtTimKiemNV;
-	
+
 	private JLabel lblIDNhanVien;
 	private JLabel lblTenNhanVien;
 	private JLabel lblGioiTinhNV;
@@ -84,13 +87,13 @@ public class NhansuJpanel extends JPanel {
 	private JLabel lblDiaChiNV;
 	private JScrollPane scrollPaneNV;
 	private JComboBox comboBoxSearchPhongBanNV;
-	
+
 	private JTextField textmaCN;
 	private JTextField txtSoDienThoaiCN;
 	private JTextField txtDiaChiCN;
 	private JTextField txtCN;
 	private JTextField txtTimKiemCN;
-	
+
 	private JLabel lblIDCongNhan;
 	private JLabel lblHoTenCN;
 	private JLabel lblGioiTinhCN;
@@ -126,114 +129,144 @@ public class NhansuJpanel extends JPanel {
 
 	private JDialog dialog;
 	
-	public String phatSinhMaNV(int NVCount) {
-		String phatSinhIDNV;
-		phatSinhIDNV = "NV00" + String.format("%1d", NVCount);
-		return phatSinhIDNV;
-	}
-	public String phatSinhMaCN(int CNCount) {
-		String phatSinhIDNV;
-		phatSinhIDNV = "CN00" + String.format("%1d", CNCount);
-		return phatSinhIDNV;
-	}
-	public void DeleteConfirmationDialog(String maNhanSu, DefaultTableModel model, int selectRow) {
-		dialog = new JDialog();
-		dialog.setSize(400, 200);
-		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		dialog.setResizable(false);
-		dialog.setLocationRelativeTo(null);
-		dialog.getContentPane().setLayout(new BorderLayout());
+	private static String CreatCodeNV() {
+		ArrayList<NhanVien> dsNV = nhanVienBUS.getDanhSachNhanVien();
+		Random random = new Random();
+		String prefix = "CN00";
+		int newEmployeeNumber;
+		do {
+			// Tạo số tự nhiên > 0
+			newEmployeeNumber = random.nextInt(1000) + 1;
 
-		// Phần màu RGB(249, 166, 26) chứa icon ở giữa
-		JPanel iconPanel = new JPanel(new BorderLayout());
-		iconPanel.setBackground(new Color(249, 166, 26));
+			// Tạo mã công nhân mới
+			String newEmployeeCode = prefix + newEmployeeNumber;
 
-		ImageIcon errorIcon = new ImageIcon(NhansuJpanel.class.getResource("/Icons/IconSanpham.png"));
-		JLabel iconLabel = new JLabel(errorIcon);
-		iconLabel.setHorizontalAlignment(JLabel.CENTER);
-		iconPanel.add(iconLabel, BorderLayout.CENTER);
-
-		dialog.getContentPane().add(iconPanel, BorderLayout.NORTH);
-		String warnning;
-		// Nội dung lỗi
-		if (maNhanSu.startsWith("NV")) {
-			warnning = "Bạn có muốn xóa nhân viên này ?";
-		}else {
-			warnning = "Bạn có muốn xóa công nhân này ?";
-		}
-		JLabel errorMessageLabel = new JLabel("<html>" + warnning + "</html");
-		errorMessageLabel.setHorizontalAlignment(JLabel.CENTER);
-		errorMessageLabel.setVerticalAlignment(JLabel.CENTER);
-		errorMessageLabel.setFont(new Font("Arial", Font.PLAIN, 16));
-		dialog.getContentPane().add(errorMessageLabel, BorderLayout.CENTER);
-
-		// Nút xác nhận và hủy
-		JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10)); // Thêm khoảng cách 20 pixels giữa các nút và 10 pixels dưới
-
-		JButton confirmButton = new JButton("Xác nhận");
-		confirmButton.addActionListener(e -> {
-			dialog.dispose();
-
-			if (maNhanSu.startsWith("NV")) {
-				nhanVienBUS.xoaNhanVien(maNhanSu);
-				model.removeRow(selectRow); // Xóa hàng từ bảng
-				NVCount--;
-				txtIDNhanVien.setText(phatSinhMaNV(NVCount));
-				txtTenNhanVienNV.setText("");
-				txtSoDienThoaiNV.setText("");
-				txtEmailNV.setText("");
-				txtDiaChiNV.setText("");
-				txtLuongCoBanNV.setText("");
-				comboBoxPhongBanNV.setSelectedIndex(0);
-				comboBoxChucDanhNV.setSelectedIndex(0);
-				comboBoxHeSoLuongNV.setSelectedIndex(0);
-				comboBoxPhuCapNV.setSelectedIndex(0);
-				dateChooser_NgaySinhNV.setDate(null);
-				dateChooser_NgayThamGiaNV.setDate(null);
-				rdbtnNamNV.setSelected(true);
-				rdbtnNuNV.setSelected(false);
-				comboBoxSearchPhongBanNV.setSelectedIndex(0);
-				tableNhanVien.clearSelection(); // Bỏ chọn hàng
-				hienThiDanhSachNhanVien();
-			} else {
-				congNhanBUS.xoaCongNhan(maNhanSu);
-				model.removeRow(selectRow); // Xóa hàng từ bảng
-				CNCount--;
-				textmaCN.setText(phatSinhMaCN(CNCount));
-				txtCN.setText("");
-				txtSoDienThoaiCN.setText("");
-				txtDiaChiCN.setText("");
-				comboBoxTrinhDoCN.setSelectedIndex(0);
-				comboBoxTrangThaiCN.setSelectedIndex(0);
-				comboBoxChuyenMonCN.setSelectedIndex(0);
-				comboBoxPhuCapCN.setSelectedIndex(0);
-				comboBoxIDXuong.setSelectedIndex(0);
-				dateChooser_NgaySinhCN.setDate(null);
-				dateChooser_NgayThamGiaCN.setDate(null);
-				rdbtnNamCN.setSelected(true);
-				rdbtnNuCN.setSelected(false);
-				comboBoxSearchIDXuong.setSelectedIndex(0);
-				tableCongNhan.clearSelection(); // Bỏ chọn hàng
-				hienThiDanhSachCongNhan();
+			// Kiểm tra xem mã công nhân mới có trùng với các mã hiện có không
+			if (!dsNV.contains(newEmployeeCode)) {
+				// Nếu không trùng, trả về mã mới
+				return newEmployeeCode;
 			}
-		});
 
-		JButton cancelButton = new JButton("Hủy");
-		cancelButton.addActionListener(e -> {
-			dialog.dispose();
-		});
-
-		buttonPanel.add(confirmButton);
-		buttonPanel.add(cancelButton);
-
-		// Đặt khoảng trống dưới buttonPanel
-		buttonPanel.setBorder(new EmptyBorder(0, 0, 10, 0));
-
-		dialog.getContentPane().add(buttonPanel, BorderLayout.SOUTH);
-
-		dialog.setVisible(true);
-
+		} while (true);
 	}
+	private static String CreatCodeCN() {
+		ArrayList<CongNhan> dsCN = congNhanBUS.getDanhSachCongNhan();
+		Random random = new Random();
+		String prefix = "CN00";
+		int newEmployeeNumber;
+		do {
+			// Tạo số tự nhiên > 0
+			newEmployeeNumber = random.nextInt(1000) + 1;
+			
+			// Tạo mã công nhân mới
+			String newEmployeeCode = prefix + newEmployeeNumber;
+			
+			// Kiểm tra xem mã công nhân mới có trùng với các mã hiện có không
+			if (!dsCN.contains(newEmployeeCode)) {
+				// Nếu không trùng, trả về mã mới
+				return newEmployeeCode;
+			}
+			
+		} while (true);
+	}
+	//	public void DeleteConfirmationDialog(String maNhanSu, DefaultTableModel model, int selectRow) {
+	//		dialog = new JDialog();
+	//		dialog.setSize(400, 200);
+	//		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+	//		dialog.setResizable(false);
+	//		dialog.setLocationRelativeTo(null);
+	//		dialog.getContentPane().setLayout(new BorderLayout());
+	//
+	//		// Phần màu RGB(249, 166, 26) chứa icon ở giữa
+	//		JPanel iconPanel = new JPanel(new BorderLayout());
+	//		iconPanel.setBackground(new Color(249, 166, 26));
+	//
+	//		ImageIcon errorIcon = new ImageIcon(NhansuJpanel.class.getResource("/Icons/IconSanpham.png"));
+	//		JLabel iconLabel = new JLabel(errorIcon);
+	//		iconLabel.setHorizontalAlignment(JLabel.CENTER);
+	//		iconPanel.add(iconLabel, BorderLayout.CENTER);
+	//
+	//		dialog.getContentPane().add(iconPanel, BorderLayout.NORTH);
+	//		String warnning;
+	//		// Nội dung lỗi
+	//		if (maNhanSu.startsWith("NV")) {
+	//			warnning = "Bạn có muốn xóa nhân viên này ?";
+	//		}else {
+	//			warnning = "Bạn có muốn xóa công nhân này ?";
+	//		}
+	//		JLabel errorMessageLabel = new JLabel("<html>" + warnning + "</html");
+	//		errorMessageLabel.setHorizontalAlignment(JLabel.CENTER);
+	//		errorMessageLabel.setVerticalAlignment(JLabel.CENTER);
+	//		errorMessageLabel.setFont(new Font("Arial", Font.PLAIN, 16));
+	//		dialog.getContentPane().add(errorMessageLabel, BorderLayout.CENTER);
+	//
+	//		// Nút xác nhận và hủy
+	//		JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10)); // Thêm khoảng cách 20 pixels giữa các nút và 10 pixels dưới
+	//
+	//		JButton confirmButton = new JButton("Xác nhận");
+	//		confirmButton.addActionListener(e -> {
+	//			dialog.dispose();
+	//
+	//			if (maNhanSu.startsWith("NV")) {
+	//				nhanVienBUS.xoaNhanVien(maNhanSu);
+	//				model.removeRow(selectRow); // Xóa hàng từ bảng
+	//				NVCount--;
+	//				txtIDNhanVien.setText(phatSinhMaNV(NVCount));
+	//				txtTenNhanVienNV.setText("");
+	//				txtSoDienThoaiNV.setText("");
+	//				txtEmailNV.setText("");
+	//				txtDiaChiNV.setText("");
+	//				txtLuongCoBanNV.setText("");
+	//				comboBoxPhongBanNV.setSelectedIndex(0);
+	//				comboBoxChucDanhNV.setSelectedIndex(0);
+	//				comboBoxHeSoLuongNV.setSelectedIndex(0);
+	//				comboBoxPhuCapNV.setSelectedIndex(0);
+	//				dateChooser_NgaySinhNV.setDate(null);
+	//				dateChooser_NgayThamGiaNV.setDate(null);
+	//				rdbtnNamNV.setSelected(true);
+	//				rdbtnNuNV.setSelected(false);
+	//				comboBoxSearchPhongBanNV.setSelectedIndex(0);
+	//				tableNhanVien.clearSelection(); // Bỏ chọn hàng
+	//				hienThiDanhSachNhanVien();
+	//			} else {
+	//				congNhanBUS.xoaCongNhan(maNhanSu);
+	//				model.removeRow(selectRow); // Xóa hàng từ bảng
+	//				CNCount--;
+	//				textmaCN.setText(phatSinhMaCN(CNCount));
+	//				txtCN.setText("");
+	//				txtSoDienThoaiCN.setText("");
+	//				txtDiaChiCN.setText("");
+	//				comboBoxTrinhDoCN.setSelectedIndex(0);
+	//				comboBoxTrangThaiCN.setSelectedIndex(0);
+	//				comboBoxChuyenMonCN.setSelectedIndex(0);
+	//				comboBoxPhuCapCN.setSelectedIndex(0);
+	//				comboBoxIDXuong.setSelectedIndex(0);
+	//				dateChooser_NgaySinhCN.setDate(null);
+	//				dateChooser_NgayThamGiaCN.setDate(null);
+	//				rdbtnNamCN.setSelected(true);
+	//				rdbtnNuCN.setSelected(false);
+	//				comboBoxSearchIDXuong.setSelectedIndex(0);
+	//				tableCongNhan.clearSelection(); // Bỏ chọn hàng
+	//				hienThiDanhSachCongNhan();
+	//			}
+	//		});
+	//
+	//		JButton cancelButton = new JButton("Hủy");
+	//		cancelButton.addActionListener(e -> {
+	//			dialog.dispose();
+	//		});
+	//
+	//		buttonPanel.add(confirmButton);
+	//		buttonPanel.add(cancelButton);
+	//
+	//		// Đặt khoảng trống dưới buttonPanel
+	//		buttonPanel.setBorder(new EmptyBorder(0, 0, 10, 0));
+	//
+	//		dialog.getContentPane().add(buttonPanel, BorderLayout.SOUTH);
+	//
+	//		dialog.setVisible(true);
+	//
+	//	}
 
 	// LIST NV
 	public void hienThiThongTinNV(String maNhanVien) {
@@ -269,7 +302,7 @@ public class NhansuJpanel extends JPanel {
 		// Lấy danh sách nhân viên từ BUS
 		ArrayList<NhanVien> dsNhanVien = nhanVienBUS.getDanhSachNhanVien();
 		String gioiTinh;
-		txtIDNhanVien.setText(phatSinhMaNV(NVCount));
+		txtIDNhanVien.setText(CreatCodeNV());
 		// Lấy mô hình dữ liệu của JTable
 		DefaultTableModel tableModel = (DefaultTableModel) tableNhanVien.getModel();
 
@@ -374,7 +407,7 @@ public class NhansuJpanel extends JPanel {
 		String gioiTinh;
 
 		//Phát sinh ID
-		textmaCN.setText(phatSinhMaCN(CNCount));
+		textmaCN.setText(CreatCodeCN());
 
 		// Lấy mô hình dữ liệu của JTable
 		DefaultTableModel tableModel = (DefaultTableModel) tableCongNhan.getModel();
@@ -469,8 +502,8 @@ public class NhansuJpanel extends JPanel {
 		tabbedPane.addTab("Nhân viên", null, tabbedNhanVien, null);
 		tabbedNhanVien.setLayout(null);
 
-		
-		
+
+
 		// Nhân viên -----------------------------------------------------------------------------------------
 
 		// ID nhân viên
@@ -479,6 +512,7 @@ public class NhansuJpanel extends JPanel {
 		tabbedNhanVien.add(lblIDNhanVien);
 
 		txtIDNhanVien = new JTextField();
+		txtIDNhanVien.setEditable(false);
 		txtIDNhanVien.setBounds(199, 8, 138, 20);
 		tabbedNhanVien.add(txtIDNhanVien);
 		txtIDNhanVien.setColumns(10);
@@ -503,14 +537,14 @@ public class NhansuJpanel extends JPanel {
 
 		rdbtnNuNV = new JRadioButton("Nữ");
 		rdbtnNuNV.setBounds(812, 7, 58, 23);
-		
+
 		ButtonGroup genderGroup = new ButtonGroup();
-	    genderGroup.add(rdbtnNamNV);
-	    genderGroup.add(rdbtnNuNV);
-	    
+		genderGroup.add(rdbtnNamNV);
+		genderGroup.add(rdbtnNuNV);
+
 		tabbedNhanVien.add(rdbtnNamNV);
 		tabbedNhanVien.add(rdbtnNuNV);
-		
+
 		// Ngày tham gia nhân viên
 		lblNgayThamGiaNV = new JLabel("Ngày tham gia:");
 		lblNgayThamGiaNV.setBounds(101, 42, 95, 14);
@@ -628,7 +662,7 @@ public class NhansuJpanel extends JPanel {
 		tabbedNhanVien.add(scrollPaneNV);
 
 		// Table Nhan Vien
-		
+
 		tableNhanVien = new JTable();
 		tableNhanVien.setModel(new DefaultTableModel(
 				new Object[][] {
@@ -778,7 +812,6 @@ public class NhansuJpanel extends JPanel {
 					}else {
 						hienThiDanhSachNhanVienPhongBan(tenPhong);
 					}
-
 				}
 			}
 
@@ -839,28 +872,28 @@ public class NhansuJpanel extends JPanel {
 		tabbedNhanVien.add(btnAddNV);
 
 		// Xóa nhân viên
-		JButton btnDeleteNV = new JButton("Xóa");
-		btnDeleteNV.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				int selectedRow = tableNhanVien.getSelectedRow();
-				DefaultTableModel model = (DefaultTableModel) tableNhanVien.getModel();
-				if (selectedRow == -1) {
-					// Không có hàng nào được chọn
-					System.out.println("Chưa chọn hàng nào.");
-				} else {
-					String maNhanVien = (String) tableNhanVien.getValueAt(selectedRow, 1);
-					System.out.println(maNhanVien);
-					// Gọi DeleteConfirmationDialog(maNhanVien, model, selectedRow) để hiển thị hộp thoại xác nhận
-					DeleteConfirmationDialog(maNhanVien, model, selectedRow);
-					
-				}
-			}
-		});
-		btnDeleteNV.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(0, 0, 0), null, null, new Color(0, 0, 0)));
-		btnDeleteNV.setIcon(new ImageIcon(NhansuJpanel.class.getResource("/Icons/chamcong/xoa.png")));
-		btnDeleteNV.setBackground(new Color(30, 144, 255));
-		btnDeleteNV.setBounds(539, 197, 89, 23);
-		tabbedNhanVien.add(btnDeleteNV);
+		//		JButton btnDeleteNV = new JButton("Xóa");
+		//		btnDeleteNV.addActionListener(new ActionListener() {
+		//			public void actionPerformed(ActionEvent e) {
+		//				int selectedRow = tableNhanVien.getSelectedRow();
+		//				DefaultTableModel model = (DefaultTableModel) tableNhanVien.getModel();
+		//				if (selectedRow == -1) {
+		//					// Không có hàng nào được chọn
+		//					System.out.println("Chưa chọn hàng nào.");
+		//				} else {
+		//					String maNhanVien = (String) tableNhanVien.getValueAt(selectedRow, 1);
+		//					System.out.println(maNhanVien);
+		//					// Gọi DeleteConfirmationDialog(maNhanVien, model, selectedRow) để hiển thị hộp thoại xác nhận
+		//					DeleteConfirmationDialog(maNhanVien, model, selectedRow);
+		//					
+		//				}
+		//			}
+		//		});
+		//		btnDeleteNV.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(0, 0, 0), null, null, new Color(0, 0, 0)));
+		//		btnDeleteNV.setIcon(new ImageIcon(NhansuJpanel.class.getResource("/Icons/chamcong/xoa.png")));
+		//		btnDeleteNV.setBackground(new Color(30, 144, 255));
+		//		btnDeleteNV.setBounds(539, 197, 89, 23);
+		//		tabbedNhanVien.add(btnDeleteNV);
 
 		// Update nhân viên
 		JButton btnSaveNV = new JButton("Lưu");
@@ -928,10 +961,11 @@ public class NhansuJpanel extends JPanel {
 
 		// Làm mới nhân viên
 		JButton btnRefreshForm = new JButton("Làm mới");
+		btnRefreshForm.setIcon(null);
 		btnRefreshForm.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				tableNhanVien.clearSelection();
-				txtIDNhanVien.setText(phatSinhMaNV(NVCount));
+				txtIDNhanVien.setText(CreatCodeNV());
 				txtTenNhanVienNV.setText("");
 				txtSoDienThoaiNV.setText("");
 				txtEmailNV.setText("");
@@ -950,7 +984,7 @@ public class NhansuJpanel extends JPanel {
 			}
 		});
 		btnRefreshForm.setBackground(new Color(30, 144, 255));
-		btnRefreshForm.setBounds(654, 156, 89, 23);
+		btnRefreshForm.setBounds(539, 197, 89, 23);
 		tabbedNhanVien.add(btnRefreshForm);
 
 		// Công nhân ===================================================================================================
@@ -961,6 +995,7 @@ public class NhansuJpanel extends JPanel {
 		tabbedCongNhan.add(lblIDCongNhan);
 
 		textmaCN = new JTextField();
+		textmaCN.setEditable(false);
 		textmaCN.setBounds(199, 8, 138, 20);
 		tabbedCongNhan.add(textmaCN);
 		textmaCN.setColumns(10);
@@ -990,9 +1025,9 @@ public class NhansuJpanel extends JPanel {
 		tabbedCongNhan.add(rdbtnNuCN);
 
 		ButtonGroup genderGroup2 = new ButtonGroup();
-	    genderGroup.add(rdbtnNamCN);
-	    genderGroup.add(rdbtnNuCN);
-		
+		genderGroup.add(rdbtnNamCN);
+		genderGroup.add(rdbtnNuCN);
+
 		// Ngày tham gia công nhân
 		lblNgayThamGiaCN = new JLabel("Ngày tham gia:");
 		lblNgayThamGiaCN.setBounds(101, 42, 95, 14);
@@ -1071,7 +1106,7 @@ public class NhansuJpanel extends JPanel {
 		comboBoxChuyenMonCN.setBorder(null);
 		comboBoxChuyenMonCN.setBackground(new Color(255, 255, 255));
 		comboBoxChuyenMonCN.setAutoscrolls(true);
-		comboBoxChuyenMonCN.setModel(new DefaultComboBoxModel(new String[] {"Vắt sổ", "May áo", "Đính nút", "In hình", "Kiểm tra chất lượng", "Cắt Vải", "May Quần", "May đáy quần", "May Túi", "Làm Mẫu", "Thân Áo", "Cổ Áo", "Tay Áo"}));
+		comboBoxChuyenMonCN.setModel(new DefaultComboBoxModel(new String[] {"Vắt sổ", "Đính nút", "In thêu", "Kiểm tra", "Cắt vải", "May kim", "Là ủi", "Đóng gói"}));
 		comboBoxChuyenMonCN.setBounds(199, 99, 138, 22);
 		tabbedCongNhan.add(comboBoxChuyenMonCN);
 
@@ -1216,6 +1251,7 @@ public class NhansuJpanel extends JPanel {
 		txtTimKiemCN.setColumns(10);
 		txtTimKiemCN.setBounds(92, 199, 125, 20);
 		tabbedCongNhan.add(txtTimKiemCN);
+		btnSearchCN.setIcon(null);
 
 		btnSearchCN.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -1316,29 +1352,29 @@ public class NhansuJpanel extends JPanel {
 		tabbedCongNhan.add(btnAddCN);
 
 		// xóa công nhân
-		JButton btnDeleteCN = new JButton("Xóa");
-		btnDeleteCN.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(0, 0, 0), null, null, new Color(0, 0, 0)));
-		btnDeleteCN.setIcon(new ImageIcon(NhansuJpanel.class.getResource("/Icons/chamcong/xoa.png")));
-		btnDeleteCN.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				int selectedRow = tableCongNhan.getSelectedRow();
-				DefaultTableModel model = (DefaultTableModel) tableCongNhan.getModel();
-				if (selectedRow == -1) {
-					// Không có hàng nào được chọn
-					System.out.println("Chưa chọn hàng nào.");
-				} else {
-					String maCongNhan = (String) tableCongNhan.getValueAt(selectedRow, 1);
-					System.out.println(maCongNhan);
-					// Gọi DeleteConfirmationDialog(maNhanVien, model, selectedRow) để hiển thị hộp thoại xác nhận
-					DeleteConfirmationDialog(maCongNhan, model, selectedRow);
-				}
-			}
-		});
-		btnDeleteCN.setBackground(new Color(30, 144, 255));
-		btnDeleteCN.setBounds(541, 198, 89, 23);
-		tabbedCongNhan.add(btnDeleteCN);
+		//		JButton btnDeleteCN = new JButton("Xóa");
+		//		btnDeleteCN.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(0, 0, 0), null, null, new Color(0, 0, 0)));
+		//		btnDeleteCN.setIcon(new ImageIcon(NhansuJpanel.class.getResource("/Icons/chamcong/xoa.png")));
+		//		btnDeleteCN.addActionListener(new ActionListener() {
+		//
+		//			@Override
+		//			public void actionPerformed(ActionEvent e) {
+		//				int selectedRow = tableCongNhan.getSelectedRow();
+		//				DefaultTableModel model = (DefaultTableModel) tableCongNhan.getModel();
+		//				if (selectedRow == -1) {
+		//					// Không có hàng nào được chọn
+		//					System.out.println("Chưa chọn hàng nào.");
+		//				} else {
+		//					String maCongNhan = (String) tableCongNhan.getValueAt(selectedRow, 1);
+		//					System.out.println(maCongNhan);
+		//					// Gọi DeleteConfirmationDialog(maNhanVien, model, selectedRow) để hiển thị hộp thoại xác nhận
+		//					DeleteConfirmationDialog(maCongNhan, model, selectedRow);
+		//				}
+		//			}
+		//		});
+		//		btnDeleteCN.setBackground(new Color(30, 144, 255));
+		//		btnDeleteCN.setBounds(541, 198, 89, 23);
+		//		tabbedCongNhan.add(btnDeleteCN);
 
 		// Update công nhân
 		JButton btnSaveCN = new JButton("Lưu");
@@ -1404,10 +1440,11 @@ public class NhansuJpanel extends JPanel {
 
 		//Làm mới công nhân
 		JButton btnRefreshCN = new JButton("Làm mới");
+		btnRefreshCN.setIcon(null);
 		btnRefreshCN.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				tableCongNhan.clearSelection();
-				textmaCN.setText(phatSinhMaCN(CNCount));
+				textmaCN.setText(CreatCodeCN());
 				txtCN.setText("");
 				txtSoDienThoaiCN.setText("");
 				txtDiaChiCN.setText("");
@@ -1426,8 +1463,8 @@ public class NhansuJpanel extends JPanel {
 		});
 		btnRefreshCN.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(0, 0, 0), null, null, new Color(0, 0, 0)));
 		btnRefreshCN.setBackground(new Color(30, 144, 255));
-		btnRefreshCN.setBounds(658, 157, 89, 23);
+		btnRefreshCN.setBounds(542, 198, 89, 23);
 		tabbedCongNhan.add(btnRefreshCN);
-		
+
 	}
 }

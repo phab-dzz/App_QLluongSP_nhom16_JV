@@ -38,6 +38,7 @@ import javax.swing.border.BevelBorder;
 import javax.swing.ImageIcon;
 
 import BUS.TaiKhoan_BUS;
+import CustomGUi.CustomDialog;
 
 public class Dangnhap extends JFrame {
 
@@ -71,6 +72,7 @@ public class Dangnhap extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 764, 469);
 		setResizable(false);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		URL url= App_main.class.getResource("icon_main.png");
@@ -119,6 +121,7 @@ public class Dangnhap extends JFrame {
 		textFieldUsername.setForeground(new Color(0, 0, 0));
 		textFieldUsername.setToolTipText("Username:\r\n");
 		textFieldUsername.setBounds(79, 164, 234, 29);
+		textFieldUsername.setText("Addmin");
 		panel_2.add(textFieldUsername);
 		textFieldUsername.setColumns(10);
 
@@ -144,6 +147,7 @@ public class Dangnhap extends JFrame {
 		passwordField = new JPasswordField();
 		passwordField.setBackground(new Color(255, 255, 255));
 		passwordField.setBounds(79, 245, 234, 29);
+		passwordField.setText("addmin123");
 		panel_2.add(passwordField);
 
 		JLabel lblImgUser = new JLabel("");
@@ -162,20 +166,13 @@ public class Dangnhap extends JFrame {
 		lblImgPassword.setBounds(35, 245, 61, 29);
 		panel_2.add(lblImgPassword);
 
-		JButton btnQuenMK = new JButton("Quên mật khẩu?");
-		btnQuenMK.setForeground(new Color(255, 255, 255));
-		btnQuenMK.setBackground(new Color(0, 0, 151));
-		btnQuenMK.setFont(new Font("Tahoma", Font.ITALIC, 11));
-		btnQuenMK.setBounds(196, 298, 117, 23);
-		panel_2.add(btnQuenMK);
-
 		btnLogin = new JButton("Đăng nhập");
 
 		JCheckBox chckbxXem = new JCheckBox("Xem mật khẩu");
 		chckbxXem.setForeground(new Color(255, 255, 255));
 		chckbxXem.setBackground(new Color(0, 0, 151));
 		chckbxXem.setFont(new Font("Tahoma", Font.ITALIC, 11));
-		chckbxXem.setBounds(79, 298, 97, 23);
+		chckbxXem.setBounds(216, 296, 97, 23);
 		panel_2.add(chckbxXem);
 
 		chckbxXem.addItemListener(new ItemListener() {
@@ -207,14 +204,15 @@ public class Dangnhap extends JFrame {
 					String strMatKhau = new String(matKhau);
 					String strTaiKhoan = textFieldUsername.getText();
 					TaiKhoan_BUS taiKhoanBUS = new TaiKhoan_BUS();
-					if (taiKhoanBUS.KiemTraTaiKhoan(strMatKhau, strMatKhau)) {
+					if (taiKhoanBUS.KiemTraTaiKhoan(strTaiKhoan, strMatKhau)) {
 						JOptionPane.showMessageDialog(null, "Đăng nhập thành công!!!");
+//						new CustomDialog("Đăng nhập thành công!!!",CustomDialog.SUCCESS_DIALOG);
 						type = taiKhoanBUS.kiemTraPhanQuyen(strTaiKhoan);
 						new App_main().setVisible(true);
-						
 						dispose();
 					} else {
 						JOptionPane.showMessageDialog(null, "Đăng nhập sai, xin vui lòng thử lại!");
+//						new CustomDialog("Đăng nhập sai, xin vui lòng thử lại!",CustomDialog.ERROR_DIALOG);
 						textFieldUsername.setText("");
 						passwordField.setText("");
 						textFieldUsername.requestFocus();

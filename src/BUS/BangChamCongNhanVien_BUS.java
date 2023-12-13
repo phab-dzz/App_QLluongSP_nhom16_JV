@@ -133,4 +133,35 @@ public class BangChamCongNhanVien_BUS {
 
 	}
 
+	public ArrayList<BangChamCongNhanVien> luuVaoMangChuNhat(DefaultTableModel modelNv, Date ngayChamCong) {
+		int rowCount = modelNv.getRowCount();
+		ArrayList<BangChamCongNhanVien> listBangChamCong = new ArrayList<>();
+
+		for (int i = 0; i < rowCount; i++) {
+			// ... (Các dòng mã lấy giá trị từ các cột)
+
+			// Chuyển đổi giá trị từ cột "Có mặt" và "Có/Không phép" thành 1 và 0
+			boolean coMat = (boolean) modelNv.getValueAt(i, 3); // Giả sử cột thứ tư là cột "Có mặt"
+			boolean coPhepValue = (boolean) modelNv.getValueAt(i, 5); // Giả sử cột thứ sáu là cột "Có/Không phép"
+
+			// Chuyển đổi giá trị true thành 1 và false thành 0
+			int soNgayLamViec = coMat ? 1 : 0;
+			int coPhep = coPhepValue ? 1 : 0;
+			int soNgayNghi = coMat ? 0 : 1;
+
+			Date ngayCC = ngayChamCong;
+			String maChamCongNV = (String) modelNv.getValueAt(i, 0); // Giả sử cột đầu tiên chứa mã chấm công
+			String maNhanVien = (String) modelNv.getValueAt(i, 1); // Giả sử cột thứ hai chứa mã nhân viên
+			// Giả sử cột thứ tư chứa số ngày nghỉ
+			double soGioTangCa = (double) modelNv.getValueAt(i, 4); // Giả sử cột thứ năm chứa số giờ tăng ca
+			// Tạo đối tượng BangChamCongNhanVien và thêm vào danh sách
+			BangChamCongNhanVien bangChamCong = new BangChamCongNhanVien(maChamCongNV, maNhanVien, 0, 0, soGioTangCa,
+					ngayCC, 0, null);
+			listBangChamCong.add(bangChamCong);
+
+		}
+		return listBangChamCong;
+
+	}
+
 }

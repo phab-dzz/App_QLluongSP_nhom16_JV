@@ -1,5 +1,6 @@
 package CustomGUi;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -18,6 +19,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
@@ -30,8 +32,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import BUS.BangChamCongCongNhan_BUS;
 import DTO.BangChamCongCongNhan;
-import javax.swing.border.LineBorder;
-import java.awt.Color;
 
 public class ChamCongCongNhanDialog extends JDialog {
 	private JTable table;
@@ -40,7 +40,7 @@ public class ChamCongCongNhanDialog extends JDialog {
 	ArrayList<BangChamCongCongNhan> dscn;
 	private DefaultTableModel modelCn = new DefaultTableModel(null,
 			new String[] { "STT", "Mã công nhân", "Tên công nhân", "Xưởng", "Số sản phẩm làm được",
-					"Số sản phẩm Tăng ca", "Số ngày nghỉ", "Số ngày làm việc" }) {
+					"Số sản phẩm Tăng ca", "Số ngày làm việc", "Số ngày nghỉ" }) {
 		Class[] columnTypes = new Class[] { Integer.class, String.class, String.class, String.class, Integer.class,
 				Integer.class, Integer.class, Integer.class };
 
@@ -56,7 +56,7 @@ public class ChamCongCongNhanDialog extends JDialog {
 
 		JLabel lblNewLabel = new JLabel("Bảng thống kê chấm công công nhân");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblNewLabel.setBounds(199, 11, 298, 20);
+		lblNewLabel.setBounds(199, 11, 363, 20);
 		getContentPane().add(lblNewLabel);
 
 		comboBox.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -151,7 +151,7 @@ public class ChamCongCongNhanDialog extends JDialog {
 	// Xu ly xuat excel
 	private static void exportToExcel(JTable table) throws Exception {
 		String generatedString = RandomStringUtils.random(4, true, true);
-		String filePath = "D:\\Desktop\\Kỳ1_23-24\\Phát Triển Ứng Dụng\\CK\\App_QLluongSP_nhom16_JV\\src\\data\\BangChamCongNhan_" + generatedString + ".xlsx";
+		String filePath = "D:\\XuatExcel\\BangChamCongNhan_" + generatedString + ".xlsx";
 		TableModel model = table.getModel();
 		Workbook workbook = new XSSFWorkbook();
 		Sheet sheet = workbook.createSheet();

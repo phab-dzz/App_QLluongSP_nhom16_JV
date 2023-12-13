@@ -159,7 +159,7 @@ public class NhanVien_BUS {
 		if(String.valueOf(luongCoBan).isBlank()) {
 			return new CustomDialog("Lương cơ bản không được rỗng", CustomDialog.ERROR_DIALOG);
 		}else if(luongCoBan <=0) {
-			return new CustomDialog("Lương cơ bản không <=0", CustomDialog.ERROR_DIALOG);
+			return new CustomDialog("Lương cơ bản không bé hơn bằng 0", CustomDialog.ERROR_DIALOG);
 		}else if(!kiemTraLuongCoBan(String.format("%.0f",luongCoBan))) {
 			return new CustomDialog("Lương cơ bản phải thuộc kiểu số", CustomDialog.ERROR_DIALOG);
 			

@@ -94,12 +94,20 @@ public class BangChamCongNhanVien_DAO {
 					+ "[soGioTangCa] = [soGioTangCa] + ?, " + "[coPhep] = [coPhep] + ?, " + "[ngayChamCong] = ? "
 					+ "WHERE [maBangChamCongNV] = ?;";
 
-			String sqlUpdateLuong = "UPDATE BLNV SET "
-					+ "thucLanh = ((NV.luongCoBan * NV.hsLuong) / 26) * BCC.soNgayLamViec + ((NV.luongCoBan * NV.hsLuong) / 26 / 8) * 2 * BCC.soGioTangCa  - (BCC.soNgayNghi - BCC.coPhep) * 150000 - NV.ThueThuNhapCaNhan, "
-					+ "thoiGian = ? " + "FROM NhanVien NV "
-					+ "JOIN BangChamCongNhanVien BCC ON NV.maNhanVien = BCC.maNhanVien "
-					+ "JOIN BangLuongNhanVien BLNV ON BCC.maNhanVien = BLNV.MaNV "
-					+ "WHERE BLNV.maNV = ? AND DATEPART(month, BLNV.thoiGian) = DATEPART(month, ?);";
+			String sqlUpdateLuong = "UPDATE BangLuongNhanVien  " + "SET  "
+					+ "    thucLanh = ((NV.luongCoBan * NV.hsLuong) / 26) * BCC.soNgayLamViec + ((NV.luongCoBan * NV.hsLuong) / 26 / 8) * 2 * BCC.soGioTangCa  - (BCC.soNgayNghi - BCC.coPhep) * 150000  "
+					+ "    -  " + "    CASE  "
+					+ "        WHEN (NV.luongCoBan + NV.luongPhuCap - (0.08 * 4500000 + 730000)) <= 5000000  "
+					+ "            THEN (NV.luongCoBan + NV.luongPhuCap - (0.08 * 4500000 + 730000)) * 0.05 "
+					+ "        WHEN (NV.luongCoBan + NV.luongPhuCap - (0.08 * 4500000 + 730000)) > 5000000 AND (NV.luongCoBan + NV.luongPhuCap - (0.08 * 4500000 + 730000)) <= 10000000  "
+					+ "            THEN (NV.luongCoBan + NV.luongPhuCap - (0.08 * 4500000 + 730000)) * 0.1 "
+					+ "        WHEN (NV.luongCoBan + NV.luongPhuCap - (0.08 * 4500000 + 730000)) > 10000000 AND (NV.luongCoBan + NV.luongPhuCap - (0.08 * 4500000 + 730000)) <= 18000000  "
+					+ "            THEN (NV.luongCoBan + NV.luongPhuCap - (0.08 * 4500000 + 730000)) * 0.15 "
+					+ "        ELSE 0 " + "    END, " + "    thoiGian = ?  " + "FROM  " + "    NhanVien NV  " + "JOIN  "
+					+ "    BangChamCongNhanVien BCC ON NV.maNhanVien = BCC.maNhanVien  " + "JOIN  "
+					+ "    BangLuongNhanVien BLNV ON BCC.maNhanVien = BLNV.MaNV  " + "WHERE  " + "    BLNV.maNV = ?  "
+					+ "    AND DATEPART(month, BLNV.thoiGian) = DATEPART(month, ?)  "
+					+ "    AND BCC.maBangChamCongNV = ?; ";
 
 			// Lặp qua danh sách đối tượng BangChamCongNhanVien và cập nhật vào cơ sở dữ
 			// liệu
@@ -129,6 +137,7 @@ public class BangChamCongNhanVien_DAO {
 					preparedStatementLuong.setDate(1, ngayChamCongSql);
 					preparedStatementLuong.setString(2, nv.getMaNhanVien());
 					preparedStatementLuong.setDate(3, ngayChamCongSql);
+					preparedStatementLuong.setString(4, nv.getMaChamCongNV());
 
 					// Thực hiện câu lệnh SQL UPDATE cho BangLuongNhanVien
 					preparedStatementLuong.executeUpdate();

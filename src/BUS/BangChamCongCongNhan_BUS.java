@@ -125,7 +125,7 @@ public class BangChamCongCongNhan_BUS {
 		}
 	}
 
-	public ArrayList<BangChamCongCongNhan> luuVaoMangCn(DefaultTableModel modelCn , Date ngayChamCong) {
+	public ArrayList<BangChamCongCongNhan> luuVaoMangCn(DefaultTableModel modelCn, Date ngayChamCong) {
 		int rowCount = modelCn.getRowCount();
 		ArrayList<BangChamCongCongNhan> listBangChamCongCn = new ArrayList<>();
 
@@ -135,7 +135,13 @@ public class BangChamCongCongNhan_BUS {
 			String maCongNhan = (String) modelCn.getValueAt(i, 1); // Giả sử cột thứ hai chứa mã công nhân
 			String hoTen = (String) modelCn.getValueAt(i, 2); // Giả sử cột thứ ba chứa họ và tên
 			boolean coMat = (boolean) modelCn.getValueAt(i, 3); // Giả sử cột thứ tư là cột "Có mặt"
-			int soHangTangCa = (int) modelCn.getValueAt(i, 4); // Giả sử cột thứ năm chứa số hàng tăng ca
+//			int soHangTangCa = (int) modelCn.getValueAt(i, 4); // Giả sử cột thứ năm chứa số hàng tăng ca
+			// Lấy giá trị từ mô hình tại dòng i, cột 4
+//			int stringValue = (int) modelCn.getValueAt(i, 4).toString();
+
+			// Chuyển đổi giá trị từ String sang Integer
+			int soHangTangCa = Integer.parseInt(modelCn.getValueAt(i, 4).toString());
+
 			boolean coPhepValue = (boolean) modelCn.getValueAt(i, 5); // Giả sử cột thứ sáu là cột "Có/Không phép"
 			int soLuong = (int) modelCn.getValueAt(i, 6); // Giả sử cột thứ bảy chứa số lượng
 			int soLuongConLai = (int) modelCn.getValueAt(i, 7); // Giả sử cột thứ tám chứa số lượng còn lại

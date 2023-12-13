@@ -8,6 +8,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.EventObject;
 import java.util.Vector;
 
@@ -29,18 +30,20 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
-import Dangnhap.Dangnhap;
+
 import com.toedter.calendar.JDateChooser;
 
 import BUS.BangChamCongCongNhan_BUS;
 import BUS.BangChamCongNhanVien_BUS;
 import CustomGUi.ChamCongCongNhanDialog;
 import CustomGUi.ChamCongNhanVienDialog;
+import CustomGUi.CustomDialog;
 import CustomGUi.ScrollBarCustom;
 import DAO.BangChamCongCongNhan_DAO;
 import DAO.BangChamCongNhanVien_DAO;
 import DTO.BangChamCongCongNhan;
 import DTO.BangChamCongNhanVien;
+import Dangnhap.Dangnhap;
 
 public class ChamcongJpanel extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -52,6 +55,7 @@ public class ChamcongJpanel extends JPanel {
 	private JTextField textField_4;
 	private JTextField textField_timkiemNV;
 	private JComboBox comboBox_MaXuongLoc;
+	private JComboBox comboBox_CaLamNV;
 	private JButton btnTatCaCoMat;
 	private JButton btnTatCaVangMat;
 	private JButton btnLuu;
@@ -105,21 +109,20 @@ public class ChamcongJpanel extends JPanel {
 		lblPhngBan.setBounds(90, 26, 90, 17);
 		pnNhanVien.add(lblPhngBan);
 
-		JLabel lblCaLamNV = new JLabel("Ca làm:");
+		JLabel lblCaLamNV = new JLabel("Ngày làm:");
 		lblCaLamNV.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblCaLamNV.setBounds(90, 76, 63, 17);
 		pnNhanVien.add(lblCaLamNV);
 
-		JComboBox comboBox_CaLamNV = new JComboBox();
+		comboBox_CaLamNV = new JComboBox();
 		comboBox_CaLamNV.setBackground(new Color(255, 255, 255));
 		comboBox_CaLamNV.setBorder(null);
 		comboBox_CaLamNV.setAutoscrolls(true);
 		comboBox_CaLamNV.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		comboBox_CaLamNV.setBounds(207, 73, 166, 27);
 		pnNhanVien.add(comboBox_CaLamNV);
-		comboBox_CaLamNV.addItem("Ca sáng");
-		comboBox_CaLamNV.addItem("Ca chiều");
-		comboBox_CaLamNV.addItem("Ca tối");
+		comboBox_CaLamNV.addItem("Ngày thường");
+		comboBox_CaLamNV.addItem("Ngày chủ nhật");
 
 		JComboBox comboBox_gioLamViec = new JComboBox();
 		comboBox_gioLamViec.setAutoscrolls(true);
@@ -128,9 +131,9 @@ public class ChamcongJpanel extends JPanel {
 		comboBox_gioLamViec.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		comboBox_gioLamViec.setBounds(539, 71, 166, 27);
 		comboBox_gioLamViec.setEnabled(false);
-		comboBox_gioLamViec.addItem("7:00-10:00");
-		comboBox_gioLamViec.addItem("13:00-16:30");
-		comboBox_gioLamViec.addItem("17:00-22:00");
+		comboBox_gioLamViec.addItem("7:00-16:30");
+//		comboBox_gioLamViec.addItem("13:00-16:30");
+		comboBox_gioLamViec.addItem("Giờ làm thêm");
 		pnNhanVien.add(comboBox_gioLamViec);
 		comboBox_CaLamNV.addActionListener(new ActionListener() {
 			@Override
@@ -140,15 +143,13 @@ public class ChamcongJpanel extends JPanel {
 
 				// Cập nhật giá trị trong comboBox_gioLamViec tương ứng với lựa chọn của người
 				// dùng
-				if ("Ca sáng".equals(selectedCa)) {
-					comboBox_gioLamViec.setSelectedItem("7:00-10:00");
-				} else if ("Ca chiều".equals(selectedCa)) {
-					comboBox_gioLamViec.setSelectedItem("13:00-16:30");
-				} else if ("Ca tối".equals(selectedCa)) {
-					comboBox_gioLamViec.setSelectedItem("17:00-22:00");
+				if ("Ngày thường".equals(selectedCa)) {
+					comboBox_gioLamViec.setSelectedItem("7:00-16:30");
+				} else if ("Ngày chủ nhật".equals(selectedCa)) {
+					comboBox_gioLamViec.setSelectedItem("Giờ làm thêm");
 				}
 
-				if (!"Ca tối".equals(selectedCa)) {
+				if (!"Ngày chủ nhật".equals(selectedCa)) {
 					// Không cho phép chỉnh sửa cột số giờ tăng ca
 					table.getColumnModel().getColumn(4).setCellEditor(new DefaultCellEditor(new JTextField()) {
 						@Override
@@ -173,7 +174,7 @@ public class ChamcongJpanel extends JPanel {
 
 		JLabel lblGioLamViecNV = new JLabel("Giờ làm việc:");
 		lblGioLamViecNV.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblGioLamViecNV.setBounds(428, 76, 77, 17);
+		lblGioLamViecNV.setBounds(428, 76, 107, 17);
 		pnNhanVien.add(lblGioLamViecNV);
 
 		btnTatCaCoMat = new JButton("Tất cả có mặt");
@@ -208,19 +209,25 @@ public class ChamcongJpanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				// Lấy dữ liệu từ các trường hoặc thành phần giao diện người dùng
 
-				// Lưu dữ liệu vào cơ sở dữ liệu (nếu cần)
-				BangChamCongNhanVien_BUS chamCongBus = new BangChamCongNhanVien_BUS();
-				ArrayList<BangChamCongNhanVien> ds = chamCongBus.getDanhSachNhanVien();
-				dsnv = ds;
 				BangChamCongNhanVien_BUS bangChamCongNhanVienBUS = new BangChamCongNhanVien_BUS();
 				java.util.Date selectedDate = dateChooser.getDate();
-				ArrayList<BangChamCongNhanVien> danhSachNhanVien = bangChamCongNhanVienBUS.luuVaoMang(modelNv,
-						selectedDate);
+				ArrayList<BangChamCongNhanVien> danhSachNhanVien;
+
+				// Check if the selected date is a Sunday
+				Calendar calendar = Calendar.getInstance();
+				calendar.setTime(selectedDate);
+				if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+					danhSachNhanVien = bangChamCongNhanVienBUS.luuVaoMangChuNhat(modelNv, selectedDate);
+				} else {
+					danhSachNhanVien = bangChamCongNhanVienBUS.luuVaoMang(modelNv, selectedDate);
+				}
+
 				BangChamCongNhanVien_DAO dao = new BangChamCongNhanVien_DAO();
 				dao.updateBangChamCongNhanVien(danhSachNhanVien);
 
-				JOptionPane.showMessageDialog(null, "Dữ liệu đã được lưu thành công!", "Thành công",
-						JOptionPane.INFORMATION_MESSAGE);
+//				JOptionPane.showMessageDialog(null, "Dữ liệu đã được lưu thành công!", "Thành công",
+//						JOptionPane.INFORMATION_MESSAGE);
+				new CustomDialog("Dữ liệu đã được lưu thành công!", CustomDialog.SUCCESS_DIALOG);
 
 			}
 		});
@@ -304,7 +311,13 @@ public class ChamcongJpanel extends JPanel {
 					java.util.Date currentDate = new java.util.Date();
 					if (selectedDate.after(currentDate)) {
 						// Display an error message
-						JOptionPane.showMessageDialog(null, "Vui lòng nhập ngày trước ngày hiện tại.");
+//						JOptionPane.showMessageDialog(null, "Vui lòng nhập ngày trước ngày hiện tại.");
+						new CustomDialog("Vui lòng nhập ngày trước ngày hiện tại.",CustomDialog.WARNING_DIALOG);
+//						initData(modelNv, modelCn);
+//						BangChamCongNhanVien_BUS chamCongBus = new BangChamCongNhanVien_BUS();
+//						ArrayList<BangChamCongNhanVien> ds = chamCongBus.getDanhSachNhanVien();
+//						dsnv = ds;
+//						resetTable(modelNv, ds);
 						// You might want to reset the dateChooser to the current date or handle it as
 						// per your requirements.
 						dateChooser.setDate(currentDate);
@@ -316,6 +329,8 @@ public class ChamcongJpanel extends JPanel {
 						ArrayList<BangChamCongNhanVien> newList = chamCongBus
 								.getDanhSachNhanVienTheoNgayChamCong(selectedDate, dsnv, str1);
 						resetTable(modelNv, newList);
+
+						updateComboBoxCaLamNV(selectedDate);
 					}
 
 				}
@@ -365,13 +380,16 @@ public class ChamcongJpanel extends JPanel {
 						resetTable(model, newList);
 					} else {
 						// Hiển thị thông báo khi không tìm thấy nhân viên
-						JOptionPane.showMessageDialog(null, "Không tìm thấy nhân viên với mã " + maNhanVien,
-								"Thông báo", JOptionPane.INFORMATION_MESSAGE);
+//						JOptionPane.showMessageDialog(null, "Không tìm thấy nhân viên với mã " + maNhanVien,
+//								"Thông báo", JOptionPane.INFORMATION_MESSAGE);
+//					}
+						 new CustomDialog("Không tìm thấy nhân viên với mã  + maNhanVien", CustomDialog.WARNING_DIALOG);
 					}
 				} else {
 					// Hiển thị thông báo khi không nhập mã nhân viên
-					JOptionPane.showMessageDialog(null, "Vui lòng nhập mã nhân viên", "Thông báo",
-							JOptionPane.WARNING_MESSAGE);
+//					JOptionPane.showMessageDialog(null, "Vui lòng nhập mã nhân viên", "Thông báo",
+//							JOptionPane.WARNING_MESSAGE);
+					 new CustomDialog("Vui lòng nhập mã nhân viên", CustomDialog.WARNING_DIALOG);
 				}
 			}
 		});
@@ -532,8 +550,9 @@ public class ChamcongJpanel extends JPanel {
 						}
 
 						txt_CongDoan.setText(bccSelect.getCd().getTenCongDoan());
+						String soSPCL = tableCN.getValueAt(selectedRow, 7).toString();
 
-						textField_soluongCL.setText(String.valueOf(bccSelect.getPc().getSoLuongCongDoanPhanCong()));
+						textField_soluongCL.setText(soSPCL);
 
 						String Sp = bccSelect.getSp().getTenSanPham();
 						for (int i = 0; i < comboBox_SP.getItemCount(); i++) {
@@ -562,6 +581,52 @@ public class ChamcongJpanel extends JPanel {
 		}
 
 		);
+		// Bắt sự kiện khi người dùng nhập giá trị và nhấn Enter trong cột 4
+		tableCN.getColumnModel().getColumn(4).setCellEditor(new DefaultCellEditor(new JTextField()) {
+			@Override
+			public boolean stopCellEditing() {
+				try {
+					int soSPValue = 0;
+					// Lấy giá trị từ cột 4 và cột 7 và chuyển đổi thành kiểu int
+//					int soSPValue = Integer.parseInt((String) getCellEditorValue());
+					Object cellValue = getCellEditorValue();
+
+					if (cellValue instanceof String) {
+						try {
+							soSPValue = Integer.parseInt((String) cellValue);
+							// Tiếp tục xử lý với soSPValue
+						} catch (NumberFormatException ex) {
+							// Xử lý trường hợp không thể chuyển đổi thành số nguyên
+							ex.printStackTrace();
+						}
+					} else if (cellValue instanceof Integer) {
+						soSPValue = (Integer) cellValue;
+						// Tiếp tục xử lý với soSPValue
+					}
+
+					int soLuongCLValue = (int) tableCN.getValueAt(tableCN.getSelectedRow(), 7);
+
+					// Kiểm tra điều kiện
+					if (soSPValue <= soLuongCLValue) {
+						// Tính toán giá trị mới cho cột 7 và cập nhật bảng
+						int soLuongConLai = soLuongCLValue - soSPValue;
+						tableCN.setValueAt((int) soSPValue, tableCN.getSelectedRow(), 4);
+						tableCN.setValueAt(soLuongConLai, tableCN.getSelectedRow(), 7);
+					} else {
+						// Hiển thị thông báo hoặc xử lý khác nếu giá trị không hợp lệ
+
+						JOptionPane.showMessageDialog(null,
+								"số hàng tăng ca phải nhỏ hơn hoặc bằng số hàng phân công còn lại.");
+						return false;
+					}
+				} catch (NumberFormatException ex) {
+					// Xử lý trường hợp khi giá trị không phải là số nguyên hợp lệ
+					ex.printStackTrace();
+				}
+
+				return super.stopCellEditing();
+			}
+		});
 
 		JLabel lblTmKim = new JLabel("Tìm kiếm");
 		lblTmKim.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -693,8 +758,7 @@ public class ChamcongJpanel extends JPanel {
 		pnCongNhan.add(btnLuuCN);
 		btnLuuCN.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				
+
 				BangChamCongCongNhan_BUS chamCongBus = new BangChamCongCongNhan_BUS();
 				ArrayList<BangChamCongCongNhan> ds = null;
 				try {
@@ -706,7 +770,8 @@ public class ChamcongJpanel extends JPanel {
 				dscn = ds;
 				BangChamCongCongNhan_BUS bangChamCongCongNhanBUS = new BangChamCongCongNhan_BUS();
 				java.util.Date selectedDate = dateChooser_NgayChamCongCN.getDate();
-				ArrayList<BangChamCongCongNhan> danhSachCongNhan = bangChamCongCongNhanBUS.luuVaoMangCn(modelCn, selectedDate);
+				ArrayList<BangChamCongCongNhan> danhSachCongNhan = bangChamCongCongNhanBUS.luuVaoMangCn(modelCn,
+						selectedDate);
 				BangChamCongCongNhan_DAO daoCN = new BangChamCongCongNhan_DAO();
 				daoCN.updateBangChamCongCongNhan(danhSachCongNhan);
 
@@ -715,9 +780,9 @@ public class ChamcongJpanel extends JPanel {
 //				BangChamCongCongNhan_DAO daopc = new BangChamCongCongNhan_DAO();
 //				daopc.updatePhanCongCongDoan(danhSachPhanCong);
 
-				JOptionPane.showMessageDialog(null, "Dữ liệu đã được lưu thành công!", "Thành công",
-						JOptionPane.INFORMATION_MESSAGE);
-				
+//				JOptionPane.showMessageDialog(null, "Dữ liệu đã được lưu thành công!", "Thành công",
+//						JOptionPane.INFORMATION_MESSAGE);
+				 new CustomDialog("Dữ liệu đã được lưu thành công!", CustomDialog.SUCCESS_DIALOG);
 			}
 		});
 		JButton btnTiemKiemCNMa = new JButton("");
@@ -760,13 +825,15 @@ public class ChamcongJpanel extends JPanel {
 						resettableCN(modelCn, newList);
 					} else {
 						// Hiển thị thông báo khi không tìm thấy công nhân
-						JOptionPane.showMessageDialog(null, "Không tìm thấy công nhân với mã " + maCongNhan,
-								"Thông báo", JOptionPane.INFORMATION_MESSAGE);
+//						JOptionPane.showMessageDialog(null, "Không tìm thấy công nhân với mã " + maCongNhan,
+//								"Thông báo", JOptionPane.INFORMATION_MESSAGE);
+						new CustomDialog("Không tìm thấy công nhân với mã " + maCongNhan,CustomDialog.WARNING_DIALOG);
 					}
 				} else {
 					// Hiển thị thông báo khi không nhập mã công nhân
-					JOptionPane.showMessageDialog(null, "Vui lòng nhập mã công nhân", "Thông báo",
-							JOptionPane.WARNING_MESSAGE);
+//					JOptionPane.showMessageDialog(null, "Vui lòng nhập mã công nhân", "Thông báo",
+//							JOptionPane.WARNING_MESSAGE);
+					new CustomDialog("Vui lòng nhập mã công nhân",CustomDialog.WARNING_DIALOG);
 				}
 			}
 		});
@@ -800,7 +867,8 @@ public class ChamcongJpanel extends JPanel {
 					java.util.Date currentDate = new java.util.Date();
 
 					if (selectedDate.after(currentDate)) {
-						JOptionPane.showMessageDialog(null, "Vui lòng nhập ngày trước ngày hiện tại.");
+//						JOptionPane.showMessageDialog(null, "Vui lòng nhập ngày trước ngày hiện tại.");
+						new CustomDialog("Vui lòng nhập ngày trước ngày hiện tại.",CustomDialog.ERROR_DIALOG);
 						dateChooser_NgayChamCongCN.setDate(currentDate);
 
 						disableButtonsCN(); // Disable buttons if needed
@@ -868,14 +936,14 @@ public class ChamcongJpanel extends JPanel {
 		scrollPane_1.setViewportView(table);
 		scrollPane_1.setVerticalScrollBar(new ScrollBarCustom());
 		initData(modelNv, null);
-		
-		if(Dangnhap.type == 3 ) {
-        	tabbedPane.setSelectedIndex(1);
-        	tabbedPane.setEnabledAt(0, false);
-        }else if(Dangnhap.type == 2) {
-        	tabbedPane.setSelectedIndex(0);
-        	tabbedPane.setEnabledAt(1, false);
-        }
+
+		if (Dangnhap.type == 3) {
+			tabbedPane.setSelectedIndex(1);
+			tabbedPane.setEnabledAt(0, false);
+		} else if (Dangnhap.type == 2) {
+			tabbedPane.setSelectedIndex(0);
+			tabbedPane.setEnabledAt(1, false);
+		}
 
 	}
 
@@ -960,6 +1028,18 @@ public class ChamcongJpanel extends JPanel {
 		btnThemCN.setEnabled(true);
 		btnLuuCN.setEnabled(true);
 
+	}
+
+	private void updateComboBoxCaLamNV(java.util.Date selectedDate) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(selectedDate);
+
+		// Check if the selected date is a Sunday
+		if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+			comboBox_CaLamNV.setSelectedItem("Ngày chủ nhật");
+		} else {
+			comboBox_CaLamNV.setSelectedItem("Ngày thường");
+		}
 	}
 
 }

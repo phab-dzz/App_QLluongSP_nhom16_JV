@@ -28,13 +28,16 @@ public class TaiKhoan_BUS {
 			type = 2;
 		}else if(maTK.startsWith("XT")) {
 			type = 3;
-		}else {
+		}else if(maTK.startsWith("QL")){
 			type = 4;
+		}else {
+			type = 5;
 		}
 		return type;
 	}
 	
 	public boolean KiemTraTaiKhoan(String maTK, String matKhau) {
+		System.out.println(maTK +matKhau);
 		TaiKhoan tk = taiKhoanDAO.getTaiKhoan(maTK);
 		if(tk == null || !matKhau.equals(tk.getMatKhau())) {
 			return false;

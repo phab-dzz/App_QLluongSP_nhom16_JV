@@ -28,7 +28,8 @@ public class SanPham_DAO {
 				String tenSP = rs.getString("tenSanPham");
 				int slCongDoan = rs.getInt("soLuongCongDoan");
 				int slSanPham = rs.getInt("soLuong");
-				SanPham sp = new SanPham(maSP, tenSP, slCongDoan, slSanPham);
+				Boolean tthai = rs.getBoolean("trangThai");
+				SanPham sp = new SanPham(maSP, tenSP, slCongDoan, slSanPham, tthai);
 				danhSachSanPham.add(sp);
 			}
 		} catch (SQLException e) {
@@ -54,7 +55,8 @@ public class SanPham_DAO {
 				String tenSP = rs.getString("tenSanPham");
 				int slSanPham = rs.getInt("soLuong");
 				int slCongDoan = rs.getInt("soLuongCongDoan");
-				SanPham sp = new SanPham(maSP, tenSP, slSanPham, slCongDoan);
+				Boolean tthai = rs.getBoolean("trangThai");
+				SanPham sp = new SanPham(maSP, tenSP, slSanPham, slCongDoan, tthai);
 				danhSachSanPham.add(sp);
 			}
 		} catch (Exception e) {
@@ -77,11 +79,12 @@ public class SanPham_DAO {
 		int n = 0;
 		try {
 
-			statement = con.prepareStatement("insert into SanPham values(?,?,?,?)");
+			statement = con.prepareStatement("insert into SanPham values(?,?,?,?,?)");
 			statement.setString(1, sp.getMaSanPham());
 			statement.setString(2, sp.getTenSanPham());
 			statement.setInt(3, sp.getSoLuong());
 			statement.setInt(4, sp.getSoLuongCongDoan());
+			statement.setBoolean(5, sp.isTrangThaiSP());
 			n = statement.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -102,11 +105,13 @@ public class SanPham_DAO {
 		int n = 0;
 		try {
 			statement = con.prepareStatement(
-					"update SanPham set tenSanPham = ?, soLuong = ?, soLuongCongDoan=? where maSanPham = ?");
+					"update SanPham set tenSanPham = ?, soLuong = ?, soLuongCongDoan=?, trangThai = ? where maSanPham = ?");
 			statement.setString(1, sp.getTenSanPham());
 			statement.setInt(2, sp.getSoLuong());
 			statement.setInt(3, sp.getSoLuongCongDoan());
-			statement.setString(4, sp.getMaSanPham());
+			statement.setBoolean(4, sp.isTrangThaiSP());
+			statement.setString(5, sp.getMaSanPham());
+
 			n = statement.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();

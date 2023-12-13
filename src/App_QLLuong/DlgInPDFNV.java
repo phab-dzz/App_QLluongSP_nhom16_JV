@@ -105,9 +105,9 @@ public class DlgInPDFNV extends JDialog {
                 + "</tr>";
 
             hd += "<tr>";
-            hd += "<td style='text-align:center;'>" +"15" + "</td>";
-            hd += "<td style='text-align:left;'>" + "2"  + "</td>";
-            hd += "<td style='text-align:center;'>" +"3"  + "</td>";
+            hd += "<td style='text-align:center;'>" +l.getCcnv().getSoNgayLamViec() + "</td>";
+            hd += "<td style='text-align:left;'>" + l.getCcnv().getSoNgayNghi()  + "</td>";
+            hd += "<td style='text-align:center;'>" +dcf.format(l.getCcnv().getSoGioTangCa())  + "</td>";
             hd += "<td style='text-align:center;'>" +l.getPhuCap() + "</td>";
             hd += "<td style='text-align:center;'>" + l.getTienThuong() + "</td>";
             hd += "<td style='text-align:center;'>" +dcf.format(l.getThucLanh()) + "</td>";

@@ -54,9 +54,9 @@ public class Laucher_dn extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 500,380);
 		setLocationRelativeTo(null);
-		URL url= App_main.class.getResource("/Icons/logo/logologin.png");
-		Image img = Toolkit.getDefaultToolkit().createImage(url);
-		this.setIconImage(img);
+//		URL url= App_main.class.getResource("/Icons/logo/logologin.png");
+//		Image img = Toolkit.getDefaultToolkit().createImage(url);
+//		this.setIconImage(img);
 		// xoa thanh tiêu đề
 		 this.setUndecorated(true);
 		
@@ -72,7 +72,7 @@ public class Laucher_dn extends JFrame {
 		panel.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon("E:\\PTUD\\App_QLluongSP_nhom16_JV\\src\\Icons\\logo\\logo.png"));
+		lblNewLabel.setIcon(new ImageIcon("D:\\Desktop\\Kỳ1_23-24\\Phát Triển Ứng Dụng\\CK\\App_QLluongSP_nhom16_JV\\src\\Icons\\logo\\laucher.jpg"));
 		lblNewLabel.setBounds(0, 0, 494, 359);
 		panel.add(lblNewLabel);
 		

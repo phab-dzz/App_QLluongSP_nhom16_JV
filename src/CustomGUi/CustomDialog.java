@@ -16,8 +16,8 @@ public class CustomDialog {
     private static final HashMap<Integer, Color> iconPanelColors = new HashMap<>();
     
     static {
-        iconPaths.put(ERROR_DIALOG, "/Icons/IconSanpham.png");
-        iconPaths.put(SUCCESS_DIALOG, "/Icons/IconSanpham.png");
+        iconPaths.put(ERROR_DIALOG, "/Icons/failed.png");
+        iconPaths.put(SUCCESS_DIALOG, "/Icons/Success.png");
         iconPaths.put(WARNING_DIALOG, "/Icons/IconSanpham.png");
         
         dialogTitles.put(ERROR_DIALOG, "Lỗi");
@@ -41,7 +41,7 @@ public class CustomDialog {
         iconPanel.setBackground(iconPanelColors.get(dialogType)); // Sử dụng màu nền dựa trên loại dialog
 
         ImageIcon originalIcon = new ImageIcon(CustomDialog.class.getResource(iconPaths.get(dialogType)));
-        Image scaledImage = originalIcon.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+        Image scaledImage = originalIcon.getImage().getScaledInstance(55, 55, Image.SCALE_SMOOTH);
         ImageIcon icon = new ImageIcon(scaledImage);
 
         JLabel iconLabel = new JLabel(icon);

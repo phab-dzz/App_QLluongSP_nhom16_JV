@@ -1,5 +1,6 @@
 package CustomGUi;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,6 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
@@ -29,8 +31,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import BUS.BangChamCongNhanVien_BUS;
 import DTO.BangChamCongNhanVien;
-import javax.swing.border.LineBorder;
-import java.awt.Color;
 
 public class ChamCongNhanVienDialog extends JDialog {
 	private JTable table;
@@ -57,7 +57,7 @@ public class ChamCongNhanVienDialog extends JDialog {
 
 		JLabel lblNewLabel = new JLabel("Bảng thống kê chấm công nhân viên");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblNewLabel.setBounds(199, 11, 258, 20);
+		lblNewLabel.setBounds(199, 11, 337, 20);
 		getContentPane().add(lblNewLabel);
 
 		comboBox.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -139,7 +139,7 @@ public class ChamCongNhanVienDialog extends JDialog {
 
 	private static void exportToExcel(JTable table) throws Exception {
 		String generatedString = RandomStringUtils.random(4, true, true);
-		String filePath = "D:\\Desktop\\Kỳ1_23-24\\Phát Triển Ứng Dụng\\CK\\App_QLluongSP_nhom16_JV\\src\\data\\BangChamNhanVien_" + generatedString + ".xlsx";
+		String filePath = "D:\\XuatExcel\\BangChamNhanVien_" + generatedString + ".xlsx";
 		TableModel model = table.getModel();
 		Workbook workbook = new XSSFWorkbook();
 		Sheet sheet = workbook.createSheet();
